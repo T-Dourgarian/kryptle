@@ -2,15 +2,9 @@
   text-align: center;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+.instructionsHeaderDiv {
+  margin: 20px 0px 20px 0;
+  padding: 0px 20px 0px 20px;
 }
 
 .App-header {
@@ -19,20 +13,54 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  /* justify-content: center; */
   font-size: calc(10px + 2vmin);
   color: white;
 }
 
-.App-link {
-  color: #61dafb;
+.numbersListedSpan {
+  margin: 0 10px 0 10px;
+  font-size: 30px;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+
+.inputAndSolutionContainer {
+  display: flex;
+  flex-direction: row;
+  flex-flow: row wrap;
+  align-items: center;
+}
+
+.solutionInput {
+  width: 260px;
+  height: 40px;
+  font-size: 20px;
+  margin-right: 5px;
+  border-radius: 5px;
+  border: 1px solid white;
+  outline:0;
+}
+
+.solutionDiv {
+  flex-grow: 1;
+}
+
+
+.validateButton {
+  background-color : rgb(83, 83, 247);
+  color: white;
+  border: none;
+  padding: 10px 15px 10px 15px;
+  border-radius: 3px;
+  font-size: 25px;
+  font-family: Arial, Helvetica, sans-serif;
+  font-weight: bold;
+  margin-top: 15px;
+}
+
+.errorMessageDiv {
+  height: 30px;
+  margin: 5px 0 5px 0;
+  font-size: 16px;
+  color: rgb(236, 72, 72);
 }
