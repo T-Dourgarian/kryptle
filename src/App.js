@@ -64,8 +64,10 @@ function App() {
 
   const gatherTodaysNumbers = async () => {
     try {
-      const response = await axios.get(`${process.env.REACT_APP_API_URL}/dailykrypto`);
 
+      console.log('here')
+      const response = await axios.get(`${process.env.REACT_APP_API_URL}/dailykrypto`);
+      console.log(response.data);
       const { data } = response;
 
       if (data && data.numbersToUse && data.targetNumber) {
