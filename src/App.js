@@ -65,9 +65,8 @@ function App() {
   const gatherTodaysNumbers = async () => {
     try {
 
-      console.log('here')
       const response = await axios.get(`${process.env.REACT_APP_API_URL}/dailykrypto`);
-      console.log(response.data);
+
       const { data } = response;
 
       if (data && data.numbersToUse && data.targetNumber) {
@@ -109,6 +108,8 @@ function App() {
 
     // checks that solution uses correct 5 numbers
     for (let i = 0; i < numSet.length; i++) {
+      console.log('numset', numset);
+      console.log('numsUsed', numsUsed)
       if (!numSet.includes(numsUsed[i])) {
         setErrorMessage(`Invalid: ${numsUsed[i]} is not a valid number`);
         return false;
