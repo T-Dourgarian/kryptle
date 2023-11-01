@@ -108,9 +108,7 @@ function App() {
 
     // checks that solution uses correct 5 numbers
     for (let i = 0; i < numSet.length; i++) {
-      console.log('numset', numSet);
-      console.log('numsUsed', numsUsed)
-      if (!numSet.includes(numsUsed[i])) {
+      if (!numSet.includes(Number(numsUsed[i]))) {
         setErrorMessage(`Invalid: ${numsUsed[i]} is not a valid number`);
         return false;
       }
