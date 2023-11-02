@@ -6,7 +6,7 @@ import axios from 'axios';
 function App() {
 
   const [numSet, setNumSet] = useState([]);
-  const [numbersUsed, setNumbersUsed] = useState([]);
+  const [numUsedObj, setNumUsedObj] = useState({});
   const [target, setTarget] = useState('');
   const [equation, setEquation] = useState('');
   const [solution, setSolution] = useState('');
@@ -18,12 +18,13 @@ function App() {
   const minutes = Math.floor(seconds / 60);
   const remainingSeconds = seconds % 60;
   const formattedTime = `${minutes}:${remainingSeconds < 10 ? '0' : ''}${remainingSeconds}`;
+
+  const mexp = new Mexp();
+  const numbersRE = /\b\d+\b/g;
   
 
   useEffect(() => {
-    
     gatherTodaysNumbers();
-
 
     const interval = setInterval(() => {
       setSeconds(prevSeconds => prevSeconds + 1);
@@ -37,14 +38,10 @@ function App() {
     if (errorMessage) {
       setTimeout(function() {
       setErrorMessage('')
-          }, 3000);
-        }
-    },
-   [errorMessage])
+        }, 3000);
+    }
+  },[errorMessage])
 
-  const mexp = new Mexp();
-
-  const numbersRE = /\b\d+\b/g;
 
   const handleCalculate = () => {
     try {
@@ -62,10 +59,32 @@ function App() {
 
     let numsUsed = equation.match(numbersRE);
 
-    if (numsUsed) setNumbersUsed(numsUsed);
+    let numUsedObjTemp = {};
+
+    numSet.forEach((num, i) => {
+    numUsedObjTemp[i] = {
+      value: num,
+      used: false
+    }
+    })
+
+
+    if (numsUsed) {
+      for (const num of numsUsed) {
+        for (const key in numUsedObjTemp) {
+          if (String(numUsedObjTemp[key].value) == num && !numUsedObjTemp[key].used) {
+            numUsedObjTemp[key].used = true;
+            break;
+          }
+        }
+      }
+    }
+
+    setNumUsedObj(numUsedObjTemp);
 
   }, [equation])
 
+  // gather daily set of numbers and initialize numUsedObj to false
   const gatherTodaysNumbers = async () => {
     try {
 
@@ -74,6 +93,19 @@ function App() {
       const { data } = response;
 
       if (data && data.numbersToUse && data.targetNumber) {
+
+        let numUsedObjTemp = {};
+
+        data.numbersToUse.forEach((num, i) => {
+          numUsedObjTemp[i] = {
+            value: num,
+            used: false
+          }
+        })
+        
+        setNumUsedObj(numUsedObjTemp);
+
+
          setNumSet(data.numbersToUse);
          setTarget(data.targetNumber);
       }
@@ -83,6 +115,17 @@ function App() {
       console.log(error);
       setNumSet(['4', '9', '23', '5', '22'])
       setTarget('6');
+
+      let numUsedObjTemp = {};
+
+        ['4', '9', '23', '5', '22'].forEach((num, i) => {
+          numUsedObjTemp[i] = {
+            value: num,
+            used: false
+          }
+        })
+        
+        setNumUsedObj(numUsedObjTemp);
     }
   }
 
@@ -149,7 +192,7 @@ function App() {
                   key={i}
                   className='numbersListedSpan'
                   style={{
-                    color: numbersUsed.includes(num) ? 'green' : ''
+                    color: numUsedObj[i].used ? 'green' : ''
                   }}
                 > {num} </span>
               )
