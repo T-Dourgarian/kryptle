@@ -60,6 +60,10 @@ function App() {
       setSolution('');
     }
 
+    let numsUsed = equation.match(numbersRE);
+
+    if (numsUsed) setNumbersUsed(numsUsed);
+
   }, [equation])
 
   const gatherTodaysNumbers = async () => {
@@ -144,6 +148,9 @@ function App() {
                 <span
                   key={i}
                   className='numbersListedSpan'
+                  style={{
+                    color: numbersUsed.includes(num) ? 'green' : ''
+                  }}
                 > {num} </span>
               )
             }
@@ -160,7 +167,7 @@ function App() {
             
           
         <div className='solutionDiv'>
-        = { solution || '?' } 
+        = { solution === '' ? '?' : solution } 
         </div>
           
         </div>
