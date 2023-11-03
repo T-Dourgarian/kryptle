@@ -8,18 +8,14 @@ const url = require('url');
 
 let config = {};
 
-if (process.env.DATABASE_URL) {
-
+if (process.env.ENVIRONMENT === 'PRODUCTION') {
 
   config = {
     user: process.env.DB_USER,
     password: process.env.DB_PASS,
     host: process.env.DB_HOST,
     port: process.env.DB_PORT,
-    // database: params.pathname.split('/')[1],
-    ssl: true, // heroku requires ssl to be true
-    max: 10, // max number of clients in the pool
-    idleTimeoutMillis: 30000, // how long a client is allowed to remain idle before being closed
+    database: process.env.DB_NAME
   };
 } else {
   config = {
@@ -34,7 +30,7 @@ if (process.env.DATABASE_URL) {
 }
 
 // this creates the pool that will be shared by all other modules
-const pool = new pg.Pool(config);
+const pool = new pg.Client(config);
 
 // the pool with emit an error on behalf of any idle clients
 // it contains if a backend error or network partition happens
