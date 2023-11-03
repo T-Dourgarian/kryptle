@@ -12,12 +12,15 @@ function App() {
   const [solution, setSolution] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
   const [validSolutions, setValidSolutions] = useState([]);
-
+  const [kryptoId, setKryptoId] = useState(null);
+  const [avgTimeSeconds, setAvgTimeSeconds] = useState(0);
   const [seconds, setSeconds] = useState(0);
 
   const minutes = Math.floor(seconds / 60);
   const remainingSeconds = seconds % 60;
   const formattedTime = `${minutes}:${remainingSeconds < 10 ? '0' : ''}${remainingSeconds}`;
+
+  const formattedTimeAvg = `${Math.floor(avgTimeSeconds / 60)}:${ ( avgTimeSeconds % 60 ) < 10 ? '0' : ''}${ avgTimeSeconds % 60 }`;
 
   const mexp = new Mexp();
   const numbersRE = /\b\d+\b/g;
@@ -94,8 +97,9 @@ function App() {
 
       if (data && data.numbersToUse && data.targetNumber) {
 
+        
         let numUsedObjTemp = {};
-
+        
         data.numbersToUse.forEach((num, i) => {
           numUsedObjTemp[i] = {
             value: num,
@@ -104,10 +108,12 @@ function App() {
         })
         
         setNumUsedObj(numUsedObjTemp);
-
-
-         setNumSet(data.numbersToUse);
-         setTarget(data.targetNumber);
+        
+        
+        setKryptoId(data.id);
+        setAvgTimeSeconds(data.avgTimeSeconds);
+        setNumSet(data.numbersToUse);
+        setTarget(data.targetNumber);
       }
 
 
@@ -130,7 +136,7 @@ function App() {
   }
 
 
-  const validate = () => {
+  const validate = async () => {
 
     // checks that solution is a valid mathamatical equation
     try {
@@ -155,7 +161,7 @@ function App() {
 
     // checks that solution uses correct 5 numbers
     for (let i = 0; i < numSet.length; i++) {
-      if (!numSet.includes(Number(numsUsed[i]))) {
+      if (!numSet.includes(numsUsed[i])) {
         setErrorMessage(`Invalid: ${numsUsed[i]} is not a valid number`);
         return false;
       }
@@ -174,6 +180,19 @@ function App() {
     }
     setValidSolutions([...validSolutions, `${equation} = ${target} | ${formattedTime}`]);
     setEquation('');
+
+    try { 
+      await axios.post(`${process.env.REACT_APP_API_URL}/solution`,
+      {
+        id: kryptoId,
+        solution: equation,
+        solutionSeconds: seconds
+      });
+
+    } catch(error) {
+      console.log(error)
+    }
+
     return true;
 
   }
@@ -220,6 +239,8 @@ function App() {
         <div className='errorMessageDiv'>
           { errorMessage }
         </div>
+
+        <div> Average Time for Today's Kryptle - {formattedTimeAvg}</div>
 
         <div>{formattedTime}</div>
 
