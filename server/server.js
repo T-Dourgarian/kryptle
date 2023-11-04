@@ -6,6 +6,7 @@ const app = express();
 const pool = require('./pool');
 
 
+
 // Body parser middleware
 app.use(cors())
 app.use(express.json());
@@ -64,9 +65,12 @@ app.post('/solution', async (req,res) => {
 
 
 app.get('/dailykrypto',async (req,res) => {
+
 	try {
 
         const { rows:  daily_krypto } = await pool.query('SELECT * FROM public.daily_krypto ORDER BY created_at DESC LIMIT 1 ');
+
+        console.log()
 
         let numbersToUse;
         let targetNumber;
