@@ -70,8 +70,6 @@ app.get('/dailykrypto',async (req,res) => {
 
         const { rows:  daily_krypto } = await pool.query('SELECT * FROM public.daily_krypto ORDER BY created_at DESC LIMIT 1 ');
 
-        console.log()
-
         let numbersToUse;
         let targetNumber;
         let id = null;

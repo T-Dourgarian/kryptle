@@ -25,7 +25,6 @@ if (process.env.ENVIRONMENT === 'PRODUCTION') {
     host: process.env.DB_HOST, // Server hosting the postgres database
     port: process.env.DB_PORT, // env var: PGPORT
     database: process.env.DB_NAME, // CHANGE THIS LINE! env var: PGDATABASE, this is likely the one thing you need to change to get up and running
-    ssl: { rejectUnauthorized: false },
     max: 10, // max number of clients in the pool
     idleTimeoutMillis: 30000, // how long a client is allowed to remain idle before being closed
   };

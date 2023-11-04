@@ -3,6 +3,8 @@ import './App.css';
 import Mexp from 'math-expression-evaluator';
 import axios from 'axios';
 
+import Confetti from 'react-confetti'
+
 function App() {
 
   const [numSet, setNumSet] = useState([]);
@@ -15,6 +17,7 @@ function App() {
   const [kryptoId, setKryptoId] = useState(null);
   const [avgTimeSeconds, setAvgTimeSeconds] = useState(0);
   const [seconds, setSeconds] = useState(0);
+  const [confettiBool, setConfettiBool] = useState(false);
 
   const minutes = Math.floor(seconds / 60);
   const remainingSeconds = seconds % 60;
@@ -24,6 +27,13 @@ function App() {
 
   const mexp = new Mexp();
   const numbersRE = /\b\d+\b/g;
+
+  const startConfetti = () => {
+    setConfettiBool(true);
+    setTimeout(() => {
+      setConfettiBool(false);
+    }, 4000); // 2000 milliseconds = 2 seconds
+  };
   
 
   useEffect(() => {
@@ -178,6 +188,8 @@ function App() {
       setErrorMessage(`Invalid: You have already found this solution`);
       return false
     }
+
+    startConfetti()
     setValidSolutions([...validSolutions, `${equation} = ${target} | ${formattedTime}`]);
     setEquation('');
 
@@ -253,6 +265,9 @@ function App() {
           )
         }
 
+        {
+          confettiBool && <Confetti />
+        }
 
       </header>
     </div>
