@@ -8,9 +8,21 @@ import Confetti from 'react-confetti'
 
 function App() {
   
+  if (window.localStorage.getItem('kryptle_data') == null) {
+    window.localStorage.setItem('kryptle_data',JSON.stringify({
+      numbersToUse: [],
+      numUsedObj: {},
+      target: '',
+      equation: '',
+      validSolutions:[],
+      kryptoId: null,
+      avgTimeSeconds: '',
+      seconds: 0
+    }))
+  }
   
   const [numSet, setNumSet] = useState(JSON.parse(window.localStorage.getItem('kryptle_data')).numbersToUse || []);
-  const [numUsedObj, setNumUsedObj] = useState(JSON.parse(window.localStorage.getItem('kryptle_data')).numUsedObj || '');
+  const [numUsedObj, setNumUsedObj] = useState(JSON.parse(window.localStorage.getItem('kryptle_data')).numUsedObj || {});
   const [target, setTarget] = useState(JSON.parse(window.localStorage.getItem('kryptle_data')).target || '');
   const [equation, setEquation] = useState(JSON.parse(window.localStorage.getItem('kryptle_data')).equation || '');
   const [solution, setSolution] = useState('');
