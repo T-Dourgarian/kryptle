@@ -99,10 +99,14 @@ app.post('/solution', async (req,res) => {
                 public.solutions(daily_krypto_id, solution, solution_seconds)
                 VALUES ($1, $2, $3);`, [id, solution, solutionSeconds]);
 
-            return res.sendStatus(200);
+                const result  = await pool.query('SELECT ROUND(AVG(solution_seconds)) as avg_time_seconds FROM solutions WHERE daily_krypto_id = $1', [id])
+
+                avgTimeSeconds = result.rows[0].avg_time_seconds;
+
+            return res.status(200).json({ avgTimeSeconds });
         }
 
-        return res.status(400);
+        return res.sendStatus(400);
 
     } catch(error) {
         console.log(error)

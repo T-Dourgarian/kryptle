@@ -2,51 +2,76 @@ import React, { useEffect, useState } from 'react';
 import './App.css';
 import Mexp from 'math-expression-evaluator';
 import axios from 'axios';
-
+import Cookies from 'universal-cookie';
 import Confetti from 'react-confetti'
 
-function App() {
 
-  const [numSet, setNumSet] = useState([]);
-  const [numUsedObj, setNumUsedObj] = useState({});
-  const [target, setTarget] = useState('');
-  const [equation, setEquation] = useState('');
+function App() {
+  
+  
+  const [numSet, setNumSet] = useState(JSON.parse(window.localStorage.getItem('kryptle_data')).numbersToUse || []);
+  const [numUsedObj, setNumUsedObj] = useState(JSON.parse(window.localStorage.getItem('kryptle_data')).numUsedObj || '');
+  const [target, setTarget] = useState(JSON.parse(window.localStorage.getItem('kryptle_data')).target || '');
+  const [equation, setEquation] = useState(JSON.parse(window.localStorage.getItem('kryptle_data')).equation || '');
   const [solution, setSolution] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
-  const [validSolutions, setValidSolutions] = useState([]);
-  const [kryptoId, setKryptoId] = useState(null);
-  const [avgTimeSeconds, setAvgTimeSeconds] = useState(0);
-  const [seconds, setSeconds] = useState(0);
+  const [validSolutions, setValidSolutions] = useState(JSON.parse(window.localStorage.getItem('kryptle_data')).validSolutions || []);
+  const [kryptoId, setKryptoId] = useState(JSON.parse(window.localStorage.getItem('kryptle_data')).id || null);
+  const [avgTimeSeconds, setAvgTimeSeconds] = useState(JSON.parse(window.localStorage.getItem('kryptle_data')).avgTimeSeconds || 0);
+  const [seconds, setSeconds] = useState(JSON.parse(window.localStorage.getItem('kryptle_data')).seconds || 0);
   const [confettiBool, setConfettiBool] = useState(false);
-
+  
   const minutes = Math.floor(seconds / 60);
   const remainingSeconds = seconds % 60;
   const formattedTime = `${minutes}:${remainingSeconds < 10 ? '0' : ''}${remainingSeconds}`;
-
+  
   const formattedTimeAvg = `${Math.floor(avgTimeSeconds / 60)}:${ ( avgTimeSeconds % 60 ) < 10 ? '0' : ''}${ avgTimeSeconds % 60 }`;
-
+  
   const mexp = new Mexp();
   const numbersRE = /\b\d+\b/g;
-
+  
   const startConfetti = () => {
     setConfettiBool(true);
     setTimeout(() => {
       setConfettiBool(false);
     }, 4000); // 2000 milliseconds = 2 seconds
   };
-  
 
+  // update avgTimeSconds in local storage when it changes in state
   useEffect(() => {
+    window.localStorage.setItem('kryptle_data',JSON.stringify({
+      ...JSON.parse(window.localStorage.getItem('kryptle_data')),
+      avgTimeSeconds
+    }))
+  }, [avgTimeSeconds])
+
+
+  // gather daily krypto data
+  // start counter
+  useEffect(() => {
+
     gatherTodaysNumbers();
 
     const interval = setInterval(() => {
-      setSeconds(prevSeconds => prevSeconds + 1);
+
+      setSeconds(prevSeconds => {
+
+        window.localStorage.setItem('kryptle_data', JSON.stringify({
+          ...JSON.parse(window.localStorage.getItem('kryptle_data')),
+          seconds: prevSeconds + 1
+        }))
+
+        return prevSeconds + 1
+      });
+
+      
     }, 1000);
 
     // Clean up the interval on component unmount
     return () => clearInterval(interval);
   }, []);
 
+  // error messaging for faulty equations
   useEffect(()=>{
     if (errorMessage) {
       setTimeout(function() {
@@ -55,7 +80,7 @@ function App() {
     }
   },[errorMessage])
 
-
+  // realtime calculate answer of equation
   const handleCalculate = () => {
     try {
       setSolution(mexp.eval(equation))
@@ -64,11 +89,17 @@ function App() {
     }
   }
 
+  // calculate which numbers have been used for highlighting the used numbers
   useEffect(() => {
     handleCalculate();
     if (equation === '') {
       setSolution('');
     }
+
+    window.localStorage.setItem('kryptle_data', JSON.stringify({
+      ...JSON.parse(window.localStorage.getItem('kryptle_data')),
+      equation: equation
+    }))
 
     let numsUsed = equation.match(numbersRE);
 
@@ -98,6 +129,7 @@ function App() {
   }, [equation])
 
   // gather daily set of numbers and initialize numUsedObj to false
+  // update localstorage with new data if it doesnt match current data
   const gatherTodaysNumbers = async () => {
     try {
 
@@ -105,9 +137,8 @@ function App() {
 
       const { data } = response;
 
-      if (data && data.numbersToUse && data.targetNumber) {
+      if (data.id !== kryptoId && data && data.numbersToUse && data.targetNumber) {
 
-        
         let numUsedObjTemp = {};
         
         data.numbersToUse.forEach((num, i) => {
@@ -118,12 +149,19 @@ function App() {
         })
         
         setNumUsedObj(numUsedObjTemp);
-        
-        
         setKryptoId(data.id);
         setAvgTimeSeconds(data.avgTimeSeconds);
         setNumSet(data.numbersToUse);
         setTarget(data.targetNumber);
+
+        window.localStorage.setItem('kryptle_data', JSON.stringify({
+          id: data.id,
+          avgTimeSeconds: data.avgTimeSeconds,
+          numbersToUse: data.numbersToUse,
+          target: data.targetNumber,
+          numUsedObj: numUsedObjTemp,
+          validSolutions: []
+        }))
       }
 
 
@@ -144,7 +182,6 @@ function App() {
         setNumUsedObj(numUsedObjTemp);
     }
   }
-
 
   const validate = async () => {
 
@@ -190,16 +227,25 @@ function App() {
     }
 
     startConfetti()
+    
+    window.localStorage.setItem('kryptle_data', JSON.stringify({
+      ...JSON.parse(window.localStorage.getItem('kryptle_data')),
+      validSolutions: [...validSolutions, `${equation} = ${target} | ${formattedTime}`],
+      equation: ''
+    }));
+    
     setValidSolutions([...validSolutions, `${equation} = ${target} | ${formattedTime}`]);
     setEquation('');
 
     try { 
-      await axios.post(`${process.env.REACT_APP_API_URL}/solution`,
+      const { data }  = await axios.post(`${process.env.REACT_APP_API_URL}/solution`,
       {
         id: kryptoId,
         solution: equation,
         solutionSeconds: seconds
       });
+
+      setAvgTimeSeconds(data.avgTimeSeconds);
 
     } catch(error) {
       console.log(error)
@@ -207,6 +253,15 @@ function App() {
 
     return true;
 
+  }
+
+  const handleInput = (v) => {
+    setEquation(v.target.value);
+
+    window.localStorage.setItem('kryptle_data', JSON.stringify({
+      ...JSON.parse(window.localStorage.getItem('kryptle_data')),
+      equation: v.target.value
+    }))
   }
 
 
@@ -235,7 +290,7 @@ function App() {
         <div className='inputAndSolutionContainer'> 
           <input 
             value={equation} 
-            onChange={v => {setEquation(v.target.value)}}
+            onChange={handleInput}
             className='solutionInput'
           />
             
@@ -270,6 +325,8 @@ function App() {
         }
 
       </header>
+
+      <pre>{JSON.stringify(numUsedObj,null,2)}</pre>
     </div>
   );
 }
