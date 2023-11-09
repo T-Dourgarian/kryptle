@@ -4,7 +4,9 @@ require('dotenv').config();
 const cron = require('node-cron');
 const app = express();
 const pool = require('./pool');
+const Mexp = require('math-expression-evaluator');
 
+const mexp = new Mexp();
 
 
 // Body parser middleware
@@ -51,14 +53,60 @@ app.post('/solution', async (req,res) => {
     try {
         const {id, solution, solutionSeconds } = req.body;
 
-        await pool.query(`
+        const numbersRE = /\b\d+\b/g;
+
+        const { rows } = await pool.query(`SELECT numbers, target FROM public.daily_krypto WHERE id = $1`, [id]);
+
+        if (!rows[0]) {
+            return res.status(400).json("Invalid Krypto ID")
+        }
+        const target = rows[0].target;
+        const numSet = rows[0].numbers.split(' ');
+
+        let solutionAnswer = mexp.eval(solution);
+        let numsUsed = solution.match(numbersRE);
+        
+        if (!numsUsed) return res.status(400).json("Invalid mathamatical equation");
+    
+        // checks if solution uses more or less that 5 numbers
+        if (numsUsed.length > 5) {
+            return res.status(400).json('Invalid: There are too many numbers in your solution');
+        } else if (numsUsed.length < 5) {
+            return res.status(400).json('Invalid: You must use all 5 numbers individually');
+        }
+    
+        // checks that solution uses correct 5 numbers
+        for (let i = 0; i < numSet.length; i++) {
+            if (!numSet.includes(numsUsed[i])) {
+                return res.status(400).json(`Invalid: ${numsUsed[i]} is not a valid number`);
+            }
+        }
+    
+        // checks that solution is correct
+        if (Number(target) !== Number(solutionAnswer)) {
+            return res.status(400).json(`Invalid: This solution does not equal ${target}`);
+        }
+    
+        // // checks if solution is a duplicate
+        // if (validSolutions.includes(equation)) {
+        //     return res.status(400).json(`Invalid: You have already found this solution`);
+        // }
+
+
+        if (solutionAnswer === target) {
+            await pool.query(`
             INSERT INTO 
                 public.solutions(daily_krypto_id, solution, solution_seconds)
                 VALUES ($1, $2, $3);`, [id, solution, solutionSeconds]);
 
+            return res.sendStatus(200);
+        }
+
+        return res.status(400);
 
     } catch(error) {
         console.log(error)
+        res.sendStatus(500);
     }
 })
 
