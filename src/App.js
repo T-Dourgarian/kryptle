@@ -165,6 +165,7 @@ function App() {
         setAvgTimeSeconds(data.avgTimeSeconds);
         setNumSet(data.numbersToUse);
         setTarget(data.targetNumber);
+        setSeconds(0);
 
         window.localStorage.setItem('kryptle_data', JSON.stringify({
           id: data.id,
@@ -172,6 +173,7 @@ function App() {
           numbersToUse: data.numbersToUse,
           target: data.targetNumber,
           numUsedObj: numUsedObjTemp,
+          seconds: 0,
           validSolutions: []
         }))
       }
