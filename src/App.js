@@ -344,7 +344,6 @@ function App() {
 
       </header>
 
-      <pre>{JSON.stringify(numUsedObj,null,2)}</pre>
     </div>
   );
 }
