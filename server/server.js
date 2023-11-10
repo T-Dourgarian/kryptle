@@ -61,10 +61,10 @@ app.post('/solution', async (req,res) => {
             return res.status(400).json("Invalid Krypto ID")
         }
         const target = rows[0].target;
-        const numSet = rows[0].numbers.split(' ');
+        const numSet = rows[0].numbers.split(' ').sort((a,b) => a - b);
 
         let solutionAnswer = mexp.eval(solution);
-        let numsUsed = solution.match(numbersRE);
+        let numsUsed = solution.match(numbersRE).sort((a,b) => a - b);;
         
         if (!numsUsed) return res.status(400).json("Invalid mathamatical equation");
     
@@ -74,10 +74,10 @@ app.post('/solution', async (req,res) => {
         } else if (numsUsed.length < 5) {
             return res.status(400).json('Invalid: You must use all 5 numbers individually');
         }
-    
+
         // checks that solution uses correct 5 numbers
         for (let i = 0; i < numSet.length; i++) {
-            if (!numSet.includes(numsUsed[i])) {
+            if (numSet[i] !== numsUsed[i]) {
                 return res.status(400).json(`Invalid: ${numsUsed[i]} is not a valid number`);
             }
         }

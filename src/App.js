@@ -166,6 +166,7 @@ function App() {
         setNumSet(data.numbersToUse);
         setTarget(data.targetNumber);
         setSeconds(0);
+        setValidSolutions([]);
 
         window.localStorage.setItem('kryptle_data', JSON.stringify({
           id: data.id,
