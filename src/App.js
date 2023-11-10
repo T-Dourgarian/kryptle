@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import './App.css';
 import Mexp from 'math-expression-evaluator';
 import axios from 'axios';
-import Cookies from 'universal-cookie';
+import HowToPlay from './HowToPlay.js';
 import Confetti from 'react-confetti'
 
 
@@ -17,10 +17,12 @@ function App() {
       validSolutions:[],
       kryptoId: null,
       avgTimeSeconds: '',
-      seconds: 0
+      seconds: 0,
+      playedToday: false
     }))
   }
   
+  const [playedToday, setPlayedToday] = useState(JSON.parse(window.localStorage.getItem('kryptle_data')).playedToday);
   const [numSet, setNumSet] = useState(JSON.parse(window.localStorage.getItem('kryptle_data')).numbersToUse || []);
   const [numUsedObj, setNumUsedObj] = useState(JSON.parse(window.localStorage.getItem('kryptle_data')).numUsedObj || {});
   const [target, setTarget] = useState(JSON.parse(window.localStorage.getItem('kryptle_data')).target || '');
@@ -62,26 +64,30 @@ function App() {
   // start counter
   useEffect(() => {
 
-    gatherTodaysNumbers();
+    // this if() is so that the timer only starts after user hits play.
+    // will probably implement routing soon which should make this stuff cleaner
+    if (playedToday) {
+      gatherTodaysNumbers();
 
-    const interval = setInterval(() => {
+      const interval = setInterval(() => {
 
-      setSeconds(prevSeconds => {
+        setSeconds(prevSeconds => {
 
-        window.localStorage.setItem('kryptle_data', JSON.stringify({
-          ...JSON.parse(window.localStorage.getItem('kryptle_data')),
-          seconds: prevSeconds + 1
-        }))
+          window.localStorage.setItem('kryptle_data', JSON.stringify({
+            ...JSON.parse(window.localStorage.getItem('kryptle_data')),
+            seconds: prevSeconds + 1
+          }))
 
-        return prevSeconds + 1
-      });
+          return prevSeconds + 1
+        });
 
-      
-    }, 1000);
+        
+      }, 1000);
 
-    // Clean up the interval on component unmount
-    return () => clearInterval(interval);
-  }, []);
+      // Clean up the interval on component unmount
+      return () => clearInterval(interval);
+    }
+  }, [playedToday]);
 
   // error messaging for faulty equations
   useEffect(()=>{
@@ -175,7 +181,8 @@ function App() {
           target: data.targetNumber,
           numUsedObj: numUsedObjTemp,
           seconds: 0,
-          validSolutions: []
+          validSolutions: [],
+          playedToday: false
         }))
       }
 
@@ -282,9 +289,23 @@ function App() {
 
   }
 
+  const handleCloseHowToPlay = () => {
+    setPlayedToday(!playedToday);
+
+    window.localStorage.setItem('kryptle_data', JSON.stringify({
+      ...JSON.parse(window.localStorage.getItem('kryptle_data')),
+      playedToday: !playedToday
+    }))
+  }
+
 
   return (
     <div className="App">
+
+      {
+        !playedToday && <HowToPlay onClose={handleCloseHowToPlay}/>
+      }
+      
       <header className="App-header">
 
         <div className='instructionsHeaderDiv'>
