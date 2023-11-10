@@ -86,6 +86,10 @@ app.post('/solution', async (req,res) => {
         if (Number(target) !== Number(solutionAnswer)) {
             return res.status(400).json(`Invalid: This solution does not equal ${target}`);
         }
+
+        if (solution.includes('.')) {
+            return res.status(400).json(`Invalid: This solution contains a decimal`);
+        }
     
         // // checks if solution is a duplicate
         // if (validSolutions.includes(equation)) {

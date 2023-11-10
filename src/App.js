@@ -270,13 +270,16 @@ function App() {
 
   }
 
-  const handleInput = (v) => {
-    setEquation(v.target.value);
+  const handleInput = (e) => {
 
-    window.localStorage.setItem('kryptle_data', JSON.stringify({
-      ...JSON.parse(window.localStorage.getItem('kryptle_data')),
-      equation: v.target.value
-    }))
+    if (!e.target.value.includes('.')) {
+      setEquation(e.target.value);
+      window.localStorage.setItem('kryptle_data', JSON.stringify({
+        ...JSON.parse(window.localStorage.getItem('kryptle_data')),
+        equation: e.target.value
+      }))
+    }
+
   }
 
 
