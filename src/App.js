@@ -2,8 +2,9 @@ import React, { useEffect, useState } from 'react';
 import './App.css';
 import Mexp from 'math-expression-evaluator';
 import axios from 'axios';
-import HowToPlay from './HowToPlay.js';
-import Confetti from 'react-confetti'
+import HowToPlay from './HowToPlay/HowToPlay.js';
+
+import GameContainer from './Gameplay/GameContainer';
 
 
 function App() {
@@ -278,7 +279,6 @@ function App() {
   }
 
   const handleInput = (e) => {
-
     if (!e.target.value.includes('.')) {
       setEquation(e.target.value);
       window.localStorage.setItem('kryptle_data', JSON.stringify({
@@ -305,63 +305,31 @@ function App() {
       {
         !playedToday && <HowToPlay onClose={handleCloseHowToPlay}/>
       }
-      
+
       <header className="App-header">
+              
+      <GameContainer
+        // for Challenge Display
+         numSet={numSet}
+         numUsedObj={numUsedObj}
+         target={target}
 
-        <div className='instructionsHeaderDiv'>
+        //For solution input
+         equation={equation}
+         solution={solution}
+         handleInput={handleInput}
+         validate={validate}
+         errorMessage={errorMessage}
 
-          <div>
-            {
-              numSet && numSet.map((num, i) => 
-                <span
-                  key={i}
-                  className='numbersListedSpan'
-                  style={{
-                    color: numUsedObj[i].used ? 'green' : ''
-                  }}
-                > {num} </span>
-              )
-            }
-            <span className='numbersListedSpan'>= { target }</span>
-          </div>
-        </div>
+         // For Time
+         formattedTime={formattedTime}
+         formattedTimeAvg={formattedTimeAvg}
 
-        <div className='inputAndSolutionContainer'> 
-          <input 
-            value={equation} 
-            onChange={handleInput}
-            className='solutionInput'
-          />
-            
-          
-        <div className='solutionDiv'>
-        = { solution === '' ? '?' : solution } 
-        </div>
-          
-        </div>
+         // For Completed solutions
+         validSolutions={validSolutions} 
 
-        <button className='validateButton' onClick={validate}>Validate</button>
-
-        <div className='errorMessageDiv'>
-          { errorMessage }
-        </div>
-
-        <div> Average Time for Today's Kryptle - {formattedTimeAvg}</div>
-
-        <div>{formattedTime}</div>
-
-        - Completed Solutions - 
-        {
-          validSolutions && validSolutions.map((s,i) =>
-            <div key={i} >
-              { s }
-            </div>
-          )
-        }
-
-        {
-          confettiBool && <Confetti />
-        }
+         confettiBool={confettiBool}
+      />
 
       </header>
 
