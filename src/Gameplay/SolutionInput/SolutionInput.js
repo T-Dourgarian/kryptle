@@ -4,17 +4,16 @@ import './SolutionInput.css'
 function SolutionInput(props) {
   let equation = props.equation;
   let solution = props.solution;
-  let handleInput = props.handleInput;
-  let validate = props.validate;
+  let handleUserInput = props.handleUserInput;
+  let handleUserSubmit = props.handleUserSubmit;
   let errorMessage = props.errorMessage
-
 
   return (
     <>
     <div className='inputAndSolutionContainer'> 
     <input 
         value={equation} 
-        onChange={handleInput}
+        onChange={handleUserInput}
         className='solutionInput'
     />
     
@@ -26,7 +25,7 @@ function SolutionInput(props) {
     </div>
 
     <button 
-        className='validateButton' onClick={validate}>Validate
+        className='validateButton' onClick={handleUserSubmit}>Validate
     </button>
 
     <div className='errorMessageDiv'>

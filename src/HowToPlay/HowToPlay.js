@@ -1,14 +1,13 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
+import { useDispatch } from 'react-redux';
 import './HowToPlay.css';
-import Mexp from 'math-expression-evaluator';
+import { playButtonClicked } from '../GameSlice';
 
-
-
-function HowToPlay({ onClose }) {
-  
-    const [showInstructions, setShowInstructions] = useState(false);
-    
-
+function HowToPlay() {
+    const dispatch = useDispatch()
+    const onPlayClicked = () => {
+        dispatch(playButtonClicked({playedToday: true}))
+    }
     
       return (
         
@@ -16,7 +15,6 @@ function HowToPlay({ onClose }) {
             <h1 className="Header" >Kryptle</h1>
 
             <button 
-                onClick={() => setShowInstructions(!showInstructions)} 
                 className="HowToPlayButton"
             >How To Play</button>
 
@@ -51,7 +49,7 @@ function HowToPlay({ onClose }) {
             
             
             <div className="PlayButtonContainer">
-                <button onClick={onClose} className="PlayButton">PLAY</button>
+                <button onClick={onPlayClicked} className="PlayButton">PLAY</button>
             </div>
             
           </div>
