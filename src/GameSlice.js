@@ -41,11 +41,10 @@ export const GameSlice = createSlice({
       state.errorMessage =  '';
     },
     validSolutionSubmitted: (state, action) => {
-      state.validSolutions = [...state.validSolutions, action.payload]
-      state.equation = '';
+      state.validSolutions = action.payload.validSolutions;
     },
     postSolutionSuccess: (state, action) => {
-      state.avgTimeSeconds = action.payload.avgTimeSeconds; // Might be wrong haven't tested with server
+      state.avgTimeSeconds = action.payload.avgTimeSeconds; 
     }
   },
 })

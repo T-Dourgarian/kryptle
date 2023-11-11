@@ -27,6 +27,7 @@ function GameContainer(props) {
   const equation = useSelector((state) => state.game.equation);
   const errorMessage = useSelector((state) => state.game.errorMessage);
   const avgTimeSeconds = useSelector((state) => state.game.avgTimeSeconds);
+  const validSolutions = useSelector((state) => state.game.validSolutions)
 
   // Need to work through and remove all of these in favor of selecting from state like above
 
@@ -38,7 +39,6 @@ function GameContainer(props) {
   const [numUsedObj, setNumUsedObj] = useState(JSON.parse(window.localStorage.getItem('kryptle_data')).numUsedObj || {});
   const [target, setTarget] = useState(JSON.parse(window.localStorage.getItem('kryptle_data')).target || '');
   const [solution, setSolution] = useState('');
-  const [validSolutions, setValidSolutions] = useState(JSON.parse(window.localStorage.getItem('kryptle_data')).validSolutions || []);
   const [kryptoId, setKryptoId] = useState(JSON.parse(window.localStorage.getItem('kryptle_data')).id || null);
   const [seconds, setSeconds] = useState(JSON.parse(window.localStorage.getItem('kryptle_data')).seconds || 0);
   const [confettiBool, setConfettiBool] = useState(false);
@@ -59,13 +59,6 @@ function GameContainer(props) {
     }, 4000); // 2000 milliseconds = 2 seconds
   };
 
-  // update avgTimeSconds in local storage when it changes in state
-  useEffect(() => {
-    window.localStorage.setItem('kryptle_data',JSON.stringify({
-      ...JSON.parse(window.localStorage.getItem('kryptle_data')),
-      avgTimeSeconds
-    }))
-  }, [avgTimeSeconds])
 
 
   // start counter
@@ -167,6 +160,8 @@ function GameContainer(props) {
             used: false
           }
         })
+
+        dispatch(postSolutionSuccess({ avgTimeSeconds: data.avgTimeSeconds }));
         
         setNumUsedObj(numUsedObjTemp);
         setKryptoId(data.id);
@@ -174,7 +169,6 @@ function GameContainer(props) {
         setNumSet(data.numbersToUse);
         setTarget(data.targetNumber);
         setSeconds(0);
-        setValidSolutions([]);
 
         window.localStorage.setItem('kryptle_data', JSON.stringify({
           id: data.id,
@@ -183,8 +177,9 @@ function GameContainer(props) {
           target: data.targetNumber,
           numUsedObj: numUsedObjTemp,
           seconds: 0,
+          equation: '',
           validSolutions: [],
-          playedToday: false
+          playedToday: true
         }))
       }
 
@@ -222,7 +217,7 @@ function GameContainer(props) {
 
     try {
       const postReturnData = await postSolution(kryptoId, equation, seconds);
-      dispatch(postSolutionSuccess({payload: postReturnData}));
+      dispatch(postSolutionSuccess(postReturnData));
     } catch(error) {
       console.log(error)
     }
@@ -234,8 +229,8 @@ function GameContainer(props) {
   const handleValidSolution = () => {
     startConfetti();
     const formattedSolution = `${equation} = ${target} | ${formattedTime}`;
-    dispatch(validSolutionSubmitted(formattedSolution));
-    
+    dispatch(validSolutionSubmitted({ validSolutions: [...validSolutions, formattedSolution]}));
+    dispatch(equationUpdated({equation: ''}));
   }
 
   return (

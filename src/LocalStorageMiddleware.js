@@ -1,7 +1,7 @@
 const localStorageMiddleware = store => next => action => {
     const result = next(action);
   
-    const syncProperties = ['Game/playButtonClicked', 'Game/equationUpdated'];
+    const syncProperties = ['Game/playButtonClicked', 'Game/equationUpdated', 'Game/postSolutionSuccess', 'Game/validSolutionSubmitted'];
   
     if (syncProperties.includes(action.type)) {
       const currentLocalStorageData = JSON.parse(localStorage.getItem('kryptle_data'));

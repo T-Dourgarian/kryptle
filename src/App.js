@@ -21,7 +21,7 @@ function App() {
       equation: '',
       validSolutions:[],
       kryptoId: null,
-      avgTimeSeconds: '',
+      avgTimeSeconds: 0,
       seconds: 0,
       playedToday: false
     }))
