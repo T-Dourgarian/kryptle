@@ -23,7 +23,8 @@ function App() {
       kryptoId: null,
       avgTimeSeconds: 0,
       seconds: 0,
-      playedToday: false
+      playedToday: false,
+      solveStreak: 0
     }))
   }
 

@@ -14,6 +14,7 @@ export const GameSlice = createSlice({
     pageLoaded: false,
     equation: '',
     errorMessage: '',
+    solveStreak: 0
   },
   reducers: {
     countSeconds: (state, action) => {
@@ -45,6 +46,7 @@ export const GameSlice = createSlice({
         state.validSolutions = action.payload.validSolutions;
         state.equation = action.payload.equation;
         state.pageLoaded = true;
+        state.solveStreak = action.payload.solveStreak
     },
     equationUpdated: (state, action) => {
       state.equation = action.payload.equation;
@@ -60,6 +62,9 @@ export const GameSlice = createSlice({
     },
     postSolutionSuccess: (state, action) => {
       state.avgTimeSeconds = action.payload.avgTimeSeconds; 
+    },
+    solveStreakUpdated: (state, action) => {
+      state.solveStreak = action.payload.solveStreak
     }
   },
 })
@@ -76,7 +81,7 @@ export const {
   numUsedObjUpdated,
   targetUpdated,
   solutionUpdated,
-  countSeconds
+  solveStreakUpdated
  } = GameSlice.actions
 
 export default GameSlice.reducer

@@ -11,7 +11,7 @@ const localStorageMiddleware = store => next => action => {
       'Game/targetUpdated',
       'Game/solutionUpdated',
       'Game/initFromLocalStorage',
-      'Game/countSeconds'
+      'Game/solveStreakUpdated'
     ];
   
     if (syncProperties.includes(action.type)) {

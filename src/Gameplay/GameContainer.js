@@ -20,7 +20,7 @@ import {
   targetUpdated,
   solutionUpdated,
   initFromLocalStorage,
-  countSeconds
+  solveStreakUpdated
 } from '../GameSlice';
 
 function GameContainer(props) {
@@ -44,6 +44,7 @@ function GameContainer(props) {
   const target = useSelector((state) => state.game.target);
   const solution = useSelector((state) => state.game.solution)
   const kryptoId = useSelector((state) => state.game.kryptoId);
+  const solveStreak = useSelector((state) => state.game.solveStreak)
   // const seconds = useSelector((state) => state.game.seconds);
 
 
@@ -186,6 +187,7 @@ function GameContainer(props) {
           playedToday: true,
           pageLoaded: true,
           equation: '',
+          solveStreak: validSolutions.length === 0 ? 0 : solveStreak
         }))
 
       }
@@ -234,6 +236,11 @@ function GameContainer(props) {
 
   const handleValidSolution = () => {
     startConfetti();
+
+    if (validSolutions.length === 0) {
+      dispatch(solveStreakUpdated({ solveStreak: solveStreak + 1 }))
+    }
+
     const formattedSolution = `${equation} = ${target} | ${formattedTime}`;
     dispatch(validSolutionSubmitted({ validSolutions: [...validSolutions, formattedSolution]}));
     dispatch(equationUpdated({equation: ''}));
@@ -268,6 +275,10 @@ function GameContainer(props) {
         {
           confettiBool && <Confetti />
         }
+
+        <div>
+         Daily Streak: { solveStreak}
+        </div>
 
     </>
   );
