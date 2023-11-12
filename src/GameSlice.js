@@ -16,6 +16,21 @@ export const GameSlice = createSlice({
     errorMessage: '',
   },
   reducers: {
+    countSeconds: (state, action) => {
+      state.seconds = state.seconds + 1;
+    },
+    solutionUpdated: (state, action) => {
+      state.solution = action.payload.solution;
+    },
+    targetUpdated: (state, action) => {
+      state.target = action.payload.target;
+    },
+    numbersToUseUpdated: (state, action) => {
+      state.numbersToUse = action.payload.numbersToUse;
+    },
+    numUsedObjUpdated: (state, action) => {
+      state.numUsedObj = action.payload.numUsedObj;
+    },
     playButtonClicked: (state, action) => {
       state.playedToday = action.payload.playedToday;
     },
@@ -49,6 +64,19 @@ export const GameSlice = createSlice({
   },
 })
 
-export const { playButtonClicked, initFromLocalStorage, equationUpdated, validationErrorThrown, errorMessageDone, validSolutionSubmitted, postSolutionSuccess } = GameSlice.actions
+export const { 
+  playButtonClicked, 
+  initFromLocalStorage, 
+  equationUpdated, 
+  validationErrorThrown, 
+  errorMessageDone, 
+  validSolutionSubmitted, 
+  postSolutionSuccess,
+  numbersToUseUpdated,
+  numUsedObjUpdated,
+  targetUpdated,
+  solutionUpdated,
+  countSeconds
+ } = GameSlice.actions
 
 export default GameSlice.reducer

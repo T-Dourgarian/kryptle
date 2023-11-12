@@ -13,7 +13,7 @@ function ChallengeDisplay(props) {
 
     <div>
       {
-        numSet && numSet.map((num, i) => 
+        numSet && numUsedObj[0] && numSet.map((num, i) => 
           <span
             key={i}
             className='numbersListedSpan'

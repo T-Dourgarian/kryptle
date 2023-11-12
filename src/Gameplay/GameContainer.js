@@ -1,5 +1,4 @@
 import { useDispatch, useSelector } from 'react-redux';
-import { equationUpdated, validationErrorThrown, errorMessageDone, validSolutionSubmitted, postSolutionSuccess } from '../GameSlice';
 import ChallengeDisplay from './ChallengeDisplay/ChallengeDisplay'
 import SolutionInput from './SolutionInput/SolutionInput';
 import TimeInfo from './TimeInfo/TimeInfo';
@@ -10,7 +9,19 @@ import axios from 'axios';
 import Mexp from 'math-expression-evaluator';
 import { validateEquation } from '../util/EquationValidators'
 import { postSolution } from '../util/ApiUtil';
-
+import { 
+  equationUpdated, 
+  validationErrorThrown, 
+  errorMessageDone, 
+  validSolutionSubmitted, 
+  postSolutionSuccess,
+  numbersToUseUpdated,
+  numUsedObjUpdated,
+  targetUpdated,
+  solutionUpdated,
+  initFromLocalStorage,
+  countSeconds
+} from '../GameSlice';
 
 function GameContainer(props) {
   const dispatch = useDispatch();
@@ -28,18 +39,22 @@ function GameContainer(props) {
   const errorMessage = useSelector((state) => state.game.errorMessage);
   const avgTimeSeconds = useSelector((state) => state.game.avgTimeSeconds);
   const validSolutions = useSelector((state) => state.game.validSolutions)
+  const numSet = useSelector((state) => state.game.numbersToUse);
+  const numUsedObj = useSelector((state) => state.game.numUsedObj);
+  const target = useSelector((state) => state.game.target);
+  const solution = useSelector((state) => state.game.solution)
+  const kryptoId = useSelector((state) => state.game.kryptoId);
+  // const seconds = useSelector((state) => state.game.seconds);
+
+
+
 
   // Need to work through and remove all of these in favor of selecting from state like above
 
   // Also need to work through breaking down methods and pulling out api calls
 
   // Api calls are currently in util methods but they should probably be handled better
-
-  const [numSet, setNumSet] = useState(JSON.parse(window.localStorage.getItem('kryptle_data')).numbersToUse || []);
-  const [numUsedObj, setNumUsedObj] = useState(JSON.parse(window.localStorage.getItem('kryptle_data')).numUsedObj || {});
-  const [target, setTarget] = useState(JSON.parse(window.localStorage.getItem('kryptle_data')).target || '');
-  const [solution, setSolution] = useState('');
-  const [kryptoId, setKryptoId] = useState(JSON.parse(window.localStorage.getItem('kryptle_data')).id || null);
+  // const [kryptoId, setKryptoId] = useState(JSON.parse(window.localStorage.getItem('kryptle_data')).id || null);
   const [seconds, setSeconds] = useState(JSON.parse(window.localStorage.getItem('kryptle_data')).seconds || 0);
   const [confettiBool, setConfettiBool] = useState(false);
   
@@ -58,7 +73,6 @@ function GameContainer(props) {
       setConfettiBool(false);
     }, 4000); // 2000 milliseconds = 2 seconds
   };
-
 
 
   // start counter
@@ -81,7 +95,6 @@ function GameContainer(props) {
           return prevSeconds + 1
         });
 
-        
       }, 1000);
 
       // Clean up the interval on component unmount
@@ -101,9 +114,9 @@ function GameContainer(props) {
   // realtime calculate answer of equation
   const handleCalculate = () => {
     try {
-      setSolution(mexp.eval(equation))
+      dispatch(solutionUpdated({ solution: mexp.eval(equation) }))
     } catch (error) {
-      // setSolution('Invalid mathamatical expression');
+
     }
   }
 
@@ -111,33 +124,35 @@ function GameContainer(props) {
   useEffect(() => {
     handleCalculate();
     if (equation === '') {
-      setSolution('');
+      dispatch(solutionUpdated({ solution: '' }))
     }
 
-    let numsUsed = equation.match(numbersRE);
+    // some rendering issue where only sometimes this was running before numset was set and caused errors
+    if(numSet[0]) {
+      let numsUsed = equation.match(numbersRE);
 
-    let numUsedObjTemp = {};
+      let numUsedObjTemp = {};
 
-    numSet.forEach((num, i) => {
-    numUsedObjTemp[i] = {
-      value: num,
-      used: false
-    }
-    })
+      numSet.forEach((num, i) => {
+        numUsedObjTemp[i] = {
+          value: num,
+          used: false
+        }
+      })
 
-
-    if (numsUsed) {
-      for (const num of numsUsed) {
-        for (const key in numUsedObjTemp) {
-          if (String(numUsedObjTemp[key].value) == num && !numUsedObjTemp[key].used) {
-            numUsedObjTemp[key].used = true;
-            break;
+      if (numsUsed) {
+        for (const num of numsUsed) {
+          for (const key in numUsedObjTemp) {
+            if (String(numUsedObjTemp[key].value) == num && !numUsedObjTemp[key].used) {
+              numUsedObjTemp[key].used = true;
+              break;
+            }
           }
         }
       }
-    }
 
-    setNumUsedObj(numUsedObjTemp);
+      dispatch(numUsedObjUpdated({ numUsedObj: numUsedObjTemp}));
+    }
 
   }, [equation])
 
@@ -161,33 +176,27 @@ function GameContainer(props) {
           }
         })
 
-        dispatch(postSolutionSuccess({ avgTimeSeconds: data.avgTimeSeconds }));
-        
-        setNumUsedObj(numUsedObjTemp);
-        setKryptoId(data.id);
-        // setAvgTimeSeconds(data.avgTimeSeconds); Needs to update state, this whole thing should be a reducer... Can remove most of this
-        setNumSet(data.numbersToUse);
-        setTarget(data.targetNumber);
-        setSeconds(0);
 
-        window.localStorage.setItem('kryptle_data', JSON.stringify({
-          id: data.id,
+        dispatch(initFromLocalStorage({
           avgTimeSeconds: data.avgTimeSeconds,
           numbersToUse: data.numbersToUse,
-          target: data.targetNumber,
           numUsedObj: numUsedObjTemp,
+          target: data.targetNumber,
+          kryptoId: data.kryptoId,
           seconds: 0,
+          validSolutions:[],
+          playedToday: true,
+          pageLoaded: true,
           equation: '',
-          validSolutions: [],
-          playedToday: true
         }))
+
       }
 
 
     } catch(error) {
       console.log(error);
-      setNumSet(['4', '9', '23', '5', '22'])
-      setTarget('6');
+      dispatch(numbersToUseUpdated({ numbersToUse: ['4', '9', '23', '5', '22']}))
+      dispatch(targetUpdated({ target: '6'}));
 
       let numUsedObjTemp = {};
 
@@ -197,8 +206,7 @@ function GameContainer(props) {
             used: false
           }
         })
-        
-        setNumUsedObj(numUsedObjTemp);
+        dispatch(numUsedObjUpdated({ numUsedObj: numUsedObjTemp}))
     }
   }
 
