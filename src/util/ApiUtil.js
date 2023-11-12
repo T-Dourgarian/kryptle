@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-export const postSolution = async (kryptoId, equation, seconds) =>{
+const postSolution = async (kryptoId, equation, seconds) =>{
     try { 
         const { data }  = await axios.post(`${process.env.REACT_APP_API_URL}/solution`,
         {
@@ -14,4 +14,21 @@ export const postSolution = async (kryptoId, equation, seconds) =>{
       } catch(error) {
         console.log(error);
       }
+}
+
+const getDailyKrypto = async () => {
+  try { 
+      const { data }  = await axios.get(`${process.env.REACT_APP_API_URL}/dailykrypto`);
+
+      return data;
+
+    } catch(error) {
+      console.log(error);
+    }
+}
+
+
+export {
+  postSolution,
+  getDailyKrypto
 }

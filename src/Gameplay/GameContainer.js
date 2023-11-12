@@ -8,7 +8,7 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import Mexp from 'math-expression-evaluator';
 import { validateEquation } from '../util/EquationValidators'
-import { postSolution } from '../util/ApiUtil';
+import { postSolution, getDailyKrypto} from '../util/ApiUtil';
 import { 
   equationUpdated, 
   validationErrorThrown, 
@@ -161,9 +161,7 @@ function GameContainer(props) {
   const gatherTodaysNumbers = async () => {
     try {
 
-      const response = await axios.get(`${process.env.REACT_APP_API_URL}/dailykrypto`);
-
-      const { data } = response;
+      const data = await getDailyKrypto();
 
       if (data.id !== kryptoId && data && data.numbersToUse && data.targetNumber) {
 
@@ -182,7 +180,7 @@ function GameContainer(props) {
           numbersToUse: data.numbersToUse,
           numUsedObj: numUsedObjTemp,
           target: data.targetNumber,
-          kryptoId: data.kryptoId,
+          kryptoId: data.id,
           seconds: 0,
           validSolutions:[],
           playedToday: true,
