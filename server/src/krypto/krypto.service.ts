@@ -10,7 +10,6 @@ export class KryptoService {
     constructor(private prisma:PrismaService) {}
 
     async getDailyKypto(dto) {
-        
         try {
             const DK = await this.prisma.daily_krypto.findFirst({
                 orderBy: {
@@ -21,11 +20,23 @@ export class KryptoService {
             // console.log('DK', DK)
     
             if (DK) {
+
+                const result = await this.prisma.solutions.aggregate({
+                    where: {
+                      daily_krypto_id: DK.id,
+                    },
+                    _avg: {
+                      solution_seconds: true,
+                    },
+                });
+
+                const AVG_SOLUTION_SECONDS = result._avg.solution_seconds;
+
                 return {
                     id: DK.id,
                     numbersToUse: DK.numbers.split(' '),
                     targetNumber: DK.target,
-                    avgTimeSeconds: 0
+                    avgTimeSeconds: AVG_SOLUTION_SECONDS
                 };
             }
 
