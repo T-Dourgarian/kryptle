@@ -2,11 +2,6 @@
   text-align: center;
 }
 
-.instructionsHeaderDiv {
-  margin: 20px 0px 20px 0;
-  padding: 0px 20px 0px 20px;
-}
-
 .App-header {
   background-color: #282c34;
   min-height: 100vh;
@@ -16,46 +11,6 @@
   /* justify-content: center; */
   font-size: calc(10px + 2vmin);
   color: white;
-}
-
-.numbersListedSpan {
-  margin: 0 10px 0 10px;
-  font-size: 30px;
-}
-
-
-.inputAndSolutionContainer {
-  display: flex;
-  flex-direction: row;
-  flex-flow: row wrap;
-  align-items: center;
-}
-
-.solutionInput {
-  width: 260px;
-  height: 40px;
-  font-size: 20px;
-  margin-right: 5px;
-  border-radius: 5px;
-  border: 1px solid white;
-  outline:0;
-}
-
-.solutionDiv {
-  flex-grow: 1;
-}
-
-
-.validateButton {
-  background-color : rgb(83, 83, 247);
-  color: white;
-  border: none;
-  padding: 10px 15px 10px 15px;
-  border-radius: 3px;
-  font-size: 25px;
-  font-family: Arial, Helvetica, sans-serif;
-  font-weight: bold;
-  margin-top: 15px;
 }
 
 .errorMessageDiv {
