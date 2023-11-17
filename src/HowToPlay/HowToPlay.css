@@ -1,0 +1,67 @@
+.Header {
+    color: #262626;
+    font-size: 85px;
+    font-family: 'Roboto';
+}
+
+.Container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    background-color: #cad3df;
+    color: #fff;
+    border-radius: 8px;
+    width: 100%;
+    height: 100%;
+}
+
+.HowToPlayP {
+    width:60%;
+    margin: 10px auto 10px auto;
+    color: #262626;
+    font-size: 17px;
+}
+
+.HowToPlayButton {
+    background-color: #cad3df;
+    border: none;
+    border-bottom: 1px solid #262626;
+    font-size: 18px;
+}
+
+.HowToPlayButton:hover {
+    cursor: pointer;
+}
+
+.ExampleNumbers {
+    color: #262626;
+    font-size: 25px;
+    margin: 8px 0 8px 0;
+    white-space: pre;
+}
+
+.ExampleSolution {
+    color: #262626;
+    font-size: 22px;
+}
+
+.PlayButtonContainer {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+}
+
+.PlayButton {
+    font-size: 30px;
+    padding:15px 25px 15px 25px;
+    letter-spacing: 1mm;
+    border: none;
+    border-radius: 10px;
+    background-color: #262626;
+    color: white;
+    margin-bottom: 50px;
+}
+
+.PlayButton:hover {
+    cursor: pointer;
+}

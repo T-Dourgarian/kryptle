@@ -1,275 +1,58 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import './App.css';
-import Mexp from 'math-expression-evaluator';
-import axios from 'axios';
+import HowToPlay from './HowToPlay/HowToPlay.js';
 
-import Confetti from 'react-confetti'
+import GameContainer from './Gameplay/GameContainer';
+import { useDispatch, useSelector } from 'react-redux';
+import { initFromLocalStorage } from './GameSlice';
+
 
 function App() {
+  const dispatch = useDispatch()
 
-  const [numSet, setNumSet] = useState([]);
-  const [numUsedObj, setNumUsedObj] = useState({});
-  const [target, setTarget] = useState('');
-  const [equation, setEquation] = useState('');
-  const [solution, setSolution] = useState('');
-  const [errorMessage, setErrorMessage] = useState('');
-  const [validSolutions, setValidSolutions] = useState([]);
-  const [kryptoId, setKryptoId] = useState(null);
-  const [avgTimeSeconds, setAvgTimeSeconds] = useState(0);
-  const [seconds, setSeconds] = useState(0);
-  const [confettiBool, setConfettiBool] = useState(false);
-
-  const minutes = Math.floor(seconds / 60);
-  const remainingSeconds = seconds % 60;
-  const formattedTime = `${minutes}:${remainingSeconds < 10 ? '0' : ''}${remainingSeconds}`;
-
-  const formattedTimeAvg = `${Math.floor(avgTimeSeconds / 60)}:${ ( avgTimeSeconds % 60 ) < 10 ? '0' : ''}${ avgTimeSeconds % 60 }`;
-
-  const mexp = new Mexp();
-  const numbersRE = /\b\d+\b/g;
-
-  const startConfetti = () => {
-    setConfettiBool(true);
-    setTimeout(() => {
-      setConfettiBool(false);
-    }, 4000); // 2000 milliseconds = 2 seconds
-  };
+  const playedToday = useSelector((state) => state.game.playedToday);
+  const pageLoaded = useSelector((state) => state.game.pageLoaded);
   
+  if (window.localStorage.getItem('kryptle_data') == null) {
+    window.localStorage.setItem('kryptle_data',JSON.stringify({
+      numbersToUse: [],
+      numUsedObj: {},
+      target: '',
+      equation: '',
+      validSolutions:[],
+      kryptoId: null,
+      avgTimeSeconds: 0,
+      seconds: 0,
+      playedToday: false,
+      solveStreak: 0
+    }))
+  }
+
+  const getFromLocalStorage = () => {
+    return JSON.parse(window.localStorage.getItem('kryptle_data'));
+}
 
   useEffect(() => {
-    gatherTodaysNumbers();
-
-    const interval = setInterval(() => {
-      setSeconds(prevSeconds => prevSeconds + 1);
-    }, 1000);
-
-    // Clean up the interval on component unmount
-    return () => clearInterval(interval);
+      dispatch(initFromLocalStorage(getFromLocalStorage()));
   }, []);
-
-  useEffect(()=>{
-    if (errorMessage) {
-      setTimeout(function() {
-      setErrorMessage('')
-        }, 3000);
-    }
-  },[errorMessage])
-
-
-  const handleCalculate = () => {
-    try {
-      setSolution(mexp.eval(equation))
-    } catch (error) {
-      // setSolution('Invalid mathamatical expression');
-    }
-  }
-
-  useEffect(() => {
-    handleCalculate();
-    if (equation === '') {
-      setSolution('');
-    }
-
-    let numsUsed = equation.match(numbersRE);
-
-    let numUsedObjTemp = {};
-
-    numSet.forEach((num, i) => {
-    numUsedObjTemp[i] = {
-      value: num,
-      used: false
-    }
-    })
-
-
-    if (numsUsed) {
-      for (const num of numsUsed) {
-        for (const key in numUsedObjTemp) {
-          if (String(numUsedObjTemp[key].value) == num && !numUsedObjTemp[key].used) {
-            numUsedObjTemp[key].used = true;
-            break;
-          }
-        }
-      }
-    }
-
-    setNumUsedObj(numUsedObjTemp);
-
-  }, [equation])
-
-  // gather daily set of numbers and initialize numUsedObj to false
-  const gatherTodaysNumbers = async () => {
-    try {
-
-      const response = await axios.get(`${process.env.REACT_APP_API_URL}/dailykrypto`);
-
-      const { data } = response;
-
-      if (data && data.numbersToUse && data.targetNumber) {
-
-        
-        let numUsedObjTemp = {};
-        
-        data.numbersToUse.forEach((num, i) => {
-          numUsedObjTemp[i] = {
-            value: num,
-            used: false
-          }
-        })
-        
-        setNumUsedObj(numUsedObjTemp);
-        
-        
-        setKryptoId(data.id);
-        setAvgTimeSeconds(data.avgTimeSeconds);
-        setNumSet(data.numbersToUse);
-        setTarget(data.targetNumber);
-      }
-
-
-    } catch(error) {
-      console.log(error);
-      setNumSet(['4', '9', '23', '5', '22'])
-      setTarget('6');
-
-      let numUsedObjTemp = {};
-
-        ['4', '9', '23', '5', '22'].forEach((num, i) => {
-          numUsedObjTemp[i] = {
-            value: num,
-            used: false
-          }
-        })
-        
-        setNumUsedObj(numUsedObjTemp);
-    }
-  }
-
-
-  const validate = async () => {
-
-    // checks that solution is a valid mathamatical equation
-    try {
-      setSolution(mexp.eval(equation));
-    } catch(error) {
-      setErrorMessage('Invalid mathamatical equation');
-      return false;
-    }
-
-    let numsUsed = equation.match(numbersRE);
-    
-    if (!numsUsed) return false;
-
-    // checks if solution uses more or less that 5 numbers
-    if (numsUsed.length > 5) {
-      setErrorMessage('Invalid: There are too many numbers in your solution');
-      return false;
-    } else if (numsUsed.length < 5) {
-      setErrorMessage('Invalid: You must use all 5 numbers individually');
-      return false;
-    }
-
-    // checks that solution uses correct 5 numbers
-    for (let i = 0; i < numSet.length; i++) {
-      if (!numSet.includes(numsUsed[i])) {
-        setErrorMessage(`Invalid: ${numsUsed[i]} is not a valid number`);
-        return false;
-      }
-    }
-
-    // checks that solution is correct
-    if (Number(target) !== Number(solution)) {
-      setErrorMessage(`Invalid: This solution does not equal ${target}`);
-      return false;
-    }
-
-    // checks if solution is a duplicate
-    if (validSolutions.includes(equation)) {
-      setErrorMessage(`Invalid: You have already found this solution`);
-      return false
-    }
-
-    startConfetti()
-    setValidSolutions([...validSolutions, `${equation} = ${target} | ${formattedTime}`]);
-    setEquation('');
-
-    try { 
-      await axios.post(`${process.env.REACT_APP_API_URL}/solution`,
-      {
-        id: kryptoId,
-        solution: equation,
-        solutionSeconds: seconds
-      });
-
-    } catch(error) {
-      console.log(error)
-    }
-
-    return true;
-
-  }
+  
 
 
   return (
     <div className="App">
+
+      {
+        !playedToday && pageLoaded && <HowToPlay/>
+      }
+
       <header className="App-header">
-
-        <div className='instructionsHeaderDiv'>
-
-          <div>
-            {
-              numSet && numSet.map((num, i) => 
-                <span
-                  key={i}
-                  className='numbersListedSpan'
-                  style={{
-                    color: numUsedObj[i].used ? 'green' : ''
-                  }}
-                > {num} </span>
-              )
-            }
-            <span className='numbersListedSpan'>= { target }</span>
-          </div>
-        </div>
-
-        <div className='inputAndSolutionContainer'> 
-          <input 
-            value={equation} 
-            onChange={v => {setEquation(v.target.value)}}
-            className='solutionInput'
-          />
-            
-          
-        <div className='solutionDiv'>
-        = { solution === '' ? '?' : solution } 
-        </div>
-          
-        </div>
-
-        <button className='validateButton' onClick={validate}>Validate</button>
-
-        <div className='errorMessageDiv'>
-          { errorMessage }
-        </div>
-
-        <div> Average Time for Today's Kryptle - {formattedTimeAvg}</div>
-
-        <div>{formattedTime}</div>
-
-        - Completed Solutions - 
-        {
-          validSolutions && validSolutions.map((s,i) =>
-            <div key={i} >
-              { s }
-            </div>
-          )
-        }
-
-        {
-          confettiBool && <Confetti />
-        }
+              
+      <GameContainer
+         playedToday={playedToday}
+      />
 
       </header>
+
     </div>
   );
 }

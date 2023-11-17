@@ -1,0 +1,21 @@
+.CSLabel {
+    margin: 20px 0 5px 0;
+    color:  #ececec;
+    font-size: 15px;
+}
+
+.CSListContainer {
+    background-color: #687286;
+    padding: 15px;
+    color: #ffffff;
+    border-radius: 15px;
+    font-size: 18px;
+    height: 200px;
+    width: 300px;
+    overflow-y: scroll;
+}
+
+.CSListContainer::-webkit-scrollbar {
+    display: none;
+}
+  
