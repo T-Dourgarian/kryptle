@@ -175,6 +175,7 @@ function GameContainer(props) {
           }
         })
 
+        setSeconds(0);
 
         dispatch(initFromLocalStorage({
           avgTimeSeconds: data.avgTimeSeconds,
