@@ -21,12 +21,6 @@ export class RefreshKryptoService {
         const numbersToUse = kryptoNumbers.slice(0, 5).join(' ');
         const targetNumber = kryptoNumbers[5];
 
-        console.log({
-            numbers: numbersToUse,
-            target: targetNumber,
-        })
-
-
         try {
             await this.prisma.daily_krypto.create({
                 data: {
