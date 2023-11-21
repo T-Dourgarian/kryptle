@@ -1,20 +1,20 @@
-
-
 import React from 'react';
-import './TimeInfo.css'
+import './TimeInfo.css';
+import { Formatter } from '../../util/Formatter';
 
 function TimeInfo(props) {
-  let formattedTime = props.formattedTime;
-  let formattedTimeAvg = props.formattedTimeAvg;
-
+  const averageTimeSeconds = props.averageSeconds;
+  const currentSeconds = props.currentSeconds;
 
   return (
     <>
-    <div> Average Time for Today's Kryptle - {formattedTimeAvg}</div>
+      <div>
+        {' '}
+        Average Time for Today's Kryptle -{' '}
+        {Formatter.getFormattedAverageTime(averageTimeSeconds)}
+      </div>
 
-    <div>{formattedTime}</div>
-
-
+      <div>{Formatter.getFormattedTime(currentSeconds)}</div>
     </>
   );
 }
