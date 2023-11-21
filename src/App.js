@@ -3,8 +3,7 @@ import './App.css';
 import HowToPlay from './HowToPlay/HowToPlay.js';
 
 import GameContainer from './Gameplay/GameContainer';
-import { useDispatch, useSelector } from 'react-redux';
-import { initFromLocalStorage } from './GameSlice';
+import { useSelector } from 'react-redux';
 
 function App() {
   const playedToday = useSelector((state) => state.game.playedToday);
