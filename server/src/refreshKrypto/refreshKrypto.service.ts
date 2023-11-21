@@ -24,8 +24,8 @@ export class RefreshKryptoService {
         try {
             await this.prisma.daily_krypto.create({
                 data: {
-                numbers: numbersToUse,
-                target: targetNumber,
+                    numbers: numbersToUse,
+                    target: targetNumber,
                 },
             });
 
