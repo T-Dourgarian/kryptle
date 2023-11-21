@@ -44,19 +44,6 @@ export const GameSlice = createSlice({
     playButtonClicked: (state, action) => {
       state.playedToday = true;
     },
-    initFromLocalStorage: (state, action) => {
-      state.playedToday = action.payload.playedToday;
-      state.avgTimeSeconds = action.payload.avgTimeSeconds ?? 0;
-      state.kryptoId = action.payload.kryptoId;
-      state.numUsedObj = action.payload.numUsedObj;
-      state.numbersToUse = action.payload.numbersToUse;
-      state.seconds = action.payload.seconds;
-      state.target = action.payload.target;
-      state.validSolutions = action.payload.validSolutions;
-      state.equation = action.payload.equation;
-      state.pageLoaded = true;
-      state.solveStreak = action.payload.solveStreak;
-    },
     equationUpdated: (state, action) => {
       state.equation = action.payload.equation;
     },
@@ -108,7 +95,6 @@ export const GameSlice = createSlice({
 
 export const {
   playButtonClicked,
-  initFromLocalStorage,
   equationUpdated,
   validateSubmissionSuccess,
   validateSubmissionFailure,
