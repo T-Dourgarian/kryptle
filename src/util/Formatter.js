@@ -8,7 +8,7 @@ export class Formatter {
   static getFormattedAverageTime = (seconds) => {
     const minutes = Math.floor(seconds / 60);
     const remainingSeconds = seconds % 60;
-    return seconds ? `${minutes}:${remainingSeconds}` : '0:00';
+    return seconds ? `${minutes}:${remainingSeconds < 10 ? '0' : ''}${remainingSeconds}` : '0:00';
   };
 
   static formatSolution = (equation, target, currentSeconds) => {
