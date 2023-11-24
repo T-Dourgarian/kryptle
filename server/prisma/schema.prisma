@@ -27,7 +27,9 @@ model user {
   created_at DateTime? @default(now()) @db.Timestamp(6)
   updated_at DateTime? @updatedAt
 
-  username String
+  username String  @unique
   hash     String
   hashedRt String?
+
+  @@map("users")
 }
