@@ -10,9 +10,13 @@ function App() {
 
   return (
     <div className="App">
-      {!playedToday && <HowToPlay />}
+        {
+          !playedToday && <HowToPlay />
+        }
 
-      <header className="App-header">{playedToday && <GameContainer />}</header>
+        <header className="App-header">
+           <GameContainer />
+        </header>
     </div>
   );
 }
