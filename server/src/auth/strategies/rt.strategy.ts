@@ -1,23 +1,31 @@
-import { PassportStrategy } from "@nestjs/passport";
+import { PassportStrategy } from '@nestjs/passport';
 import { ExtractJwt, Strategy } from 'passport-jwt';
 import { Request } from 'express';
-import { Injectable } from "@nestjs/common";
+import { ForbiddenException, Injectable } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 
 @Injectable()
 export class RtStrategy extends PassportStrategy(Strategy, 'jwt-refresh') {
-    constructor() {
-        super({
-            jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
-            secretOrKey: 'rt-secret',
-            passReqToCalllback: true
-        })
-    }
+  constructor(config: ConfigService) {
+    super({
+      jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
+      secretOrKey: config.get<string>('RT_SECRET'),
+      passReqToCallback: true,
+    });
+  }
 
-    validate(req: Request, payload: any) {
-        const resfreshToken = req.get('authorization').replace('Bearer','').trim()
-        return {
-            ...payload,
-            resfreshToken
-        };
-    }
+  validate(req: Request, payload: any): any {
+    console.log(req, payload)
+    const refreshToken = req
+      ?.get('authorization')
+      ?.replace('Bearer', '')
+      .trim();
+
+    if (!refreshToken) throw new ForbiddenException('Refresh token malformed');
+
+    return {
+      ...payload,
+      refreshToken,
+    };
+  }
 }
