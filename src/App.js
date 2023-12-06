@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import './App.css';
-import HowToPlay from './HowToPlay/HowToPlay.js';
+import HowToPlay from './Menu/HowToPlay/HowToPlay.js';
 
 import GameContainer from './Gameplay/GameContainer';
 import { useSelector } from 'react-redux';

@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { FALLBACK_EQUATION } from './util/constants/fallbackEquation';
-import { Formatter } from './util/Formatter';
+import { FALLBACK_EQUATION } from '../util/constants/fallbackEquation';
+import { Formatter } from '../util/Formatter';
 
 const defaultState = {
   playedToday: false,

@@ -1,7 +1,7 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
 import './HowToPlay.css';
-import { playButtonClicked } from '../GameSlice';
+import { playButtonClicked } from '../../redux/GameSlice';
 
 function HowToPlay() {
   const dispatch = useDispatch();

@@ -1,5 +1,5 @@
 import { configureStore, applyMiddleware } from '@reduxjs/toolkit';
-import GameReducer from './GameSlice';
+import GameReducer from './redux/GameSlice';
 import localStorageMiddleware from './LocalStorageMiddleware';
 
 const store = configureStore({

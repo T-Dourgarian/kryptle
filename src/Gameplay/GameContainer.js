@@ -20,7 +20,7 @@ import {
   getDailyKryptoSuccess,
   getDailyKryptoFailure,
   confettiTurnedOff,
-} from '../GameSlice';
+} from '../redux/GameSlice';
 import { Formatter } from '../util/Formatter';
 
 function GameContainer(props) {
