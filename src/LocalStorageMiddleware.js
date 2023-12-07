@@ -1,8 +1,10 @@
 const localStorageMiddleware = (store) => (next) => (action) => {
   const result = next(action);
-  const nextState = store.getState()?.game;
+  const nextGameState = store.getState()?.game;
+  const nextUserState = store.getState()?.user;
 
-  localStorage.setItem('kryptle_data', JSON.stringify(nextState));
+  localStorage.setItem('kryptle_data', JSON.stringify(nextGameState));
+  localStorage.setItem('user_data', JSON.stringify(nextUserState))
 
   return result;
 };

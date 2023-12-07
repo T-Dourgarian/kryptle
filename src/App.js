@@ -8,14 +8,19 @@ import { useSelector } from 'react-redux';
 
 function App() {
   const playedToday = useSelector((state) => state.game.playedToday);
+  const userId = useSelector((state) => state.user.userId)
 
   return (
     <div className="App">
-        <MenuContainer />
 
-        {/* <header className="App-header">
-           <GameContainer />
-        </header> */}
+      <header className="App-header">
+        {
+          userId ? 
+          <GameContainer />:
+          <MenuContainer />
+        }
+      </header>
+
     </div>
   );
 }

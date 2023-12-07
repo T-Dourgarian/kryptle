@@ -103,7 +103,7 @@ export class AuthService {
                 username,
             }, {
                 secret: this.config.get<string>('AT_SECRET'),
-                expiresIn:  60 * 15
+                expiresIn:  10
             }),
             this.jwtService.signAsync({
                 id: userId,

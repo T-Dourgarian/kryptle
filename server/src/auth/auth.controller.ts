@@ -28,18 +28,17 @@ export class AuthController {
         const data = await this.authService.signinLocal(dto);
 
         res.cookie('access_token', data.access_token, {
-            expires: new Date(new Date().getTime() + 60 * 15),
             sameSite: 'strict',
             httpOnly: true,
-        })
-
+        });
+        
         res.cookie('refresh_token', data.refresh_token, {
-            expires: new Date(new Date().getTime() + 60 * 60 * 24 * 7),
             sameSite: 'strict',
             httpOnly: true,
-        })
+        });
 
         return res.json(this.jwtService.decode(data.access_token))
+
     }
 
     @Post('/logout')
@@ -52,10 +51,23 @@ export class AuthController {
     @UseGuards(RtGuard)
     @Post('/refresh')
     @HttpCode(HttpStatus.OK)
-    refreshTokens(
+    async refreshTokens(
         @GetCurrentUser('refreshToken')  refreshToken: string, 
-        @GetCurrentUserId() userId: number
+        @GetCurrentUserId() userId: number,
+        @Response() res
     ) {
-        return this.authService.refreshTokens(userId, refreshToken)
+        const data = await this.authService.refreshTokens(userId, refreshToken)
+
+        res.cookie('access_token', data.access_token, {
+            sameSite: 'strict',
+            httpOnly: true,
+        })
+
+        res.cookie('refresh_token', data.refresh_token, {
+            sameSite: 'strict',
+            httpOnly: true,
+        })
+
+        return res.sendStatus(200)
     }
 }

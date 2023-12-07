@@ -4,10 +4,8 @@ import './Login.css';
 import { login } from '../../util/ApiUtil';
 import { updateMenuSelection } from '../../redux/MenuSlice';
 import { updateUserData } from '../../redux/UserSlice';
-import useRefreshToken from '../../util/hooks/useRefreshToken';
 
 function Login() {
-  const refresh = useRefreshToken();
   const dispatch = useDispatch();
 
   const [ username, setUsername] = useState('');
@@ -25,14 +23,13 @@ function Login() {
   }
 
   const handleLogin = async () => {
-      const data = await login(username, password);
+    const data = await login(username, password);
 
-      if (data.id) {
-        dispatch(updateUserData({username: data.username, userId: data.id}))
-      } else if (data.statusCode === 403 ) {
-        setErrorMessage('Invalid username or password')
-      }
-
+    if (data.id) {
+      dispatch(updateUserData({username: data.username, userId: data.id}))
+    } else if (data.statusCode === 403 ) {
+      setErrorMessage('Invalid username or password')
+    }
   }
 
   const handleMenuClick = () => {
@@ -72,9 +69,6 @@ function Login() {
           </button>
 
 
-          <button onClick={() => refresh()}>
-            refresh
-          </button>
 
 
           <div>

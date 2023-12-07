@@ -1,4 +1,4 @@
-import { Body, Controller, Post, Get } from "@nestjs/common";
+import { Body, Controller, Post, Get, UseGuards } from "@nestjs/common";
 import { KryptoService } from "./krypto.service";
 import { Public } from 'src/common/decorators';
 // import { AuthDto } from "./dto";
@@ -7,7 +7,6 @@ import { Public } from 'src/common/decorators';
 export class KryptoController {
     constructor(private kryptoService: KryptoService ) {}
 
-    @Public()
     @Get()
     signup(@Body() dto) {
         return this.kryptoService.getDailyKypto(dto);
