@@ -4,10 +4,11 @@ import { AuthDto } from './dto';
 import { Tokens } from './types/tokens.type';
 import { RtGuard } from 'src/common/guards';
 import { GetCurrentUser, GetCurrentUserId, Public } from 'src/common/decorators';
+import { JwtService } from '@nestjs/jwt';
 
 @Controller('auth')
 export class AuthController {
-    constructor(private authService: AuthService) {}
+    constructor(private authService: AuthService, private jwtService: JwtService) {}
 
     @Public()
     @Post('/local/signup')
@@ -37,7 +38,8 @@ export class AuthController {
             sameSite: 'strict',
             httpOnly: true,
         })
-        return res.sendStatus(200)
+
+        return res.json(this.jwtService.decode(data.access_token))
     }
 
     @Post('/logout')

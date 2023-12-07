@@ -38,9 +38,9 @@ const login = async (username, password) => {
       withCredentials: true
     })
 
-
+    return response.data
   } catch(error) {
-    console.log(error)
+    return error.response.data;
   }
 }
 
