@@ -1,5 +1,8 @@
 import axios from "axios";
-import refreshTokens from "./refreshTokens";
+import store from "../store";
+import { updateUserData } from "../redux/UserSlice";
+
+const { dispatch } = store;
 
 const axiosInstance = axios.create({
     baseURL: process.env.REACT_APP_API_URL,
@@ -8,12 +11,21 @@ const axiosInstance = axios.create({
     withCredentials:true
 })
 
-
 axiosInstance.interceptors.response.use(async res => {
     return res
 }, async (error) => {
     if (error.response.data.statusCode === 401) {
-        await refreshTokens();
+        
+        try {
+            await axios.post('/auth/refresh');
+        } catch(error) {
+            return dispatch(updateUserData({
+                username: '',
+                userId: ''
+            }))
+        }
+
+
         return axiosInstance.request(error.config)
     }
 });

@@ -1,7 +1,5 @@
 import React, { useState } from 'react';
 import './MenuOptions.css';
-import Login from '../Login/Login';
-import HowToPlay from '../HowToPlay/HowToPlay';
 import {
 	updateMenuSelection
   } from '../../redux/MenuSlice';

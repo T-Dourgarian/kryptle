@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import './App.css';
-import HowToPlay from './Menu/HowToPlay/HowToPlay.js';
+
 
 import GameContainer from './Gameplay/GameContainer';
 import MenuContainer from './Menu/MenuContainer/MenuContainer.js';

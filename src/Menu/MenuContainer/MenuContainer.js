@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import './MenuContainer.css';
 import Login from '../Login/Login';
 import HowToPlay from '../HowToPlay/HowToPlay';
-import MenuOptions from '../MenuOptions/MenuOptions';
+import MenuOptions from '../../Menu/MenuOptions/MenuOptions';
 import {
 	updateMenuSelection
   } from '../../redux/MenuSlice';

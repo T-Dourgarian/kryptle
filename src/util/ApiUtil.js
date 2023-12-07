@@ -44,4 +44,16 @@ const login = async (username, password) => {
   }
 }
 
-export { postSolution, getDailyKrypto, login };
+const logout = async (username, password) => {
+  try {
+    const response = await axios.post(`/auth/logout`);
+
+    console.log(response);
+
+    return response.data
+  } catch(error) {
+    return error.response.data;
+  }
+}
+
+export { postSolution, getDailyKrypto, login, logout };
