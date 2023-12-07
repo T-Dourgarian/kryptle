@@ -1,24 +1,29 @@
 import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
-import './MenuContainer.css';
+import './MenuOptions.css';
 import Login from '../Login/Login';
 import HowToPlay from '../HowToPlay/HowToPlay';
+import {
+	updateMenuSelection
+  } from '../../redux/MenuSlice';
+import { useDispatch, useSelector } from 'react-redux';
 
 function MenuOptions() {
 	const dispatch = useDispatch();
-	const [showHowToPlay, setShowHowToPlay] = useState(false);
-	const [showLogin, setShowLogin] = useState(false);
+
+	const handlePageSelect = (page) => {
+		dispatch(updateMenuSelection({ page }));
+	} 
 
 
   return (
     <div >
 
 		<button 
-			onClick={() => setShowLogin(true)}
+			onClick={() => handlePageSelect('Login')}
 		>Login</button>
 
 		<button
-			onClick={() => setShowHowTiPlay(true)}
+			onClick={() => handlePageSelect('HowToPlay')}
 		>How To Play</button>
 
     </div>

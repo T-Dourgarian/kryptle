@@ -3,6 +3,7 @@ import './App.css';
 import HowToPlay from './Menu/HowToPlay/HowToPlay.js';
 
 import GameContainer from './Gameplay/GameContainer';
+import MenuContainer from './Menu/MenuContainer/MenuContainer.js';
 import { useSelector } from 'react-redux';
 
 function App() {
@@ -10,13 +11,11 @@ function App() {
 
   return (
     <div className="App">
-        {
-          !playedToday && <HowToPlay />
-        }
+        <MenuContainer />
 
-        <header className="App-header">
+        {/* <header className="App-header">
            <GameContainer />
-        </header>
+        </header> */}
     </div>
   );
 }

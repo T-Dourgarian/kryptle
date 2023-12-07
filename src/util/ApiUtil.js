@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axios from './axios';
 
 const postSolution = async (kryptoId, equation, seconds) => {
   try {
@@ -27,4 +27,21 @@ const getDailyKrypto = async () => {
   }
 };
 
-export { postSolution, getDailyKrypto };
+const login = async (username, password) => {
+  try {
+    const response = await axios.post(`/auth/local/signin`,
+    {
+      username,
+      password
+    }, {
+      headers: { 'Content-Type': 'application/json' },
+      withCredentials: true
+    })
+
+
+  } catch(error) {
+    console.log(error)
+  }
+}
+
+export { postSolution, getDailyKrypto, login };

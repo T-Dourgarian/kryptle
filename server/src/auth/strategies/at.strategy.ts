@@ -8,11 +8,19 @@ type JwtPayload = {
     username: string
 }
 
+var cookieExtractor = function(req) {
+    var token = null;
+    if (req && req.cookies) {
+        token = req.cookies['access_token'];
+    }
+    return token;
+  };
+
 @Injectable()
 export class AtStrategy extends PassportStrategy(Strategy, 'jwt') {
     constructor(config: ConfigService) {
         super({
-            jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
+            jwtFromRequest: cookieExtractor,
             secretOrKey: config.get<string>('AT_SECRET')
         })
     }

@@ -1,23 +1,20 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-const defaultState = {
-  menuSelection: 'MenuOptions'
-};
 
-
-
-export const MenuSelection = createSlice({
-  name: 'MenuSelection',
-  defaultState,
+export const MenuSlice = createSlice({
+  name: 'Menu',
+  initialState: {
+    page: 'MenuOptions'
+  },
   reducers: {
     updateMenuSelection: (state, action) => {
-        state.menuSelection = action.payload.menuSelection;
+        state.page = action.payload.page;
     },
   },
 });
 
 export const {
     updateMenuSelection,
-} = MenuSelection.actions;
+} = MenuSlice.actions;
 
-export default MenuSelection.reducer;
+export default MenuSlice.reducer;

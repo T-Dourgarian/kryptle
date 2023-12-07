@@ -2,6 +2,7 @@ import React from 'react';
 import { useDispatch } from 'react-redux';
 import './HowToPlay.css';
 import { playButtonClicked } from '../../redux/GameSlice';
+import { updateMenuSelection } from '../../redux/MenuSlice';
 
 function HowToPlay() {
   const dispatch = useDispatch();
@@ -9,11 +10,18 @@ function HowToPlay() {
     dispatch(playButtonClicked());
   };
 
+  const handleMenuClick = () => {
+    dispatch(updateMenuSelection({ page: 'MenuOptions'}))
+  }
+
   return (
     <div className="Container">
-      <h1 className="Header">Kryptle</h1>
 
-      <button className="HowToPlayButton">How To Play</button>
+      <button className="HowToPlayButton"
+        onClick={handleMenuClick}
+      >Menu</button>
+
+      <h1 className="Header">Kryptle</h1>
 
       <p className="HowToPlayP">
         Kryptle is a daily math puzzle in which you are given five numbers

@@ -1,9 +1,12 @@
 import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import './MenuContainer.css';
 import Login from '../Login/Login';
 import HowToPlay from '../HowToPlay/HowToPlay';
 import MenuOptions from '../MenuOptions/MenuOptions';
+import {
+	updateMenuSelection
+  } from '../../redux/MenuSlice';
 
 function MenuContainer() {
 	const dispatch = useDispatch();
@@ -11,23 +14,35 @@ function MenuContainer() {
 	const [showHowToPlay, setShowHowToPlay] = useState(false);
 	const [showLogin, setShowLogin] = useState(false);
 
+    const pageSelection = useSelector((state) => state.menu.page);
+
 
   return (
     <div >
-        <MenuOptions 
-            showMenuOptions={showMenuOptions} 
-            setShowMenuOptions={setShowMenuOptions}
-        />
+        {
+            pageSelection === 'MenuOptions' &&
+            <MenuOptions 
+                showMenuOptions={showMenuOptions} 
+                setShowMenuOptions={setShowMenuOptions}
+            />
+        }
 
-        <HowToPlay 
-            showHowToPlay={showHowToPlay} 
-            setShowHowToPlay={setShowHowToPlay}
-        />
+        {
+            pageSelection === 'HowToPlay' && 
+            <HowToPlay 
+                showHowToPlay={showHowToPlay} 
+                setShowHowToPlay={setShowHowToPlay}
+            />
+        }
         
-        <Login 
-            showLogin={showLogin} 
-            setShowLogin={setShowLogin}
-        />
+        {
+            pageSelection === 'Login' &&
+            <Login 
+                showLogin={showLogin} 
+                setShowLogin={setShowLogin}
+            />
+        }
+
     </div>
   );
 }
