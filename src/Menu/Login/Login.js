@@ -26,9 +26,7 @@ function Login() {
 
   const handleLogin = async () => {
     const data = await login(username, password);
-
-    console.log(data);
-
+    
     if (data.id) {
       dispatch(updateUserData({username: data.username, userId: data.id}))
 
