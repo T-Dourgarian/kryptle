@@ -4,6 +4,8 @@ import './Login.css';
 import { login } from '../../util/ApiUtil';
 import { updateMenuSelection } from '../../redux/MenuSlice';
 import { updateUserData } from '../../redux/UserSlice';
+import { updateGameDataFromLogin } from '../../redux/GameSlice';
+import { Formatter } from '../../util/Formatter';
 
 function Login() {
   const dispatch = useDispatch();
@@ -25,8 +27,17 @@ function Login() {
   const handleLogin = async () => {
     const data = await login(username, password);
 
+    console.log(data);
+
     if (data.id) {
       dispatch(updateUserData({username: data.username, userId: data.id}))
+
+      dispatch(updateGameDataFromLogin({ 
+        solveStreak: data.solveStreak,
+        validSolutions: data.solutions,
+        currentSeconds: data.currentSeconds
+      }))
+
     } else if (data.statusCode === 403 ) {
       setErrorMessage('Invalid username or password')
     }

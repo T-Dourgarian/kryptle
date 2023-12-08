@@ -70,13 +70,15 @@ export class AuthService {
             },
             include: {
                 solutions: {
+                    select: {
+                        solution_formatted: true
+                    },
                     where: {
                         daily_krypto_id: DK.id
                     }
                 }
             }
         })
-
 
         if (!user) throw new ForbiddenException('Access Denied');
 
@@ -88,10 +90,12 @@ export class AuthService {
         const tokens = await this.getTokens(user.id, user.username);
         await this.updateRtHash(user.id, tokens.refresh_token);
 
+        const formattedSolutions = user.solutions.map((s) => s.solution_formatted);
+
         const userData = {
-            dailyStreak: user.daily_streak,
+            solveStreak: user.daily_streak,
             currentSeconds: user.solve_timer_seconds,
-            solutions: user.solutions
+            solutions: formattedSolutions
         }
 
         return { tokens, userData };

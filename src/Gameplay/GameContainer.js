@@ -104,6 +104,13 @@ function GameContainer(props) {
   }, [equation]);
 
   const validateSubmission = async () => {
+
+    const formattedSolution = Formatter.formatSolution(
+      equation,
+      target,
+      currentSeconds
+    )
+
     try {
       await validateEquation(
         equation,
@@ -113,13 +120,10 @@ function GameContainer(props) {
         solution,
         validSolutions
       );
+      
       dispatch(
         validateSubmissionSuccess({
-          submittedSolution: Formatter.formatSolution(
-            equation,
-            target,
-            currentSeconds
-          ),
+          submittedSolution: formattedSolution
         })
       );
       startConfettiTimer();
@@ -132,7 +136,8 @@ function GameContainer(props) {
         userId,
         kryptoId,
         equation,
-        currentSeconds
+        currentSeconds,
+        formattedSolution,
       );
       dispatch(postSolutionSuccess(postReturnData));
     } catch (error) {

@@ -20,7 +20,8 @@ export class SolutionService {
                 userId,
                 kryptoId,
                 solution,
-                solutionSeconds
+                solutionSeconds,
+                formattedSolution
             } = dto;
 
             
@@ -103,6 +104,7 @@ export class SolutionService {
                     daily_krypto_id: kryptoId,
                     solution: solution,
                     solution_seconds: solutionSeconds,
+                    solution_formatted: formattedSolution
                 },
             });
 

@@ -15,5 +15,9 @@ export class SolutionDto {
 
     @IsInt()
     @IsNotEmpty()
-    solutionSeconds
+    solutionSeconds: number
+
+    @IsString()
+    @IsNotEmpty()
+    formattedSolution: string
 }
