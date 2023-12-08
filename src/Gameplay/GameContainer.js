@@ -52,15 +52,14 @@ function GameContainer(props) {
   // Init Game
   useEffect(() => {
     setKrypto();
-    startIncrementSeconds();
-  }, []);
-
-  const startIncrementSeconds = () => {
+   
     const interval = setInterval(() => {
       dispatch(currentSecondsIncremented());
     }, 1000);
     return () => clearInterval(interval);
-  };
+
+  }, []);
+
 
   const setKrypto = async () => {
     try {

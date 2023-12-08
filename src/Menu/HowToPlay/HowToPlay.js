@@ -6,9 +6,6 @@ import { updateMenuSelection } from '../../redux/MenuSlice';
 
 function HowToPlay() {
   const dispatch = useDispatch();
-  const onPlayClicked = () => {
-    dispatch(playButtonClicked());
-  };
 
   const handleMenuClick = () => {
     dispatch(updateMenuSelection({ page: 'MenuOptions'}))
@@ -45,11 +42,6 @@ function HowToPlay() {
         Square Root: root(16) = 4 | Exponent: 4^2 = 16
       </p>
 
-      <div className="PlayButtonContainer">
-        <button onClick={onPlayClicked} className="PlayButton">
-          PLAY
-        </button>
-      </div>
     </div>
   );
 }

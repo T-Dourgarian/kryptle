@@ -5,9 +5,6 @@ import Login from '../Login/Login';
 import HowToPlay from '../HowToPlay/HowToPlay';
 import MenuOptions from '../../Menu/MenuOptions/MenuOptions';
 import SignUp from '../SignUp/SignUp';
-import {
-	updateMenuSelection
-  } from '../../redux/MenuSlice';
 
 function MenuContainer() {
 	const dispatch = useDispatch();

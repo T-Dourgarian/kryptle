@@ -37,7 +37,6 @@ function SignUp() {
       dispatch(updateUserData({username: data.username, userId: data.id}))
     } else if (data.statusCode === 403 ) {
       setErrorMessage(data.message)
-      console.log(data)
     }
   }
 
