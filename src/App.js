@@ -1,22 +1,26 @@
 import React, { useEffect } from 'react';
 import './App.css';
-import HowToPlay from './HowToPlay/HowToPlay.js';
+
 
 import GameContainer from './Gameplay/GameContainer';
+import MenuContainer from './Menu/MenuContainer/MenuContainer.js';
 import { useSelector } from 'react-redux';
 
 function App() {
-  const playedToday = useSelector((state) => state.game.playedToday);
+
+  const userId = useSelector((state) => state.user.userId)
 
   return (
     <div className="App">
-        {
-          !playedToday && <HowToPlay />
-        }
 
-        <header className="App-header">
-           <GameContainer />
-        </header>
+      <header className="App-header">
+        {
+          userId ? 
+          <GameContainer />:
+          <MenuContainer />
+        }
+      </header>
+
     </div>
   );
 }

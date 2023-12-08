@@ -1,9 +1,8 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { FALLBACK_EQUATION } from './util/constants/fallbackEquation';
-import { Formatter } from './util/Formatter';
+import { FALLBACK_EQUATION } from '../util/constants/fallbackEquation';
+import { Formatter } from '../util/Formatter';
 
 const defaultState = {
-  playedToday: false,
   avgTimeSeconds: 0,
   kryptoId: null,
   numUsedObj: {},
@@ -15,6 +14,7 @@ const defaultState = {
   errorMessage: '',
   solveStreak: 0,
   currentSeconds: 0,
+  solution: '',
   isConfettiOn: false,
 };
 
@@ -32,14 +32,17 @@ export const GameSlice = createSlice({
   name: 'Game',
   initialState,
   reducers: {
+    resetGameData: () => defaultState,
+    updateGameDataFromLogin: ( state, action ) => {
+      state.solveStreak = action.payload.solveStreak;
+      state.validSolutions = action.payload.validSolutions;
+      state.currentSeconds = action.payload.currentSeconds;
+    },
     solutionUpdated: (state, action) => {
       state.solution = action.payload.solution;
     },
     numUsedObjUpdated: (state, action) => {
       state.numUsedObj = action.payload.numUsedObj;
-    },
-    playButtonClicked: (state, action) => {
-      state.playedToday = true;
     },
     equationUpdated: (state, action) => {
       state.equation = action.payload.equation;
@@ -71,14 +74,6 @@ export const GameSlice = createSlice({
       state.currentSeconds += 1;
     },
     getDailyKryptoSuccess: (state, action) => {
-      if (state.kryptoId !== action.payload.id) {
-        state.currentSeconds = 0;
-        state.playedToday = false;
-        if (state.validSolutions.length === 0) {
-          state.solveStreak = 0;
-        }
-        state.validSolutions = [];
-      }
       state.avgTimeSeconds = action.payload.avgTimeSeconds ?? 0;
       state.kryptoId = action.payload.id;
       state.numbersToUse = action.payload.numbersToUse;
@@ -99,6 +94,8 @@ export const GameSlice = createSlice({
 });
 
 export const {
+  resetGameData,
+  updateGameDataFromLogin,
   playButtonClicked,
   equationUpdated,
   validateSubmissionSuccess,

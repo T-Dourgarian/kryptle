@@ -3,6 +3,7 @@ import ChallengeDisplay from './ChallengeDisplay/ChallengeDisplay';
 import SolutionInput from './SolutionInput/SolutionInput';
 import TimeInfo from './TimeInfo/TimeInfo';
 import CompletedSolutions from './CompletedSolutions/CompletedSolutions';
+import LogoutButton from './LogoutButton/LogoutButton';
 import Confetti from 'react-confetti';
 import React, { useEffect } from 'react';
 import Mexp from 'math-expression-evaluator';
@@ -20,7 +21,7 @@ import {
   getDailyKryptoSuccess,
   getDailyKryptoFailure,
   confettiTurnedOff,
-} from '../GameSlice';
+} from '../redux/GameSlice';
 import { Formatter } from '../util/Formatter';
 
 function GameContainer(props) {
@@ -51,15 +52,14 @@ function GameContainer(props) {
   // Init Game
   useEffect(() => {
     setKrypto();
-    startIncrementSeconds();
-  }, []);
-
-  const startIncrementSeconds = () => {
+   
     const interval = setInterval(() => {
       dispatch(currentSecondsIncremented());
     }, 1000);
     return () => clearInterval(interval);
-  };
+
+  }, []);
+
 
   const setKrypto = async () => {
     try {
@@ -103,6 +103,13 @@ function GameContainer(props) {
   }, [equation]);
 
   const validateSubmission = async () => {
+
+    const formattedSolution = Formatter.formatSolution(
+      equation,
+      target,
+      currentSeconds
+    )
+
     try {
       await validateEquation(
         equation,
@@ -112,13 +119,10 @@ function GameContainer(props) {
         solution,
         validSolutions
       );
+      
       dispatch(
         validateSubmissionSuccess({
-          submittedSolution: Formatter.formatSolution(
-            equation,
-            target,
-            currentSeconds
-          ),
+          submittedSolution: formattedSolution
         })
       );
       startConfettiTimer();
@@ -130,12 +134,14 @@ function GameContainer(props) {
       const postReturnData = await postSolution(
         kryptoId,
         equation,
-        currentSeconds
+        currentSeconds,
+        formattedSolution,
       );
       dispatch(postSolutionSuccess(postReturnData));
     } catch (error) {
       console.log(error);
     }
+    
 
     return true;
   };
@@ -177,8 +183,11 @@ function GameContainer(props) {
 
       <CompletedSolutions validSolutions={validSolutions} />
       {isConfettiOn && <Confetti />}
-
+      
       <div>Daily Streak: {solveStreak}</div>
+
+      <LogoutButton />
+      
     </>
   );
 }
