@@ -17,7 +17,8 @@ export class SolutionService {
             const numbersRE = /\b\d+\b/g;
 
             const {
-                id,
+                userId,
+                kryptoId,
                 solution,
                 solutionSeconds
             } = dto;
@@ -25,7 +26,7 @@ export class SolutionService {
             
             const result = await this.prisma.daily_krypto.findFirst({
                 where: {
-                    id 
+                    id: kryptoId 
                 },
                 select: {
                     numbers: true,
@@ -76,7 +77,8 @@ export class SolutionService {
             
             await this.prisma.solutions.create({
                 data: {
-                    daily_krypto_id: id,
+                    userId: userId,
+                    daily_krypto_id: kryptoId,
                     solution: solution,
                     solution_seconds: solutionSeconds,
                 },
@@ -84,7 +86,7 @@ export class SolutionService {
 
             const avgSolutionSecondsAggr = await this.prisma.solutions.aggregate({
                 where: {
-                    daily_krypto_id: id,
+                    daily_krypto_id: kryptoId,
                 },
                 _avg: {
                     solution_seconds: true,

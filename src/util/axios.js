@@ -17,13 +17,15 @@ axiosInstance.interceptors.response.use(async res => {
 
     if (error.response.data.statusCode === 401) {
         try {
+            console.log('here')
             await axios.post('/auth/refresh');
             return axiosInstance.request(error.config)
         } catch(error) {
-            return dispatch(updateUserData({
+            dispatch(updateUserData({
                 username: '',
                 userId: ''
             }))
+            return Promise.reject(error);
         }
     }
 

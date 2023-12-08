@@ -46,6 +46,7 @@ function GameContainer(props) {
   const solveStreak = useSelector((state) => state.game.solveStreak);
   const currentSeconds = useSelector((state) => state.game.currentSeconds);
   const isConfettiOn = useSelector((state) => state.game.isConfettiOn);
+  const userId = useSelector((state) => state.user.userId);
 
   const numbersRE = /\b\d+\b/g;
 
@@ -126,15 +127,18 @@ function GameContainer(props) {
       return dispatch(validateSubmissionFailure({ error: error.message }));
     }
 
-    try {
-      const postReturnData = await postSolution(
-        kryptoId,
-        equation,
-        currentSeconds
-      );
-      dispatch(postSolutionSuccess(postReturnData));
-    } catch (error) {
-      console.log(error);
+    if (userId) {
+      try {
+        const postReturnData = await postSolution(
+          userId,
+          kryptoId,
+          equation,
+          currentSeconds
+        );
+        dispatch(postSolutionSuccess(postReturnData));
+      } catch (error) {
+        console.log(error);
+      }
     }
 
     return true;

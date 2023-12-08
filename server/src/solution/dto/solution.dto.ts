@@ -1,9 +1,13 @@
 import { IsNotEmpty, IsEmail, IsString, IsInt,  } from "class-validator"
 
-export class AuthDto {  
+export class SolutionDto {  
     @IsInt()
     @IsNotEmpty()
-    id: number
+    userId: number
+    
+    @IsInt()
+    @IsNotEmpty()
+    kryptoId: number
 
     @IsString()
     @IsNotEmpty()

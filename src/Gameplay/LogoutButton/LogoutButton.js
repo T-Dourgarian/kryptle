@@ -2,6 +2,7 @@ import React from 'react';
 import './LogoutButton.css';
 import { useDispatch } from 'react-redux';
 import { updateUserData } from '../../redux/UserSlice';
+import { resetGameData } from '../../redux/GameSlice';
 import { logout } from '../../util/ApiUtil';
 
 function LogoutButton(props) {
@@ -10,11 +11,12 @@ function LogoutButton(props) {
     const handleLogOut = async () => {
         const response = await logout();
         
-        console.log(response);
         dispatch(updateUserData({
             username: '',
             userId: ''
         }))
+
+        dispatch(resetGameData());
     }
 
   return (

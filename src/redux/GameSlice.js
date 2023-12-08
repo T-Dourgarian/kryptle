@@ -14,6 +14,7 @@ const defaultState = {
   errorMessage: '',
   solveStreak: 0,
   currentSeconds: 0,
+  solution: '',
   isConfettiOn: false,
 };
 
@@ -31,6 +32,7 @@ export const GameSlice = createSlice({
   name: 'Game',
   initialState,
   reducers: {
+    resetGameData: () => defaultState,
     solutionUpdated: (state, action) => {
       state.solution = action.payload.solution;
     },
@@ -94,6 +96,7 @@ export const GameSlice = createSlice({
 });
 
 export const {
+  resetGameData,
   playButtonClicked,
   equationUpdated,
   validateSubmissionSuccess,
