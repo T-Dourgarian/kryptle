@@ -1,11 +1,10 @@
 import axios from './axios';
 
-const postSolution = async (userId, kryptoId, equation, seconds, formattedSolution) => {
+const postSolution = async (kryptoId, equation, seconds, formattedSolution) => {
   try {
     const { data } = await axios.post(
       `${process.env.REACT_APP_API_URL}/solution`,
       {
-        userId,
         kryptoId,
         solution: equation,
         solutionSeconds: seconds,

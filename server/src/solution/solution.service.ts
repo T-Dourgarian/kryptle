@@ -11,13 +11,12 @@ const mexp = new Mexp();
 export class SolutionService {
     constructor(private prisma:PrismaService) {}
 
-    async postSolution(dto) {
+    async postSolution(dto, userId) {
        
         try {
             const numbersRE = /\b\d+\b/g;
 
             const {
-                userId,
                 kryptoId,
                 solution,
                 solutionSeconds,

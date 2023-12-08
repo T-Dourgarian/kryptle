@@ -3,10 +3,6 @@ import { IsNotEmpty, IsEmail, IsString, IsInt,  } from "class-validator"
 export class SolutionDto {  
     @IsInt()
     @IsNotEmpty()
-    userId: number
-    
-    @IsInt()
-    @IsNotEmpty()
     kryptoId: number
 
     @IsString()
