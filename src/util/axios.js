@@ -14,20 +14,20 @@ const axiosInstance = axios.create({
 axiosInstance.interceptors.response.use(async res => {
     return res
 }, async (error) => {
+
     if (error.response.data.statusCode === 401) {
-        
         try {
             await axios.post('/auth/refresh');
+            return axiosInstance.request(error.config)
         } catch(error) {
             return dispatch(updateUserData({
                 username: '',
                 userId: ''
             }))
         }
-
-
-        return axiosInstance.request(error.config)
     }
+
+    return Promise.reject(error);
 });
 
 export default axiosInstance

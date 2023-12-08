@@ -21,6 +21,10 @@ function MenuOptions() {
 		>Login</button>
 
 		<button
+			onClick={() => handlePageSelect('SignUp')}
+		>Sign Up</button>
+
+		<button
 			onClick={() => handlePageSelect('HowToPlay')}
 		>How To Play</button>
 

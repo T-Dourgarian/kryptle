@@ -44,11 +44,11 @@ const login = async (username, password) => {
   }
 }
 
-const logout = async (username, password) => {
+const logout = async () => {
   try {
     const response = await axios.post(`/auth/logout`);
 
-    console.log(response);
+    console.log(response.data)
 
     return response.data
   } catch(error) {
@@ -56,4 +56,21 @@ const logout = async (username, password) => {
   }
 }
 
-export { postSolution, getDailyKrypto, login, logout };
+
+const signUp = async (email, username, password) => {
+  try {
+
+    const response = await axios.post(`/auth/local/signup`,{
+      email,
+      username,
+      password
+    })
+
+    return response.data
+
+  } catch(error) {
+    return error.response.data;
+  }
+}
+
+export { postSolution, getDailyKrypto, login, logout, signUp };

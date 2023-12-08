@@ -28,6 +28,7 @@ model user {
   updated_at DateTime? @updatedAt
 
   username String  @unique
+  email    String  @unique
   hash     String
   hashedRt String?
 

@@ -1,6 +1,6 @@
 import { ForbiddenException, Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
-import { AuthDto } from './dto';
+import { AuthDto, SignInDto } from './dto';
 import * as bcrypt from 'bcrypt';
 import { Tokens } from './types/tokens.type';
 import { JwtService } from '@nestjs/jwt';
@@ -13,14 +13,29 @@ export class AuthService {
         private config: ConfigService,
         ) {}
 
-    async signupLocal(dto: AuthDto): Promise<Tokens> {
+    async signupLocal(dto: AuthDto) {
 
-        const hash = await this.hashData(dto.password)
+        const user = await this.prisma.user.findFirst({
+            where: {
+                OR: [
+                    { username: dto.username },
+                    { email: dto.email }
+                ]
+            }
+        })
+
+
+        if (user?.username === dto.username) throw new ForbiddenException('Username already taken');
+        if (user?.email === dto.email) throw new ForbiddenException('Email already taken');
+
+
+        const hash = await this.hashData(dto.password);
 
         const newUser = await this.prisma.user.create({
             data: {
                 username: dto.username,
-                hash
+                email: dto.email,
+                hash,
             }
         })
 
@@ -41,7 +56,7 @@ export class AuthService {
         })
     }   
 
-    async signinLocal(dto: AuthDto): Promise<Tokens> {
+    async signinLocal(dto: SignInDto): Promise<Tokens> {
         const user = await this.prisma.user.findUnique({
             where: {
                 username: dto.username

@@ -4,15 +4,13 @@ import './MenuContainer.css';
 import Login from '../Login/Login';
 import HowToPlay from '../HowToPlay/HowToPlay';
 import MenuOptions from '../../Menu/MenuOptions/MenuOptions';
+import SignUp from '../SignUp/SignUp';
 import {
 	updateMenuSelection
   } from '../../redux/MenuSlice';
 
 function MenuContainer() {
 	const dispatch = useDispatch();
-    const [showMenuOptions, setShowMenuOptions] = useState(true);
-	const [showHowToPlay, setShowHowToPlay] = useState(false);
-	const [showLogin, setShowLogin] = useState(false);
 
     const pageSelection = useSelector((state) => state.menu.page);
 
@@ -21,26 +19,22 @@ function MenuContainer() {
     <div >
         {
             pageSelection === 'MenuOptions' &&
-            <MenuOptions 
-                showMenuOptions={showMenuOptions} 
-                setShowMenuOptions={setShowMenuOptions}
-            />
+            <MenuOptions />
         }
 
         {
             pageSelection === 'HowToPlay' && 
-            <HowToPlay 
-                showHowToPlay={showHowToPlay} 
-                setShowHowToPlay={setShowHowToPlay}
-            />
+            <HowToPlay />
         }
         
         {
             pageSelection === 'Login' &&
-            <Login 
-                showLogin={showLogin} 
-                setShowLogin={setShowLogin}
-            />
+            <Login />
+        }
+
+        {
+            pageSelection === 'SignUp' &&
+            <SignUp />
         }
 
     </div>
