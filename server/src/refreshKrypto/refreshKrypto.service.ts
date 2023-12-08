@@ -29,8 +29,23 @@ export class RefreshKryptoService {
                 },
             });
 
+            await this.prisma.user.updateMany({
+                data: {
+                    solve_timer_seconds: 0
+                }
+            })
+
+            await this.prisma.user.updateMany({
+                where : {
+                    daily_streak_increment_eligible: true
+                },
+                data: {
+                    daily_streak: 0
+                }
+            })
+
         } catch(error) {
-            console.log('error');
+            console.log(error);
         }
     }
 }

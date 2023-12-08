@@ -72,6 +72,28 @@ export class SolutionService {
             if (solution.includes('.')) {
                 throw new ForbiddenException(`Invalid: This solution contains a decimal`);
             }
+
+
+            const alreadyCompletedSolution = await this.prisma.solutions.findFirst({
+                where: {
+                    daily_krypto_id: kryptoId,
+                    userId: userId
+                }
+            })
+
+            if (!alreadyCompletedSolution) {
+                await this.prisma.user.update({
+                    where : {
+                        id: userId
+                    },
+                    data: {
+                        daily_streak: {
+                            increment: 1
+                        },
+                        daily_streak_increment_eligible: false
+                    }
+                })
+            }
         
 
             

@@ -1,6 +1,6 @@
 import React from 'react';
 import './LogoutButton.css';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { updateUserData } from '../../redux/UserSlice';
 import { resetGameData } from '../../redux/GameSlice';
 import { logout } from '../../util/ApiUtil';
@@ -8,8 +8,14 @@ import { logout } from '../../util/ApiUtil';
 function LogoutButton(props) {
   const dispatch = useDispatch();
 
+  const currentSeconds = useSelector((state) => state.game.currentSeconds)
+
+
+
     const handleLogOut = async () => {
-        const response = await logout();
+
+        
+        await logout(currentSeconds);
         
         dispatch(updateUserData({
             username: '',

@@ -45,9 +45,9 @@ const login = async (username, password) => {
   }
 }
 
-const logout = async () => {
+const logout = async (currentSeconds) => {
   try {
-    const response = await axios.post(`/auth/logout`);
+    const response = await axios.post(`/auth/logout`, { currentSeconds });
 
     return response.data
   } catch(error) {

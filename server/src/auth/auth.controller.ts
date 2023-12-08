@@ -1,6 +1,6 @@
 import { Controller, Post, Request, Response, Body, HttpCode, HttpStatus, UseGuards } from '@nestjs/common';
 import { AuthService } from './auth.service';
-import { AuthDto, SignInDto } from './dto';
+import { AuthDto, SignInDto, SignOutDto } from './dto';
 import { Tokens } from './types/tokens.type';
 import { RtGuard } from 'src/common/guards';
 import { GetCurrentUser, GetCurrentUserId, Public } from 'src/common/decorators';
@@ -60,8 +60,11 @@ export class AuthController {
 
     @Post('/logout')
     @HttpCode(HttpStatus.OK)
-    logout(@GetCurrentUserId() userId: number) {
-        return this.authService.logout(userId)
+    logout(
+        @Body() dto: SignOutDto,
+        @GetCurrentUserId() userId: number
+    ) {
+        return this.authService.logout(userId, dto)
     }
 
     @Public()

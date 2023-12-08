@@ -30,12 +30,13 @@ model user {
   created_at DateTime? @default(now()) @db.Timestamp(6)
   updated_at DateTime? @updatedAt
 
-  daily_streak        Int     @default(0)
-  solve_timer_seconds Int     @default(0)
-  username            String  @unique
-  email               String  @unique
-  hash                String
-  hashedRt            String?
+  daily_streak_increment_eligible Boolean @default(true)
+  daily_streak                    Int     @default(0)
+  solve_timer_seconds             Int     @default(0)
+  username                        String  @unique
+  email                           String  @unique
+  hash                            String
+  hashedRt                        String?
 
   solutions solutions[]
 

@@ -127,19 +127,18 @@ function GameContainer(props) {
       return dispatch(validateSubmissionFailure({ error: error.message }));
     }
 
-    if (userId) {
-      try {
-        const postReturnData = await postSolution(
-          userId,
-          kryptoId,
-          equation,
-          currentSeconds
-        );
-        dispatch(postSolutionSuccess(postReturnData));
-      } catch (error) {
-        console.log(error);
-      }
+    try {
+      const postReturnData = await postSolution(
+        userId,
+        kryptoId,
+        equation,
+        currentSeconds
+      );
+      dispatch(postSolutionSuccess(postReturnData));
+    } catch (error) {
+      console.log(error);
     }
+    
 
     return true;
   };
