@@ -56,12 +56,27 @@ export class AuthService {
         })
     }   
 
-    async signinLocal(dto: SignInDto): Promise<Tokens> {
+    async signinLocal(dto: SignInDto){
+
+        const DK = await this.prisma.daily_krypto.findFirst({
+            orderBy: {
+                created_at: 'desc'
+            }
+        })
+
         const user = await this.prisma.user.findUnique({
             where: {
                 username: dto.username
+            },
+            include: {
+                solutions: {
+                    where: {
+                        daily_krypto_id: DK.id
+                    }
+                }
             }
         })
+
 
         if (!user) throw new ForbiddenException('Access Denied');
 
@@ -72,7 +87,14 @@ export class AuthService {
 
         const tokens = await this.getTokens(user.id, user.username);
         await this.updateRtHash(user.id, tokens.refresh_token);
-        return tokens;
+
+        const userData = {
+            dailyStreak: user.daily_streak,
+            currentSeconds: user.solve_timer_seconds,
+            solutions: user.solutions
+        }
+
+        return { tokens, userData };
     }
 
     async logout(userId: number, dto: SignOutDto) {

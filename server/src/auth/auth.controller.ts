@@ -42,19 +42,19 @@ export class AuthController {
         
         const data = await this.authService.signinLocal(dto);
 
-        res.cookie('access_token', data.access_token, {
+        res.cookie('access_token', data.tokens.access_token, {
             sameSite: 'strict',
             httpOnly: true,
         });
         
-        res.cookie('refresh_token', data.refresh_token, {
+        res.cookie('refresh_token', data.tokens.refresh_token, {
             sameSite: 'strict',
             httpOnly: true,
         });
 
-        const { id, username } = this.jwtService.decode(data.access_token)
+        const { id, username } = this.jwtService.decode(data.tokens.access_token)
 
-        return res.json({ id, username })
+        return res.json({ id, username, ...data.userData })
 
     }
 
