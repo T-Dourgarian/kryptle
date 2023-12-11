@@ -1,7 +1,7 @@
 import { ForbiddenException, Injectable } from "@nestjs/common";
 // import { AuthDto } from './dto'
 import { daily_krypto } from "@prisma/client";
-import { PrismaService } from "src/prisma/prisma.service";
+import { PrismaService } from "..//prisma/prisma.service";
 import { PrismaClientKnownRequestError } from "@prisma/client/runtime/library";
 
 const Mexp = require('math-expression-evaluator');
@@ -106,6 +106,30 @@ export class SolutionService {
                     solution_formatted: formattedSolution
                 },
             });
+
+
+            const userStats = await this.prisma.$queryRaw
+            `
+                SELECT
+                    "userId",
+                    ROUND(AVG(solution_seconds)) AS avg_solve_time,
+                    COUNT(*)::int AS total_solves,
+                    COUNT(DISTINCT daily_krypto_id)::int AS total_solves_unique
+                FROM public.solutions
+                where "userId" = ${userId}
+                GROUP BY "userId";
+            `
+            
+            await this.prisma.stats.update({
+                where: {
+                    userid: userId
+                },
+                data: {
+                    avg_solve_time: userStats[0].avg_solve_time,
+                    total_solves: userStats[0].total_solves,
+                    total_solves_unique: userStats[0].total_solves_unique
+                }
+        })
 
             const avgSolutionSecondsAggr = await this.prisma.solutions.aggregate({
                 where: {

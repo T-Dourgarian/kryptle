@@ -2,8 +2,8 @@ import { Controller, Post, Request, Response, Body, HttpCode, HttpStatus, UseGua
 import { AuthService } from './auth.service';
 import { AuthDto, SignInDto, SignOutDto } from './dto';
 import { Tokens } from './types/tokens.type';
-import { RtGuard } from 'src/common/guards';
-import { GetCurrentUser, GetCurrentUserId, Public } from 'src/common/decorators';
+import { RtGuard } from '../common/guards';
+import { GetCurrentUser, GetCurrentUserId, Public } from '../common/decorators';
 import { JwtService } from '@nestjs/jwt';
 
 @Controller('auth')

@@ -1,5 +1,5 @@
 import { ForbiddenException, Injectable } from '@nestjs/common';
-import { PrismaService } from 'src/prisma/prisma.service';
+import { PrismaService } from '..//prisma/prisma.service';
 import { AuthDto, SignInDto, SignOutDto } from './dto';
 import * as bcrypt from 'bcrypt';
 import { Tokens } from './types/tokens.type';
@@ -36,6 +36,12 @@ export class AuthService {
                 username: dto.username,
                 email: dto.email,
                 hash,
+            }
+        })
+
+        await this.prisma.stats.create({
+            data: {
+                userid: newUser.id
             }
         })
 
