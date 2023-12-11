@@ -3,6 +3,7 @@ import { useDispatch } from 'react-redux';
 import './HowToPlay.css';
 import { playButtonClicked } from '../../redux/GameSlice';
 import { updateMenuSelection } from '../../redux/MenuSlice';
+import { Button, Stack, Typography } from '@mui/joy';
 
 function HowToPlay() {
   const dispatch = useDispatch();
@@ -12,37 +13,91 @@ function HowToPlay() {
   }
 
   return (
-    <div className="Container">
+    <Stack
+      direction="column"
+      justifyContent="center"	
+      alignItems="center"
+      sx={{
+        height: '90vh'
+      }}
+      spacing={2}
+    >
 
-      <button className="HowToPlayButton"
-        onClick={handleMenuClick}
-      >Menu</button>
+      <Typography 
+        fontSize={'60px'}
+        color='#f3f3f3'
+        letterSpacing={2}
+        fontWeight={'bold'}
+      > How To Play </Typography>
 
-      <h1 className="Header">Kryptle</h1>
 
-      <p className="HowToPlayP">
+      <Typography
+        width={'800px'}
+        textAlign={'center'}
+        color='#f3f3f3'
+      >
         Kryptle is a daily math puzzle in which you are given five numbers
-        between 1 and 25 and must use all five numbers to form a mathamatical
-        equation whose answer is equal to a 6th number.
-      </p>
-      <p className="HowToPlayP">e.g.</p>
+          between 1 and 25 and must use all five numbers to form a mathamatical
+          equation whose answer is equal to a 6th number.
+      </Typography>
 
-      <div className="ExampleNumbers">16 4 13 12 8 = 19</div>
 
-      <p className="HowToPlayP">has a solution</p>
+      <Typography
+        color='#f3f3f3'
+      >
+        For Example
+      </Typography>
 
-      <div className="ExampleSolution">(12 / 4) * (16 / 8) + 13 = 19</div>
+      <Typography
+        color='#f3f3f3'
+        fontSize={'25px'}
+      >
+        16 4 13 12 8 = 19
+      </Typography>
 
-      <p className="HowToPlayP">
-        Every set of numbers will have one unique solution if not many more. You
+      <Typography
+        color='#f3f3f3'
+        // fontSize={'25px'}
+      >
+        has the solution
+      </Typography>
+
+      <Typography
+        color='#f3f3f3'
+        fontSize={'25px'}
+      >
+        (12 / 4) * (16 / 8) + 13 = 19
+      </Typography>
+
+
+      <Typography
+        color='#f3f3f3'
+        width={'800px'}
+        textAlign={'center'}
+      >
+        Every set of numbers will have one unique solution if not more. You
         are also able to use more complex mathematical operations...
-      </p>
+      </Typography>
 
-      <p className="HowToPlayP">
-        Square Root: root(16) = 4 | Exponent: 4^2 = 16
-      </p>
 
-    </div>
+      <Button
+        onClick={handleMenuClick}
+        variant='outlined'
+        sx={{
+          color: '#f3f3f3',
+          width:'140px',
+          borderRadius: '20px',
+          ':hover': {
+            backgroundColor: '#717A85',
+            boxShadow: '0px 15px 34px 5px rgba(54,54,54,0.32)'
+          },
+          borderColor: '#f3f3f3'
+        }}
+      >
+        Back To Menu
+      </Button>
+
+    </Stack>
   );
 }
 

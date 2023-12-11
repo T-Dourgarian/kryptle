@@ -13,7 +13,7 @@ function MenuContainer() {
 
 
   return (
-    <div >
+    <>
         {
             pageSelection === 'MenuOptions' &&
             <MenuOptions />
@@ -34,7 +34,7 @@ function MenuContainer() {
             <SignUp />
         }
 
-    </div>
+    </>
   );
 }
 

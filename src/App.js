@@ -1,26 +1,38 @@
 import React, { useEffect } from 'react';
 import './App.css';
-
+import '@fontsource/inter';
 import Navigation from './Navigation/Navigation.js';
 import MenuContainer from './Menu/MenuContainer/MenuContainer.js';
 import { useSelector } from 'react-redux';
+import { CssVarsProvider } from '@mui/joy/styles';
+import Sheet from '@mui/joy/Sheet';
 
 function App() {
 
   const userId = useSelector((state) => state.user.userId)
 
   return (
-    <div className="App">
 
-      <header className="App-header">
+  <CssVarsProvider>
+    <Sheet 
+      variant="solid"
+      sx={{
+        display: 'flex',
+        flexDirection: 'column',
+        height: '100vh'
+      }}
+    >
+    <div>
+
         {
           userId ? 
           <Navigation />:
           <MenuContainer />
         }
-      </header>
 
-    </div>
+      </div>
+    </Sheet>
+  </CssVarsProvider>
   );
 }
 
