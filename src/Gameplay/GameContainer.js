@@ -185,7 +185,7 @@ function GameContainer(props) {
       <CompletedSolutions validSolutions={validSolutions} />
       {isConfettiOn && <Confetti />}
       
-      <div>Daily Streak: {solveStreak}</div>
+      {/* <div>Daily Streak: {solveStreak}</div> */}
 
       <LogoutButton />
 

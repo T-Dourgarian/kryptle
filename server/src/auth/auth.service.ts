@@ -99,7 +99,6 @@ export class AuthService {
         const formattedSolutions = user.solutions.map((s) => s.solution_formatted);
 
         const userData = {
-            solveStreak: user.daily_streak,
             currentSeconds: user.solve_timer_seconds,
             solutions: formattedSolutions
         }

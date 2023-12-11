@@ -72,4 +72,23 @@ const signUp = async (email, username, password) => {
   }
 }
 
-export { postSolution, getDailyKrypto, login, logout, signUp };
+const getUserStats = async () => {
+  try {
+
+    const response = await axios.get(`/stats`);
+
+    return response.data;
+
+  } catch(error) {
+    return error.response.data;
+  }
+}
+
+export { 
+  postSolution, 
+  getDailyKrypto, 
+  login, 
+  logout, 
+  signUp,
+  getUserStats 
+};

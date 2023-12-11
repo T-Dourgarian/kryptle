@@ -51,9 +51,4 @@ export class KryptoService {
             console.log(error)
         }
     }
-
-    async signin(dto) {
-
-        
-    }
 }

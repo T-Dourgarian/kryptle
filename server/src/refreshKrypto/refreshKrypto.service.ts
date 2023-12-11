@@ -35,7 +35,7 @@ export class RefreshKryptoService {
                 }
             })
 
-            await this.prisma.user.updateMany({
+            await this.prisma.stats.updateMany({
                 where : {
                     daily_streak_increment_eligible: true
                 },

@@ -13,12 +13,12 @@ const solution_controller_1 = require("./solution.controller");
 const jwt_1 = require("@nestjs/jwt");
 let SolutionModule = class SolutionModule {
 };
-exports.SolutionModule = SolutionModule;
-exports.SolutionModule = SolutionModule = __decorate([
+SolutionModule = __decorate([
     (0, common_1.Module)({
         imports: [jwt_1.JwtModule.register({})],
         controllers: [solution_controller_1.SolutionController],
         providers: [solution_service_1.SolutionService]
     })
 ], SolutionModule);
+exports.SolutionModule = SolutionModule;
 //# sourceMappingURL=solution.module.js.map

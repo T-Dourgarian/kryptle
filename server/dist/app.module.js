@@ -11,6 +11,7 @@ const common_1 = require("@nestjs/common");
 const krypto_module_1 = require("./krypto/krypto.module");
 const prisma_module_1 = require("./prisma/prisma.module");
 const solution_module_1 = require("./solution/solution.module");
+const stats_module_1 = require("./stats/stats.module");
 const config_1 = require("@nestjs/config");
 const schedule_1 = require("@nestjs/schedule");
 const refreshKrypto_module_1 = require("./refreshKrypto/refreshKrypto.module");
@@ -19,10 +20,18 @@ const core_1 = require("@nestjs/core");
 const guards_1 = require("./common/guards");
 let AppModule = class AppModule {
 };
-exports.AppModule = AppModule;
-exports.AppModule = AppModule = __decorate([
+AppModule = __decorate([
     (0, common_1.Module)({
-        imports: [refreshKrypto_module_1.RefreshKryptoModule, krypto_module_1.KryptoModule, solution_module_1.SolutionModule, prisma_module_1.PrismaModule, config_1.ConfigModule.forRoot({ isGlobal: true }), schedule_1.ScheduleModule.forRoot(), auth_module_1.AuthModule],
+        imports: [
+            refreshKrypto_module_1.RefreshKryptoModule,
+            krypto_module_1.KryptoModule,
+            stats_module_1.StatsModule,
+            solution_module_1.SolutionModule,
+            prisma_module_1.PrismaModule,
+            config_1.ConfigModule.forRoot({ isGlobal: true }),
+            schedule_1.ScheduleModule.forRoot(),
+            auth_module_1.AuthModule
+        ],
         controllers: [],
         providers: [{
                 provide: core_1.APP_GUARD,
@@ -30,4 +39,5 @@ exports.AppModule = AppModule = __decorate([
             }],
     })
 ], AppModule);
+exports.AppModule = AppModule;
 //# sourceMappingURL=app.module.js.map

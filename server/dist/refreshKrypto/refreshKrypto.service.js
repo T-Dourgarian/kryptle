@@ -41,7 +41,7 @@ let RefreshKryptoService = class RefreshKryptoService {
                     solve_timer_seconds: 0
                 }
             });
-            await this.prisma.user.updateMany({
+            await this.prisma.stats.updateMany({
                 where: {
                     daily_streak_increment_eligible: true
                 },
@@ -55,15 +55,15 @@ let RefreshKryptoService = class RefreshKryptoService {
         }
     }
 };
-exports.RefreshKryptoService = RefreshKryptoService;
 __decorate([
     (0, schedule_1.Cron)('0 0 * * *'),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", Promise)
 ], RefreshKryptoService.prototype, "refresh", null);
-exports.RefreshKryptoService = RefreshKryptoService = __decorate([
+RefreshKryptoService = __decorate([
     (0, common_1.Injectable)(),
     __metadata("design:paramtypes", [prisma_service_1.PrismaService])
 ], RefreshKryptoService);
+exports.RefreshKryptoService = RefreshKryptoService;
 //# sourceMappingURL=refreshKrypto.service.js.map

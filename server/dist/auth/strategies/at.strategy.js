@@ -32,9 +32,9 @@ let AtStrategy = class AtStrategy extends (0, passport_1.PassportStrategy)(passp
         return payload;
     }
 };
-exports.AtStrategy = AtStrategy;
-exports.AtStrategy = AtStrategy = __decorate([
+AtStrategy = __decorate([
     (0, common_1.Injectable)(),
     __metadata("design:paramtypes", [config_1.ConfigService])
 ], AtStrategy);
+exports.AtStrategy = AtStrategy;
 //# sourceMappingURL=at.strategy.js.map

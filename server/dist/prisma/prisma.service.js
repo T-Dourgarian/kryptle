@@ -24,9 +24,9 @@ let PrismaService = class PrismaService extends client_1.PrismaClient {
         });
     }
 };
-exports.PrismaService = PrismaService;
-exports.PrismaService = PrismaService = __decorate([
+PrismaService = __decorate([
     (0, common_1.Injectable)(),
     __metadata("design:paramtypes", [config_1.ConfigService])
 ], PrismaService);
+exports.PrismaService = PrismaService;
 //# sourceMappingURL=prisma.service.js.map

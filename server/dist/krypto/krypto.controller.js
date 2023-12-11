@@ -23,7 +23,6 @@ let KryptoController = class KryptoController {
         return this.kryptoService.getDailyKypto(dto);
     }
 };
-exports.KryptoController = KryptoController;
 __decorate([
     (0, common_1.Get)(),
     __param(0, (0, common_1.Body)()),
@@ -31,8 +30,9 @@ __decorate([
     __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", void 0)
 ], KryptoController.prototype, "signup", null);
-exports.KryptoController = KryptoController = __decorate([
+KryptoController = __decorate([
     (0, common_1.Controller)('dailykrypto'),
     __metadata("design:paramtypes", [krypto_service_1.KryptoService])
 ], KryptoController);
+exports.KryptoController = KryptoController;
 //# sourceMappingURL=krypto.controller.js.map

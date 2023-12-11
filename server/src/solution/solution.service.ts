@@ -82,17 +82,7 @@ export class SolutionService {
             })
 
             if (!alreadyCompletedSolution) {
-                await this.prisma.user.update({
-                    where : {
-                        id: userId
-                    },
-                    data: {
-                        daily_streak: {
-                            increment: 1
-                        },
-                        daily_streak_increment_eligible: false
-                    }
-                })
+
             }
         
 
@@ -119,17 +109,19 @@ export class SolutionService {
                 where "userId" = ${userId}
                 GROUP BY "userId";
             `
-            
-            await this.prisma.stats.update({
-                where: {
-                    userid: userId
-                },
-                data: {
-                    avg_solve_time: userStats[0].avg_solve_time,
-                    total_solves: userStats[0].total_solves,
-                    total_solves_unique: userStats[0].total_solves_unique
-                }
-        })
+
+            await this.prisma.$queryRaw
+            `
+                UPDATE stats
+                SET
+                    avg_solve_time = ${userStats[0].avg_solve_time},
+                    total_solves = ${userStats[0].total_solves},
+                    total_solves_unique = ${userStats[0].total_solves_unique},
+                    daily_streak = CASE WHEN daily_streak_increment_eligible = true THEN stats.daily_streak + 1 ELSE stats.daily_streak END,
+                    daily_streak_increment_eligible = false
+                WHERE
+                    userid = ${userId};
+            `
 
             const avgSolutionSecondsAggr = await this.prisma.solutions.aggregate({
                 where: {
@@ -140,12 +132,10 @@ export class SolutionService {
                 },
             });
 
-            const AVG_SOLUTION_SECONDS = avgSolutionSecondsAggr._avg.solution_seconds;
+            const AVG_SOLUTION_SECONDS = Math.round(avgSolutionSecondsAggr._avg.solution_seconds);
 
-            return { AvgTimeSeconds: AVG_SOLUTION_SECONDS}
-            
-
-            
+            return { avgTimeSeconds: AVG_SOLUTION_SECONDS}
+                        
         } catch(error) {
             throw error
         }

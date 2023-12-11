@@ -14,12 +14,12 @@ const strategies_1 = require("./strategies");
 const jwt_1 = require("@nestjs/jwt");
 let AuthModule = class AuthModule {
 };
-exports.AuthModule = AuthModule;
-exports.AuthModule = AuthModule = __decorate([
+AuthModule = __decorate([
     (0, common_1.Module)({
         imports: [jwt_1.JwtModule.register({})],
         providers: [auth_service_1.AuthService, strategies_1.AtStrategy, strategies_1.RtStrategy],
         controllers: [auth_controller_1.AuthController]
     })
 ], AuthModule);
+exports.AuthModule = AuthModule;
 //# sourceMappingURL=auth.module.js.map

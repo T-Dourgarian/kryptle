@@ -27,7 +27,6 @@ let SolutionController = class SolutionController {
         return this.solutionService.postSolution(dto, userId);
     }
 };
-exports.SolutionController = SolutionController;
 __decorate([
     (0, common_1.Post)(),
     __param(0, (0, common_1.Body)()),
@@ -36,8 +35,9 @@ __decorate([
     __metadata("design:paramtypes", [dto_1.SolutionDto, Object]),
     __metadata("design:returntype", void 0)
 ], SolutionController.prototype, "signup", null);
-exports.SolutionController = SolutionController = __decorate([
+SolutionController = __decorate([
     (0, common_1.Controller)('solution'),
     __metadata("design:paramtypes", [solution_service_1.SolutionService, jwt_1.JwtService])
 ], SolutionController);
+exports.SolutionController = SolutionController;
 //# sourceMappingURL=solution.controller.js.map
