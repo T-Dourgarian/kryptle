@@ -1,4 +1,4 @@
-import { PrismaService } from "src/prisma/prisma.service";
+import { PrismaService } from "..//prisma/prisma.service";
 export declare class KryptoService {
     private prisma;
     constructor(prisma: PrismaService);
@@ -13,5 +13,4 @@ export declare class KryptoService {
         targetNumber: number;
         avgTimeSeconds: number;
     }>;
-    signin(dto: any): Promise<void>;
 }

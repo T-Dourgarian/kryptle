@@ -13,10 +13,10 @@ exports.SignOutDto = void 0;
 const class_validator_1 = require("class-validator");
 class SignOutDto {
 }
-exports.SignOutDto = SignOutDto;
 __decorate([
     (0, class_validator_1.IsNotEmpty)(),
     (0, class_validator_1.IsInt)(),
     __metadata("design:type", Number)
 ], SignOutDto.prototype, "currentSeconds", void 0);
+exports.SignOutDto = SignOutDto;
 //# sourceMappingURL=signout.dto.js.map

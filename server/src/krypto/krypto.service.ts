@@ -1,7 +1,7 @@
 import { ForbiddenException, Injectable } from "@nestjs/common";
 // import { AuthDto } from './dto'
 // import { Daily_krypto } from "@prisma/client";
-import { PrismaService } from "src/prisma/prisma.service";
+import { PrismaService } from "..//prisma/prisma.service";
 
 import { PrismaClientKnownRequestError } from "@prisma/client/runtime/library";
 
@@ -50,10 +50,5 @@ export class KryptoService {
         } catch(error) {
             console.log(error)
         }
-    }
-
-    async signin(dto) {
-
-        
     }
 }

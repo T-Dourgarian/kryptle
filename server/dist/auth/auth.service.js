@@ -11,7 +11,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.AuthService = void 0;
 const common_1 = require("@nestjs/common");
-const prisma_service_1 = require("../prisma/prisma.service");
+const prisma_service_1 = require("..//prisma/prisma.service");
 const bcrypt = require("bcrypt");
 const jwt_1 = require("@nestjs/jwt");
 const config_1 = require("@nestjs/config");
@@ -40,6 +40,11 @@ let AuthService = class AuthService {
                 username: dto.username,
                 email: dto.email,
                 hash,
+            }
+        });
+        await this.prisma.stats.create({
+            data: {
+                userid: newUser.id
             }
         });
         const tokens = await this.getTokens(newUser.id, newUser.username);
@@ -87,7 +92,6 @@ let AuthService = class AuthService {
         await this.updateRtHash(user.id, tokens.refresh_token);
         const formattedSolutions = user.solutions.map((s) => s.solution_formatted);
         const userData = {
-            solveStreak: user.daily_streak,
             currentSeconds: user.solve_timer_seconds,
             solutions: formattedSolutions
         };
@@ -148,11 +152,11 @@ let AuthService = class AuthService {
         };
     }
 };
-exports.AuthService = AuthService;
-exports.AuthService = AuthService = __decorate([
+AuthService = __decorate([
     (0, common_1.Injectable)(),
     __metadata("design:paramtypes", [prisma_service_1.PrismaService,
         jwt_1.JwtService,
         config_1.ConfigService])
 ], AuthService);
+exports.AuthService = AuthService;
 //# sourceMappingURL=auth.service.js.map

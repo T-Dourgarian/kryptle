@@ -1,4 +1,4 @@
-import { PrismaService } from 'src/prisma/prisma.service';
+import { PrismaService } from '..//prisma/prisma.service';
 import { AuthDto, SignInDto, SignOutDto } from './dto';
 import { JwtService } from '@nestjs/jwt';
 import { ConfigService } from '@nestjs/config';
@@ -18,7 +18,6 @@ export declare class AuthService {
             refresh_token: string;
         };
         userData: {
-            solveStreak: number;
             currentSeconds: number;
             solutions: string[];
         };

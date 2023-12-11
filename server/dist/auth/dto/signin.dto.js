@@ -13,7 +13,6 @@ exports.SignInDto = void 0;
 const class_validator_1 = require("class-validator");
 class SignInDto {
 }
-exports.SignInDto = SignInDto;
 __decorate([
     (0, class_validator_1.IsNotEmpty)(),
     (0, class_validator_1.IsString)(),
@@ -24,4 +23,5 @@ __decorate([
     (0, class_validator_1.IsString)(),
     __metadata("design:type", String)
 ], SignInDto.prototype, "password", void 0);
+exports.SignInDto = SignInDto;
 //# sourceMappingURL=signin.dto.js.map

@@ -1,6 +1,6 @@
 import { Body, Controller, Post, Get, UseGuards } from "@nestjs/common";
 import { KryptoService } from "./krypto.service";
-import { Public } from 'src/common/decorators';
+import { Public } from '../common/decorators';
 // import { AuthDto } from "./dto";
 
 @Controller('dailykrypto')

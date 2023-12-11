@@ -39,9 +39,9 @@ let RtStrategy = class RtStrategy extends (0, passport_1.PassportStrategy)(passp
         };
     }
 };
-exports.RtStrategy = RtStrategy;
-exports.RtStrategy = RtStrategy = __decorate([
+RtStrategy = __decorate([
     (0, common_1.Injectable)(),
     __metadata("design:paramtypes", [config_1.ConfigService])
 ], RtStrategy);
+exports.RtStrategy = RtStrategy;
 //# sourceMappingURL=rt.strategy.js.map

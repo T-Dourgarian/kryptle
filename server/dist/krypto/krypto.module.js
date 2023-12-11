@@ -12,11 +12,11 @@ const krypto_service_1 = require("./krypto.service");
 const krypto_controller_1 = require("./krypto.controller");
 let KryptoModule = class KryptoModule {
 };
-exports.KryptoModule = KryptoModule;
-exports.KryptoModule = KryptoModule = __decorate([
+KryptoModule = __decorate([
     (0, common_1.Module)({
         controllers: [krypto_controller_1.KryptoController],
         providers: [krypto_service_1.KryptoService]
     })
 ], KryptoModule);
+exports.KryptoModule = KryptoModule;
 //# sourceMappingURL=krypto.module.js.map

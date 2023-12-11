@@ -11,10 +11,10 @@ const common_1 = require("@nestjs/common");
 const refreshKrypto_service_1 = require("./refreshKrypto.service");
 let RefreshKryptoModule = class RefreshKryptoModule {
 };
-exports.RefreshKryptoModule = RefreshKryptoModule;
-exports.RefreshKryptoModule = RefreshKryptoModule = __decorate([
+RefreshKryptoModule = __decorate([
     (0, common_1.Module)({
         providers: [refreshKrypto_service_1.RefreshKryptoService]
     })
 ], RefreshKryptoModule);
+exports.RefreshKryptoModule = RefreshKryptoModule;
 //# sourceMappingURL=refreshKrypto.module.js.map

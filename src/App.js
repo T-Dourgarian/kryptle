@@ -1,8 +1,7 @@
 import React, { useEffect } from 'react';
 import './App.css';
 
-
-import GameContainer from './Gameplay/GameContainer';
+import Navigation from './Navigation/Navigation.js';
 import MenuContainer from './Menu/MenuContainer/MenuContainer.js';
 import { useSelector } from 'react-redux';
 
@@ -16,7 +15,7 @@ function App() {
       <header className="App-header">
         {
           userId ? 
-          <GameContainer />:
+          <Navigation />:
           <MenuContainer />
         }
       </header>

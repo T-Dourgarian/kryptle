@@ -1,6 +1,6 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { Cron } from '@nestjs/schedule';
-import { PrismaService } from "src/prisma/prisma.service";
+import { PrismaService } from "../prisma/prisma.service";
 
 @Injectable()
 export class RefreshKryptoService {
@@ -35,7 +35,7 @@ export class RefreshKryptoService {
                 }
             })
 
-            await this.prisma.user.updateMany({
+            await this.prisma.stats.updateMany({
                 where : {
                     daily_streak_increment_eligible: true
                 },

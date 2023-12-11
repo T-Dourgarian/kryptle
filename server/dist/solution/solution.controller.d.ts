@@ -6,6 +6,6 @@ export declare class SolutionController {
     private jwtService;
     constructor(solutionService: SolutionService, jwtService: JwtService);
     signup(dto: SolutionDto, req: any): Promise<{
-        AvgTimeSeconds: number;
+        avgTimeSeconds: number;
     }>;
 }

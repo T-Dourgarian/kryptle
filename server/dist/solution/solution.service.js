@@ -11,7 +11,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.SolutionService = void 0;
 const common_1 = require("@nestjs/common");
-const prisma_service_1 = require("../prisma/prisma.service");
+const prisma_service_1 = require("..//prisma/prisma.service");
 const Mexp = require('math-expression-evaluator');
 const mexp = new Mexp();
 let SolutionService = class SolutionService {
@@ -67,17 +67,6 @@ let SolutionService = class SolutionService {
                 }
             });
             if (!alreadyCompletedSolution) {
-                await this.prisma.user.update({
-                    where: {
-                        id: userId
-                    },
-                    data: {
-                        daily_streak: {
-                            increment: 1
-                        },
-                        daily_streak_increment_eligible: false
-                    }
-                });
             }
             await this.prisma.solutions.create({
                 data: {
@@ -88,6 +77,27 @@ let SolutionService = class SolutionService {
                     solution_formatted: formattedSolution
                 },
             });
+            const userStats = await this.prisma.$queryRaw `
+                SELECT
+                    "userId",
+                    ROUND(AVG(solution_seconds)) AS avg_solve_time,
+                    COUNT(*)::int AS total_solves,
+                    COUNT(DISTINCT daily_krypto_id)::int AS total_solves_unique
+                FROM public.solutions
+                where "userId" = ${userId}
+                GROUP BY "userId";
+            `;
+            await this.prisma.$queryRaw `
+                UPDATE stats
+                SET
+                    avg_solve_time = ${userStats[0].avg_solve_time},
+                    total_solves = ${userStats[0].total_solves},
+                    total_solves_unique = ${userStats[0].total_solves_unique},
+                    daily_streak = CASE WHEN daily_streak_increment_eligible = true THEN stats.daily_streak + 1 ELSE stats.daily_streak END,
+                    daily_streak_increment_eligible = false
+                WHERE
+                    userid = ${userId};
+            `;
             const avgSolutionSecondsAggr = await this.prisma.solutions.aggregate({
                 where: {
                     daily_krypto_id: kryptoId,
@@ -96,17 +106,17 @@ let SolutionService = class SolutionService {
                     solution_seconds: true,
                 },
             });
-            const AVG_SOLUTION_SECONDS = avgSolutionSecondsAggr._avg.solution_seconds;
-            return { AvgTimeSeconds: AVG_SOLUTION_SECONDS };
+            const AVG_SOLUTION_SECONDS = Math.round(avgSolutionSecondsAggr._avg.solution_seconds);
+            return { avgTimeSeconds: AVG_SOLUTION_SECONDS };
         }
         catch (error) {
             throw error;
         }
     }
 };
-exports.SolutionService = SolutionService;
-exports.SolutionService = SolutionService = __decorate([
+SolutionService = __decorate([
     (0, common_1.Injectable)({}),
     __metadata("design:paramtypes", [prisma_service_1.PrismaService])
 ], SolutionService);
+exports.SolutionService = SolutionService;
 //# sourceMappingURL=solution.service.js.map

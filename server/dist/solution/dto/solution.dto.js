@@ -13,7 +13,6 @@ exports.SolutionDto = void 0;
 const class_validator_1 = require("class-validator");
 class SolutionDto {
 }
-exports.SolutionDto = SolutionDto;
 __decorate([
     (0, class_validator_1.IsInt)(),
     (0, class_validator_1.IsNotEmpty)(),
@@ -34,4 +33,5 @@ __decorate([
     (0, class_validator_1.IsNotEmpty)(),
     __metadata("design:type", String)
 ], SolutionDto.prototype, "formattedSolution", void 0);
+exports.SolutionDto = SolutionDto;
 //# sourceMappingURL=solution.dto.js.map

@@ -29,9 +29,9 @@ let AtGuard = class AtGuard extends (0, passport_1.AuthGuard)('jwt') {
         return super.canActivate(context);
     }
 };
-exports.AtGuard = AtGuard;
-exports.AtGuard = AtGuard = __decorate([
+AtGuard = __decorate([
     (0, common_1.Injectable)(),
     __metadata("design:paramtypes", [core_1.Reflector])
 ], AtGuard);
+exports.AtGuard = AtGuard;
 //# sourceMappingURL=at.guard.js.map
