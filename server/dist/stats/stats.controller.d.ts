@@ -8,5 +8,6 @@ export declare class StatsController {
         avg_solve_time: number;
         total_solves: number;
         total_solves_unique: number;
+        daily_streak: number;
     }>;
 }

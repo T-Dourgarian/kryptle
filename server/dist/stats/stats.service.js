@@ -25,7 +25,8 @@ let StatsService = class StatsService {
                 select: {
                     avg_solve_time: true,
                     total_solves: true,
-                    total_solves_unique: true
+                    total_solves_unique: true,
+                    daily_streak: true
                 }
             });
             return userStats;

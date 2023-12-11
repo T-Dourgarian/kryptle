@@ -4,6 +4,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import GameContainer from '../../Gameplay/GameContainer';
 import { routeToNewPage } from '../../redux/NavigationSlice';
 import { getUserStats } from '../../util/ApiUtil';
+import { updateUserStatsData } from '../../redux/UserSlice';
+import { Formatter } from '../../util/Formatter';
 
 function ProfileContainer() {
 	const dispatch = useDispatch();
@@ -11,26 +13,43 @@ function ProfileContainer() {
     const navPage = useSelector(state => state.navigation.page);
     const username = useSelector(state => state.user.username)
 
-    const [userStats, setUserStats] = useState({
-      avg_solve_time: null,
-      total_solves: null,
-      total_solves_unique: null,
-    })
+    const userStats = useSelector(state => state.user.stats)
 
     const handleNavToGame = () => {
       dispatch(routeToNewPage({ page: 'Game'}))
     }
 
+
+    const getStatsData = async () => {
+      const userStatsData = await getUserStats();
+      dispatch(updateUserStatsData(userStatsData));
+    }
+
     useEffect(() => {
-      
+      getStatsData();
     }, [])
 
 
   return (
     <>
         <div>
-          { username }
+          Username: { username }
         </div>
+
+        <div>
+          Avg Solve Time: {Formatter.getFormattedAverageTime(userStats.avg_solve_time)}
+        </div>
+        <div>
+          Total Solves: {userStats.total_solves}
+        </div>
+        <div>
+          Total Unique Solves: {userStats.total_solves_unique}
+        </div>
+        <div>
+          Daily Streak: { userStats.daily_streak }
+        </div>
+
+
         <button
           onClick={handleNavToGame}
         >

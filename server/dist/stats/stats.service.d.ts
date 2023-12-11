@@ -6,5 +6,6 @@ export declare class StatsService {
         avg_solve_time: number;
         total_solves: number;
         total_solves_unique: number;
+        daily_streak: number;
     }>;
 }
