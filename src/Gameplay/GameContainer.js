@@ -24,6 +24,7 @@ import {
   confettiTurnedOff,
 } from '../redux/GameSlice';
 import { Formatter } from '../util/Formatter';
+import { Stack } from '@mui/joy';
 
 function GameContainer(props) {
   const dispatch = useDispatch();
@@ -162,7 +163,15 @@ function GameContainer(props) {
   }, [errorMessage]);
 
   return (
-    <>
+    <Stack
+      direction={'column'}
+      alignItems="center"
+      sx={{
+        height: '100vh'
+      }}
+      spacing={2}
+      useFlexGap={true}
+    >
       <ChallengeDisplay
         numSet={numSet}
         numUsedObj={numUsedObj}
@@ -191,7 +200,7 @@ function GameContainer(props) {
 
       <ProfileButton />
       
-    </>
+    </ Stack>
   );
 }
 
