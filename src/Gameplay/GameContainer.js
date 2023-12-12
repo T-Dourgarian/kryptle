@@ -3,8 +3,7 @@ import ChallengeDisplay from './ChallengeDisplay/ChallengeDisplay';
 import SolutionInput from './SolutionInput/SolutionInput';
 import TimeInfo from './TimeInfo/TimeInfo';
 import CompletedSolutions from './CompletedSolutions/CompletedSolutions';
-import LogoutButton from './LogoutButton/LogoutButton';
-import ProfileButton from '../Profile/ProfileButton/ProfileButton';
+import DropDownMenu from './DropDownMenu/DropDownMenu';
 import Confetti from 'react-confetti';
 import React, { useEffect } from 'react';
 import Mexp from 'math-expression-evaluator';
@@ -195,11 +194,8 @@ function GameContainer(props) {
       <CompletedSolutions validSolutions={validSolutions} />
       {isConfettiOn && <Confetti />}
       
-      {/* <div>Daily Streak: {solveStreak}</div> */}
+      <div>Daily Streak: {solveStreak}</div>
 
-      <LogoutButton />
-
-      <ProfileButton />
       
     </ Stack>
   );

@@ -10,7 +10,7 @@ function TimeInfo(props) {
   return (
     <>
       <Box
-        mt={3}
+        mt={8}
       >
         {' '}
         Average Time for Today's Kryptle -{' '}
