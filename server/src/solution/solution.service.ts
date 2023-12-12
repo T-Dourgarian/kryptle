@@ -81,11 +81,6 @@ export class SolutionService {
                 }
             })
 
-            if (!alreadyCompletedSolution) {
-
-            }
-        
-
             
             await this.prisma.solutions.create({
                 data: {
@@ -110,18 +105,20 @@ export class SolutionService {
                 GROUP BY "userId";
             `
 
-            await this.prisma.$queryRaw
-            `
-                UPDATE stats
-                SET
-                    avg_solve_time = ${userStats[0].avg_solve_time},
-                    total_solves = ${userStats[0].total_solves},
-                    total_solves_unique = ${userStats[0].total_solves_unique},
-                    daily_streak = CASE WHEN daily_streak_increment_eligible = true THEN stats.daily_streak + 1 ELSE stats.daily_streak END,
-                    daily_streak_increment_eligible = false
-                WHERE
-                    userid = ${userId};
-            `
+
+            const UPDATE_QUERY = `
+            UPDATE stats
+            SET
+                ${!alreadyCompletedSolution ? `avg_solve_time = ${userStats[0].avg_solve_time},` : ``}
+                total_solves = ${userStats[0].total_solves},
+                total_solves_unique = ${userStats[0].total_solves_unique},
+                daily_streak = CASE WHEN daily_streak_increment_eligible = true THEN stats.daily_streak + 1 ELSE stats.daily_streak END,
+                daily_streak_increment_eligible = false
+            WHERE
+                userid = ${userId};
+        `
+
+            await this.prisma.$executeRawUnsafe(UPDATE_QUERY);
 
             const avgSolutionSecondsAggr = await this.prisma.solutions.aggregate({
                 where: {

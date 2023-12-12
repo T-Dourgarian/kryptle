@@ -15,7 +15,7 @@ export declare class KryptoController {
         targetNumber: number;
         avgTimeSeconds: number;
     }>;
-    getUserGameData(req: any, dto: any): Promise<{
+    getUserGameData(req: any): Promise<{
         validSolutions: string[];
         dailyStreak: number;
     }>;
