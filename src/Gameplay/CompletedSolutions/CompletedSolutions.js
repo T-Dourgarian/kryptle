@@ -13,8 +13,8 @@ function CompletedSolutions(props) {
       >Completed Solutions</Typography>
       <Stack
         spacing={1}
+        maxHeight={{ xs: '150px', md: '250px'}}
         sx={{
-          height:'200px',
           overflowY: 'scroll',
           '&::-webkit-scrollbar': {display: 'none'},
           backgroundColor:"#737D87FF"

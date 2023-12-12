@@ -34,7 +34,8 @@ function SolutionInput(props) {
             sx={{
               height:'100%',
               fontSize:' 25px',
-              fontWeight:'bold'
+              fontWeight:'bold',
+              backgroundColor: '#D9D9D9'
             }}
           />
         </Grid>
@@ -77,7 +78,7 @@ function SolutionInput(props) {
             color: '#4CAEFE',
             width:'30%',
             borderRadius: '20px',
-            backgroundColor: '#f3f3f3',
+            backgroundColor: '#D9D9D9',
             ':hover': {
               backgroundColor: '#f3f3f3',
               boxShadow: '0px 15px 34px 5px rgba(54,54,54,0.32)'

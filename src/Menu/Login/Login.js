@@ -70,7 +70,7 @@ function Login() {
       spacing={2}
     >
         <Typography
-          fontSize={'30px'}
+          fontSize={{ sm: '25px'}}
           color='#f3f3f3'
           letterSpacing={2}
         >
@@ -143,7 +143,7 @@ function Login() {
               >
                 Menu
               </Button>
-              
+
               <Button
                 variant='outlined'
                 onClick={() => handleNav('SignUp')}  

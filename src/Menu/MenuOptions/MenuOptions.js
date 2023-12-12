@@ -43,7 +43,7 @@ function MenuOptions() {
 		> Kryptle </Typography>
 
 		<Stack 
-			direction={'row'}
+			direction={{xs: 'column', md:'row'}}
 			spacing={3}
 		>
 			<Button

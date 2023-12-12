@@ -16,7 +16,7 @@ function HowToPlay() {
     <Stack
       direction="column"
       justifyContent="center"	
-      alignItems="center"
+      alignItems={'center'}
       sx={{
         height: '90vh'
       }}
@@ -24,17 +24,18 @@ function HowToPlay() {
     >
 
       <Typography 
-        fontSize={'60px'}
+        fontSize={{ xs: '30px', md: '60px'}}
         color='#f3f3f3'
         letterSpacing={2}
         fontWeight={'bold'}
+        textAlign={'center'}
       > How To Play </Typography>
 
 
       <Typography
-        width={'800px'}
-        textAlign={'center'}
+        width={{ xs: '90vw', md: '800px'}}
         color='#f3f3f3'
+        fontSize={{ xs: '13px', md :'18px'}}
       >
         Kryptle is a daily math puzzle in which you are given five numbers
           between 1 and 25 and must use all five numbers to form a mathamatical
@@ -72,11 +73,21 @@ function HowToPlay() {
 
       <Typography
         color='#f3f3f3'
-        width={'800px'}
-        textAlign={'center'}
+        width={{ xs: '90vw', md: '800px'}}
+        fontSize={{ xs: '13px', md :'18px'}}
       >
         Every set of numbers will have one unique solution if not more. You
         are also able to use more complex mathematical operations...
+      </Typography>
+
+
+      <Typography
+        color='#f3f3f3'
+        width={{ xs: '90vw', md: '800px'}}
+        fontSize={{ xs: '13px', md :'18px'}}
+        textAlign={'center'}
+      >
+        {`Sqrt: root(16) = 4 | Exponent: 4^2 = 16 `}
       </Typography>
 
 
