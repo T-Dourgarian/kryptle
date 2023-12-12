@@ -172,6 +172,11 @@ function GameContainer(props) {
       spacing={2}
       useFlexGap={true}
     >
+      <TimeInfo
+        averageSeconds={avgTimeSeconds}
+        currentSeconds={currentSeconds}
+      />
+
       <ChallengeDisplay
         numSet={numSet}
         numUsedObj={numUsedObj}
@@ -186,10 +191,6 @@ function GameContainer(props) {
         errorMessage={errorMessage}
       />
 
-      <TimeInfo
-        averageSeconds={avgTimeSeconds}
-        currentSeconds={currentSeconds}
-      />
 
       <CompletedSolutions validSolutions={validSolutions} />
       {isConfettiOn && <Confetti />}

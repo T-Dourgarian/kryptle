@@ -10,11 +10,10 @@ function ChallengeDisplay(props) {
   return (
     <Grid
       container
-      mt={3}
       columns={{ xs: 7}}
       width={{
         md: '500px',
-        sm:'90%'
+        xs: '90%'
       }}
     >
       <Grid 
@@ -49,9 +48,9 @@ function ChallengeDisplay(props) {
               numSet.map((num, i) => (
                 <Grid
                   xs={1}
+                  key={i}
                 >
                   <Typography
-                    key={i}
                     fontSize={'35px'}
                     sx={{
                       color: numUsedObj[i].used ? '#4CAEFE' : '#f3f3f3',
