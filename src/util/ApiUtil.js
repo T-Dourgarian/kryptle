@@ -84,11 +84,18 @@ const getUserStats = async () => {
   }
 }
 
+const getUserGameData = async () => {
+  const response = await axios.get('/dailykrypto/user');
+
+  return response.data;
+}
+
 export { 
   postSolution, 
   getDailyKrypto, 
   login, 
   logout, 
   signUp,
-  getUserStats 
+  getUserStats,
+  getUserGameData 
 };

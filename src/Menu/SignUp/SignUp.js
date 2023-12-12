@@ -5,6 +5,8 @@ import { login } from '../../util/ApiUtil';
 import { updateMenuSelection } from '../../redux/MenuSlice';
 import { updateUserData } from '../../redux/UserSlice';
 import { signUp } from '../../util/ApiUtil';
+import { Button, FormLabel, Input, Stack, Typography } from '@mui/joy';
+import { FormControl } from '@mui/base';
 
 function SignUp() {
   const dispatch = useDispatch();
@@ -15,11 +17,13 @@ function SignUp() {
   const [ errorMessage, setErrorMessage] = useState('');
 
   const handleEmailInput = (e) => {
-    setEmail(e.target.value)
+    setEmail(e.target.value);
+    setErrorMessage('');
   }
 
   const handleUsernameInput = (e) => {
-    setUsername(e.target.value)
+    setUsername(e.target.value);
+    setErrorMessage('');
   }
 
   const handlePasswordInput = (e) => {
@@ -40,43 +44,106 @@ function SignUp() {
     }
   }
 
+  const menuButtonStyleObj = {
+		color: '#f3f3f3',
+		width:'120px',
+		borderRadius: '20px',
+		':hover': {
+			backgroundColor: '#717A85',
+			boxShadow: '0px 15px 34px 5px rgba(54,54,54,0.32)'
+		},
+		borderColor: '#f3f3f3'
+	}
+
   return (
-    <div className="Container">
+    <Stack
+      direction="column"
+      justifyContent="center"	
+      alignItems="center"
+      sx={{
+        height: '90vh'
+      }}
+      spacing={2}
+    >
 
-        <button
-          onClick={handleMenuClick}
+      <Typography
+        fontSize={'40px'}
+        color='#f3f3f3'
+        mb={3}
+      >
+        Create an Account
+      </Typography>
+
+        <FormControl >
+          <FormLabel
+            sx={{
+              color: '#f3f3f3',
+              fontSize: '20px'
+            }}
+          >
+            Email
+          </FormLabel>
+
+          <Input 
+            type='email'
+            onChange={handleEmailInput}
+          />
+        </FormControl>
+
+        <FormControl >
+          <FormLabel
+            sx={{
+              color: '#f3f3f3',
+              fontSize: '20px'
+            }}
+          >
+            Username
+          </FormLabel>
+
+          <Input 
+            onChange={handleUsernameInput}
+          />
+        </FormControl>
+
+
+        <FormControl >
+          <FormLabel
+            sx={{
+              color: '#f3f3f3',
+              fontSize: '20px'
+            }}
+          >
+            Password
+          </FormLabel>
+
+          <Input 
+            type='password'
+            onChange={handlePasswordInput}
+          />
+        </FormControl>
+
+
+        <Stack
+          direction={'row'}
+          spacing={2}
         >
-          Menu
-        </button>
+          <Button
+            variant='outlined'
+            sx={menuButtonStyleObj}
+            onClick={handleMenuClick}
+          >
+            Menu
+          </Button>
 
-        <div>Email</div>
-        <input 
-          value={email}
-          onChange={handleEmailInput}
-        />
-
-        <div>Username</div>
-        <input
-          value={username}
-          onChange={handleUsernameInput}
-          
-        />
-
-        <div>Password</div>
-        <input
-          value={password}
-          onChange={handlePasswordInput}
-          type='password'
-        />
-
-
-        <div>
-          <button
+          <Button
+            variant='outlined'
+            sx={menuButtonStyleObj}
             onClick={handleSignUp}  
           >
-            Sign Up
-          </button>
-        </div>
+            Finish
+          </Button>
+        </Stack>
+
 
 
         <div>
@@ -84,7 +151,7 @@ function SignUp() {
             errorMessage
           }
         </div>
-    </div>
+    </ Stack>
   );
 }
 

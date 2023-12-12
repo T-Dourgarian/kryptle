@@ -3,13 +3,12 @@ import ChallengeDisplay from './ChallengeDisplay/ChallengeDisplay';
 import SolutionInput from './SolutionInput/SolutionInput';
 import TimeInfo from './TimeInfo/TimeInfo';
 import CompletedSolutions from './CompletedSolutions/CompletedSolutions';
-import LogoutButton from './LogoutButton/LogoutButton';
-import ProfileButton from '../Profile/ProfileButton/ProfileButton';
+import DropDownMenu from './DropDownMenu/DropDownMenu';
 import Confetti from 'react-confetti';
 import React, { useEffect } from 'react';
 import Mexp from 'math-expression-evaluator';
 import { validateEquation } from '../util/EquationValidators';
-import { postSolution, getDailyKrypto } from '../util/ApiUtil';
+import { postSolution, getDailyKrypto, getUserGameData } from '../util/ApiUtil';
 import {
   equationUpdated,
   validateSubmissionSuccess,
@@ -22,8 +21,10 @@ import {
   getDailyKryptoSuccess,
   getDailyKryptoFailure,
   confettiTurnedOff,
+  updateGameDataFromUser
 } from '../redux/GameSlice';
 import { Formatter } from '../util/Formatter';
+import { Stack } from '@mui/joy';
 
 function GameContainer(props) {
   const dispatch = useDispatch();
@@ -47,6 +48,7 @@ function GameContainer(props) {
   const solveStreak = useSelector((state) => state.game.solveStreak);
   const currentSeconds = useSelector((state) => state.game.currentSeconds);
   const isConfettiOn = useSelector((state) => state.game.isConfettiOn);
+  const userId = useSelector(state => state.user.userId);
 
   const numbersRE = /\b\d+\b/g;
 
@@ -66,6 +68,12 @@ function GameContainer(props) {
     try {
       const data = await getDailyKrypto();
       dispatch(getDailyKryptoSuccess(data));
+
+      if (userId) {
+        const data = await getUserGameData();
+        dispatch(updateGameDataFromUser(data));
+      }
+
     } catch (error) {
       console.log(error);
       dispatch(getDailyKryptoFailure());
@@ -162,7 +170,20 @@ function GameContainer(props) {
   }, [errorMessage]);
 
   return (
-    <>
+    <Stack
+      direction={'column'}
+      alignItems="center"
+      sx={{
+        height: '100vh'
+      }}
+      spacing={2}
+      useFlexGap={true}
+    >
+      <TimeInfo
+        averageSeconds={avgTimeSeconds}
+        currentSeconds={currentSeconds}
+      />
+
       <ChallengeDisplay
         numSet={numSet}
         numUsedObj={numUsedObj}
@@ -177,21 +198,14 @@ function GameContainer(props) {
         errorMessage={errorMessage}
       />
 
-      <TimeInfo
-        averageSeconds={avgTimeSeconds}
-        currentSeconds={currentSeconds}
-      />
 
       <CompletedSolutions validSolutions={validSolutions} />
       {isConfettiOn && <Confetti />}
       
-      {/* <div>Daily Streak: {solveStreak}</div> */}
+      <div>Daily Streak: {solveStreak}</div>
 
-      <LogoutButton />
-
-      <ProfileButton />
       
-    </>
+    </ Stack>
   );
 }
 

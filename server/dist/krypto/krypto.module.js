@@ -10,10 +10,12 @@ exports.KryptoModule = void 0;
 const common_1 = require("@nestjs/common");
 const krypto_service_1 = require("./krypto.service");
 const krypto_controller_1 = require("./krypto.controller");
+const jwt_1 = require("@nestjs/jwt");
 let KryptoModule = class KryptoModule {
 };
 KryptoModule = __decorate([
     (0, common_1.Module)({
+        imports: [jwt_1.JwtModule.register({})],
         controllers: [krypto_controller_1.KryptoController],
         providers: [krypto_service_1.KryptoService]
     })
