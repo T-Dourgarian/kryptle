@@ -8,7 +8,7 @@ import Confetti from 'react-confetti';
 import React, { useEffect } from 'react';
 import Mexp from 'math-expression-evaluator';
 import { validateEquation } from '../util/EquationValidators';
-import { postSolution, getDailyKrypto } from '../util/ApiUtil';
+import { postSolution, getDailyKrypto, getUserGameData } from '../util/ApiUtil';
 import {
   equationUpdated,
   validateSubmissionSuccess,
@@ -21,6 +21,7 @@ import {
   getDailyKryptoSuccess,
   getDailyKryptoFailure,
   confettiTurnedOff,
+  updateGameDataFromUser
 } from '../redux/GameSlice';
 import { Formatter } from '../util/Formatter';
 import { Stack } from '@mui/joy';
@@ -47,6 +48,7 @@ function GameContainer(props) {
   const solveStreak = useSelector((state) => state.game.solveStreak);
   const currentSeconds = useSelector((state) => state.game.currentSeconds);
   const isConfettiOn = useSelector((state) => state.game.isConfettiOn);
+  const userId = useSelector(state => state.user.userId);
 
   const numbersRE = /\b\d+\b/g;
 
@@ -66,6 +68,12 @@ function GameContainer(props) {
     try {
       const data = await getDailyKrypto();
       dispatch(getDailyKryptoSuccess(data));
+
+      if (userId) {
+        const data = await getUserGameData();
+        dispatch(updateGameDataFromUser(data));
+      }
+
     } catch (error) {
       console.log(error);
       dispatch(getDailyKryptoFailure());

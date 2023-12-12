@@ -30,7 +30,7 @@ export class KryptoService {
                     },
                 });
 
-                const AVG_SOLUTION_SECONDS = result._avg.solution_seconds;
+                const AVG_SOLUTION_SECONDS = Math.round(result._avg.solution_seconds);
 
                 return {
                     id: DK.id,
@@ -42,13 +42,55 @@ export class KryptoService {
 
             return {
                 id: 0,
-                numbersToUse: [1, 1, 1, 1, 1],
-                targetNumber: 1,
+                numbersToUse: [2, 2, 2, 2, 2],
+                targetNumber: 2,
                 avgTimeSeconds: 1
             }
 
         } catch(error) {
             console.log(error)
+        }
+    }
+
+
+    async getUserGameData(dto) {
+        try {
+
+            const user = await this.prisma.user.findUnique({
+                where: {
+                    id: dto.userId
+                },
+                include: {
+                    solutions: {
+                        select: {
+                            solution_formatted: true
+                        },
+                        where: {
+                            daily_krypto_id: dto.krpytoId
+                        }
+                    },
+                    stats: {
+                        select: {
+                            daily_streak: true
+                        },
+                        where: {
+                            userid: dto.userId
+                        }
+                    }
+                }
+            })
+
+            const formattedSolutions = user.solutions.map((s) => s.solution_formatted);
+
+            const userGameData = {
+                validSolutions: formattedSolutions,
+                dailyStreak: user.stats[0].daily_streak
+            }
+
+            return userGameData
+            
+        } catch(error) {
+            console.log(error);
         }
     }
 }

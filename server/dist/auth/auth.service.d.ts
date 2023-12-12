@@ -19,7 +19,6 @@ export declare class AuthService {
         };
         userData: {
             currentSeconds: number;
-            solutions: string[];
         };
     }>;
     logout(userId: number, dto: SignOutDto): Promise<void>;

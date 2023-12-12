@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import './ProfileContainer.css';
 import { useDispatch, useSelector } from 'react-redux';
-import GameContainer from '../../Gameplay/GameContainer';
-import { routeToNewPage } from '../../redux/NavigationSlice';
 import { getUserStats } from '../../util/ApiUtil';
 import { updateUserStatsData } from '../../redux/UserSlice';
 import { Formatter } from '../../util/Formatter';
@@ -10,14 +8,10 @@ import { Formatter } from '../../util/Formatter';
 function ProfileContainer() {
 	const dispatch = useDispatch();
 
-    const navPage = useSelector(state => state.navigation.page);
     const username = useSelector(state => state.user.username)
 
     const userStats = useSelector(state => state.user.stats)
 
-    const handleNavToGame = () => {
-      dispatch(routeToNewPage({ page: 'Game'}))
-    }
 
 
     const getStatsData = async () => {
@@ -48,13 +42,6 @@ function ProfileContainer() {
         <div>
           Daily Streak: { userStats.daily_streak }
         </div>
-
-
-        <button
-          onClick={handleNavToGame}
-        >
-            Back To Game
-        </button>
     </>
   );
 }

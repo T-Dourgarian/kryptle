@@ -4,10 +4,10 @@ import './Login.css';
 import { login } from '../../util/ApiUtil';
 import { updateMenuSelection } from '../../redux/MenuSlice';
 import { updateUserData } from '../../redux/UserSlice';
-import { updateGameDataFromLogin } from '../../redux/GameSlice';
 import { Formatter } from '../../util/Formatter';
 import { Button, FormControl, FormLabel, Input, Stack, Typography } from '@mui/joy';
 import { Type } from 'class-transformer';
+import { updateCurrentSeconds } from '../../redux/GameSlice';
 
 function Login() {
   const dispatch = useDispatch();
@@ -32,11 +32,7 @@ function Login() {
     if (data.id) {
       dispatch(updateUserData({username: data.username, userId: data.id}))
 
-      dispatch(updateGameDataFromLogin({ 
-        solveStreak: data.solveStreak,
-        validSolutions: data.solutions,
-        currentSeconds: data.currentSeconds
-      }))
+      dispatch(updateCurrentSeconds({ currentSeconds: data.currentSeconds }))
 
     } else if (data.statusCode === 403 ) {
       setErrorMessage('Invalid username or password')

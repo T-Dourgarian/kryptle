@@ -71,16 +71,6 @@ let AuthService = class AuthService {
         const user = await this.prisma.user.findUnique({
             where: {
                 username: dto.username
-            },
-            include: {
-                solutions: {
-                    select: {
-                        solution_formatted: true
-                    },
-                    where: {
-                        daily_krypto_id: DK.id
-                    }
-                }
             }
         });
         if (!user)
@@ -90,10 +80,8 @@ let AuthService = class AuthService {
             throw new common_1.ForbiddenException('Access Denied');
         const tokens = await this.getTokens(user.id, user.username);
         await this.updateRtHash(user.id, tokens.refresh_token);
-        const formattedSolutions = user.solutions.map((s) => s.solution_formatted);
         const userData = {
             currentSeconds: user.solve_timer_seconds,
-            solutions: formattedSolutions
         };
         return { tokens, userData };
     }

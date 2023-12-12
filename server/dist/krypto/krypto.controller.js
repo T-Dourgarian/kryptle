@@ -15,12 +15,18 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.KryptoController = void 0;
 const common_1 = require("@nestjs/common");
 const krypto_service_1 = require("./krypto.service");
+const jwt_1 = require("@nestjs/jwt");
 let KryptoController = class KryptoController {
-    constructor(kryptoService) {
+    constructor(kryptoService, jwtService) {
         this.kryptoService = kryptoService;
+        this.jwtService = jwtService;
     }
     signup(dto) {
         return this.kryptoService.getDailyKypto(dto);
+    }
+    getUserGameData(req, dto) {
+        const { id: userId } = this.jwtService.decode(req.cookies.access_token);
+        return this.kryptoService.getUserGameData({ userId, ...dto });
     }
 };
 __decorate([
@@ -30,9 +36,18 @@ __decorate([
     __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", void 0)
 ], KryptoController.prototype, "signup", null);
+__decorate([
+    (0, common_1.Get)('/user'),
+    (0, common_1.HttpCode)(common_1.HttpStatus.OK),
+    __param(0, (0, common_1.Req)()),
+    __param(1, (0, common_1.Body)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object, Object]),
+    __metadata("design:returntype", void 0)
+], KryptoController.prototype, "getUserGameData", null);
 KryptoController = __decorate([
     (0, common_1.Controller)('dailykrypto'),
-    __metadata("design:paramtypes", [krypto_service_1.KryptoService])
+    __metadata("design:paramtypes", [krypto_service_1.KryptoService, jwt_1.JwtService])
 ], KryptoController);
 exports.KryptoController = KryptoController;
 //# sourceMappingURL=krypto.controller.js.map

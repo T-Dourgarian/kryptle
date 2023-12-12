@@ -1,7 +1,9 @@
 import { KryptoService } from "./krypto.service";
+import { JwtService } from "@nestjs/jwt";
 export declare class KryptoController {
     private kryptoService;
-    constructor(kryptoService: KryptoService);
+    private jwtService;
+    constructor(kryptoService: KryptoService, jwtService: JwtService);
     signup(dto: any): Promise<{
         id: number;
         numbersToUse: string[];
@@ -12,5 +14,9 @@ export declare class KryptoController {
         numbersToUse: number[];
         targetNumber: number;
         avgTimeSeconds: number;
+    }>;
+    getUserGameData(req: any, dto: any): Promise<{
+        validSolutions: string[];
+        dailyStreak: number;
     }>;
 }

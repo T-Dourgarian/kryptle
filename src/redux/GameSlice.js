@@ -33,10 +33,9 @@ export const GameSlice = createSlice({
   initialState,
   reducers: {
     resetGameData: () => defaultState,
-    updateGameDataFromLogin: ( state, action ) => {
-      state.solveStreak = action.payload.solveStreak;
+    updateGameDataFromUser: ( state, action ) => {
+      state.solveStreak = action.payload.dailyStreak;
       state.validSolutions = action.payload.validSolutions;
-      state.currentSeconds = action.payload.currentSeconds;
     },
     solutionUpdated: (state, action) => {
       state.solution = action.payload.solution;
@@ -70,8 +69,11 @@ export const GameSlice = createSlice({
     solveStreakUpdated: (state, action) => {
       state.solveStreak = action.payload.solveStreak;
     },
-    currentSecondsIncremented: (state, actions) => {
+    currentSecondsIncremented: (state, action) => {
       state.currentSeconds += 1;
+    },
+    updateCurrentSeconds:(state,action) => {
+      state.currentSeconds = action.payload.currentSeconds;
     },
     getDailyKryptoSuccess: (state, action) => {
       state.avgTimeSeconds = action.payload.avgTimeSeconds ?? 0;
@@ -95,7 +97,7 @@ export const GameSlice = createSlice({
 
 export const {
   resetGameData,
-  updateGameDataFromLogin,
+  updateGameDataFromUser,
   playButtonClicked,
   equationUpdated,
   validateSubmissionSuccess,
@@ -105,6 +107,7 @@ export const {
   numUsedObjUpdated,
   solutionUpdated,
   solveStreakUpdated,
+  updateCurrentSeconds,
   currentSecondsIncremented,
   getDailyKryptoSuccess,
   getDailyKryptoFailure,
