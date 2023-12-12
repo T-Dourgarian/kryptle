@@ -53,12 +53,18 @@ export class KryptoService {
     }
 
 
-    async getUserGameData(dto) {
+    async getUserGameData(userId) {
         try {
+
+            const todaysKryptoData = await this.prisma.daily_krypto.findFirst({
+                orderBy: {
+                    id: 'desc',
+                  },
+            })
 
             const user = await this.prisma.user.findUnique({
                 where: {
-                    id: dto.userId
+                    id: userId
                 },
                 include: {
                     solutions: {
@@ -66,7 +72,7 @@ export class KryptoService {
                             solution_formatted: true
                         },
                         where: {
-                            daily_krypto_id: dto.krpytoId
+                            daily_krypto_id: todaysKryptoData.id
                         }
                     },
                     stats: {
@@ -74,7 +80,7 @@ export class KryptoService {
                             daily_streak: true
                         },
                         where: {
-                            userid: dto.userId
+                            userid: userId
                         }
                     }
                 }

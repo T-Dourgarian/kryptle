@@ -24,9 +24,9 @@ let KryptoController = class KryptoController {
     signup(dto) {
         return this.kryptoService.getDailyKypto(dto);
     }
-    getUserGameData(req, dto) {
+    getUserGameData(req) {
         const { id: userId } = this.jwtService.decode(req.cookies.access_token);
-        return this.kryptoService.getUserGameData({ userId, ...dto });
+        return this.kryptoService.getUserGameData(userId);
     }
 };
 __decorate([
@@ -40,9 +40,8 @@ __decorate([
     (0, common_1.Get)('/user'),
     (0, common_1.HttpCode)(common_1.HttpStatus.OK),
     __param(0, (0, common_1.Req)()),
-    __param(1, (0, common_1.Body)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object, Object]),
+    __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", void 0)
 ], KryptoController.prototype, "getUserGameData", null);
 KryptoController = __decorate([

@@ -13,7 +13,7 @@ export declare class KryptoService {
         targetNumber: number;
         avgTimeSeconds: number;
     }>;
-    getUserGameData(dto: any): Promise<{
+    getUserGameData(userId: any): Promise<{
         validSolutions: string[];
         dailyStreak: number;
     }>;
