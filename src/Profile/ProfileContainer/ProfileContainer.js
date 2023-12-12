@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getUserStats } from '../../util/ApiUtil';
 import { updateUserStatsData } from '../../redux/UserSlice';
 import { Formatter } from '../../util/Formatter';
+import { Box, Card, Stack, Typography } from '@mui/joy';
 
 function ProfileContainer() {
 	const dispatch = useDispatch();
@@ -25,24 +26,49 @@ function ProfileContainer() {
 
 
   return (
-    <>
-        <div>
-          Username: { username }
-        </div>
+    <Stack
+      alignItems={'center'}
+      sx={{
+        height: '100vh'
+      }}
+    >
+        <Typography
+          // width={'250px'}
+          mt={8}
+          color='#f3f3f3'
+          fontSize={'25px'}
+        >
+          Profile
+        </Typography>
 
-        <div>
-          Avg Solve Time: {Formatter.getFormattedAverageTime(userStats.avg_solve_time)}
-        </div>
-        <div>
-          Total Solves: {userStats.total_solves}
-        </div>
-        <div>
-          Total Unique Solves: {userStats.total_solves_unique}
-        </div>
-        <div>
-          Daily Streak: { userStats.daily_streak }
-        </div>
-    </>
+        <Card
+          sx={{
+            backgroundColor: '#737d87',
+            color: '#f3f3f3',
+            width:'350px'
+          }}
+        >
+          <Box>
+            Username: { username }
+          </Box>
+
+
+          <Box
+
+          >
+            Avg Solve Time: {Formatter.getFormattedAverageTime(userStats.avg_solve_time)}
+          </Box>
+          <Box >
+            Total Solves: {userStats.total_solves}
+          </Box>
+          <Box >
+            Total Unique Solves: {userStats.total_solves_unique}
+          </Box>
+          <Box >
+            Daily Streak: { userStats.daily_streak }
+          </Box>
+        </Card>
+    </Stack>
   );
 }
 
