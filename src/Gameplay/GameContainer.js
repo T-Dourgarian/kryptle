@@ -3,7 +3,7 @@ import ChallengeDisplay from './ChallengeDisplay/ChallengeDisplay';
 import SolutionInput from './SolutionInput/SolutionInput';
 import TimeInfo from './TimeInfo/TimeInfo';
 import CompletedSolutions from './CompletedSolutions/CompletedSolutions';
-import DropDownMenu from './DropDownMenu/DropDownMenu';
+import DropDownMenu from '../Navigation/DropDownMenu/DropDownMenu';
 import Confetti from 'react-confetti';
 import React, { useEffect } from 'react';
 import Mexp from 'math-expression-evaluator';
