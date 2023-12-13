@@ -43,9 +43,12 @@ function ProfileContainer() {
 
         <Card
           sx={{
-            backgroundColor: '#737d87',
+            backgroundColor: '#315A6B',
             color: '#f3f3f3',
-            width:'350px'
+            width:{
+              xs:'80%',
+              md: '350px'
+            }
           }}
         >
           <Box>

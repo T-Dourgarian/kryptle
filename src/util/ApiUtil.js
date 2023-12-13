@@ -20,7 +20,7 @@ const postSolution = async (kryptoId, equation, seconds, formattedSolution) => {
 const getDailyKrypto = async () => {
   try {
     const { data } = await axios.get(
-      `${process.env.REACT_APP_API_URL}/dailykrypto`
+      `/dailykrypto/game`
     );
     return data;
   } catch (error) {
@@ -75,7 +75,7 @@ const signUp = async (email, username, password) => {
 const getUserStats = async () => {
   try {
 
-    const response = await axios.get(`/stats`);
+    const response = await axios.get(`/stats/user`);
 
     return response.data;
 
@@ -85,9 +85,27 @@ const getUserStats = async () => {
 }
 
 const getUserGameData = async () => {
-  const response = await axios.get('/dailykrypto/user');
+  try {
+    const response = await axios.get('/dailykrypto/user');
 
-  return response.data;
+    return response.data;
+  } catch(error) {
+    console.log(error)
+  }
+}
+
+const fetchLeaderboardData = async (orderBy) => {
+  try {
+    const response = await axios.get('/stats/leaderboard', {
+      params: {
+        orderBy
+      }
+    });
+
+    return response.data;
+  } catch(error) {
+    console.log(error)
+  }
 }
 
 export { 
@@ -97,5 +115,6 @@ export {
   logout, 
   signUp,
   getUserStats,
-  getUserGameData 
+  getUserGameData,
+  fetchLeaderboardData
 };
