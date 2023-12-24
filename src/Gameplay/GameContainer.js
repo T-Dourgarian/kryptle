@@ -3,11 +3,12 @@ import ChallengeDisplay from './ChallengeDisplay/ChallengeDisplay';
 import SolutionInput from './SolutionInput/SolutionInput';
 import TimeInfo from './TimeInfo/TimeInfo';
 import CompletedSolutions from './CompletedSolutions/CompletedSolutions';
+import DropDownMenu from '../Navigation/DropDownMenu/DropDownMenu';
 import Confetti from 'react-confetti';
 import React, { useEffect } from 'react';
 import Mexp from 'math-expression-evaluator';
 import { validateEquation } from '../util/EquationValidators';
-import { postSolution, getDailyKrypto } from '../util/ApiUtil';
+import { postSolution, getDailyKrypto, getUserGameData } from '../util/ApiUtil';
 import {
   equationUpdated,
   validateSubmissionSuccess,
@@ -20,8 +21,10 @@ import {
   getDailyKryptoSuccess,
   getDailyKryptoFailure,
   confettiTurnedOff,
-} from '../GameSlice';
+  updateGameDataFromUser
+} from '../redux/GameSlice';
 import { Formatter } from '../util/Formatter';
+import { Stack } from '@mui/joy';
 
 function GameContainer(props) {
   const dispatch = useDispatch();
@@ -45,26 +48,32 @@ function GameContainer(props) {
   const solveStreak = useSelector((state) => state.game.solveStreak);
   const currentSeconds = useSelector((state) => state.game.currentSeconds);
   const isConfettiOn = useSelector((state) => state.game.isConfettiOn);
+  const userId = useSelector(state => state.user.userId);
 
   const numbersRE = /\b\d+\b/g;
 
   // Init Game
   useEffect(() => {
     setKrypto();
-    startIncrementSeconds();
-  }, []);
-
-  const startIncrementSeconds = () => {
+   
     const interval = setInterval(() => {
       dispatch(currentSecondsIncremented());
     }, 1000);
     return () => clearInterval(interval);
-  };
+
+  }, []);
+
 
   const setKrypto = async () => {
     try {
       const data = await getDailyKrypto();
       dispatch(getDailyKryptoSuccess(data));
+
+      if (userId) {
+        const data = await getUserGameData();
+        dispatch(updateGameDataFromUser(data));
+      }
+
     } catch (error) {
       console.log(error);
       dispatch(getDailyKryptoFailure());
@@ -103,6 +112,13 @@ function GameContainer(props) {
   }, [equation]);
 
   const validateSubmission = async () => {
+
+    const formattedSolution = Formatter.formatSolution(
+      equation,
+      target,
+      currentSeconds
+    )
+
     try {
       await validateEquation(
         equation,
@@ -112,13 +128,10 @@ function GameContainer(props) {
         solution,
         validSolutions
       );
+      
       dispatch(
         validateSubmissionSuccess({
-          submittedSolution: Formatter.formatSolution(
-            equation,
-            target,
-            currentSeconds
-          ),
+          submittedSolution: formattedSolution
         })
       );
       startConfettiTimer();
@@ -130,12 +143,14 @@ function GameContainer(props) {
       const postReturnData = await postSolution(
         kryptoId,
         equation,
-        currentSeconds
+        currentSeconds,
+        formattedSolution,
       );
       dispatch(postSolutionSuccess(postReturnData));
     } catch (error) {
       console.log(error);
     }
+    
 
     return true;
   };
@@ -155,7 +170,20 @@ function GameContainer(props) {
   }, [errorMessage]);
 
   return (
-    <>
+    <Stack
+      direction={'column'}
+      alignItems="center"
+      sx={{
+        height: '100vh'
+      }}
+      spacing={2}
+      useFlexGap={true}
+    >
+      <TimeInfo
+        averageSeconds={avgTimeSeconds}
+        currentSeconds={currentSeconds}
+      />
+
       <ChallengeDisplay
         numSet={numSet}
         numUsedObj={numUsedObj}
@@ -170,16 +198,14 @@ function GameContainer(props) {
         errorMessage={errorMessage}
       />
 
-      <TimeInfo
-        averageSeconds={avgTimeSeconds}
-        currentSeconds={currentSeconds}
-      />
 
       <CompletedSolutions validSolutions={validSolutions} />
       {isConfettiOn && <Confetti />}
-
+      
       <div>Daily Streak: {solveStreak}</div>
-    </>
+
+      
+    </ Stack>
   );
 }
 

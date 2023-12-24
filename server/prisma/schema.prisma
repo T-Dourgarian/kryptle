@@ -1,0 +1,53 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model daily_krypto {
+  id         Int       @id @default(autoincrement())
+  numbers    String    @db.VarChar(60)
+  target     Int
+  created_at DateTime? @default(now()) @db.Timestamp(6)
+}
+
+model solutions {
+  id                 Int       @id @default(autoincrement())
+  daily_krypto_id    Int?
+  solution           String    @db.VarChar(60)
+  solution_seconds   Int
+  created_at         DateTime? @default(now()) @db.Timestamp(6)
+  userId             Int
+  solution_formatted String    @db.VarChar(80)
+  user               user      @relation(fields: [userId], references: [id])
+}
+
+model user {
+  id                  Int         @id @default(autoincrement())
+  created_at          DateTime?   @default(now()) @db.Timestamp(6)
+  updated_at          DateTime?   @updatedAt
+  username            String      @unique @db.VarChar(25)
+  email               String      @unique @db.VarChar(75)
+  hash                String
+  hashedRt            String?
+  solve_timer_seconds Int         @default(0)
+  solutions           solutions[]
+  stats               stats?
+
+  @@map("users")
+}
+
+model stats {
+  id                              Int       @id @default(autoincrement())
+  userid                          Int       @unique
+  avg_solve_time                  Int?      @default(0)
+  total_solves                    Int?      @default(0)
+  total_solves_unique             Int?      @default(0)
+  created_at                      DateTime? @default(now()) @db.Timestamp(6)
+  daily_streak                    Int?      @default(0)
+  daily_streak_increment_eligible Boolean?  @default(true)
+  users                           user      @relation(fields: [userid], references: [id], onDelete: NoAction, onUpdate: NoAction)
+}

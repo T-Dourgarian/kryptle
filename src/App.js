@@ -1,23 +1,39 @@
 import React, { useEffect } from 'react';
 import './App.css';
-import HowToPlay from './HowToPlay/HowToPlay.js';
-
-import GameContainer from './Gameplay/GameContainer';
+import '@fontsource/inter';
+import Navigation from './Navigation/Navigation.js';
+import MenuContainer from './Menu/MenuContainer/MenuContainer.js';
 import { useSelector } from 'react-redux';
+import { CssVarsProvider } from '@mui/joy/styles';
+import Sheet from '@mui/joy/Sheet';
 
 function App() {
-  const playedToday = useSelector((state) => state.game.playedToday);
+
+  const userId = useSelector((state) => state.user.userId)
 
   return (
-    <div className="App">
+
+  <CssVarsProvider>
+    <Sheet 
+      variant="solid"
+      sx={{
+        display: 'flex',
+        flexDirection: 'column',
+        height: '100vh',
+        backgroundColor: '#1E2938'
+      }}
+    >
+    <div>
+
         {
-          !playedToday && <HowToPlay />
+          userId ? 
+          <Navigation />:
+          <MenuContainer />
         }
 
-        <header className="App-header">
-           <GameContainer />
-        </header>
-    </div>
+      </div>
+    </Sheet>
+  </CssVarsProvider>
   );
 }
 
