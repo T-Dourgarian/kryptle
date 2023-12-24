@@ -89,7 +89,7 @@ export class KryptoService {
 
             const userGameData = {
                 validSolutions: formattedSolutions,
-                dailyStreak: user.stats[0].daily_streak
+                dailyStreak: user.stats.daily_streak
             }
 
             return userGameData

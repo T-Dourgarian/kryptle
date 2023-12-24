@@ -26,6 +26,7 @@ let KryptoController = class KryptoController {
     }
     getUserGameData(req) {
         const { id: userId } = this.jwtService.decode(req.cookies.access_token);
+        console.log(userId);
         return this.kryptoService.getUserGameData(userId);
     }
 };

@@ -17,6 +17,6 @@ export declare class KryptoController {
     }>;
     getUserGameData(req: any): Promise<{
         validSolutions: string[];
-        dailyStreak: any;
+        dailyStreak: number;
     }>;
 }
