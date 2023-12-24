@@ -18,6 +18,8 @@ const refreshKrypto_module_1 = require("./refreshKrypto/refreshKrypto.module");
 const auth_module_1 = require("./auth/auth.module");
 const core_1 = require("@nestjs/core");
 const guards_1 = require("./common/guards");
+const serve_static_1 = require("@nestjs/serve-static");
+const path_1 = require("path");
 let AppModule = class AppModule {
 };
 AppModule = __decorate([
@@ -30,7 +32,10 @@ AppModule = __decorate([
             prisma_module_1.PrismaModule,
             config_1.ConfigModule.forRoot({ isGlobal: true }),
             schedule_1.ScheduleModule.forRoot(),
-            auth_module_1.AuthModule
+            auth_module_1.AuthModule,
+            serve_static_1.ServeStaticModule.forRoot({
+                rootPath: (0, path_1.join)(__dirname, '..', 'build')
+            })
         ],
         controllers: [],
         providers: [{

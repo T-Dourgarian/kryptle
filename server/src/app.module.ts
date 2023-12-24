@@ -9,6 +9,8 @@ import { RefreshKryptoModule } from './refreshKrypto/refreshKrypto.module';
 import { AuthModule } from './auth/auth.module';
 import { APP_GUARD } from '@nestjs/core';
 import { AtGuard } from './common/guards';
+import { ServeStaticModule } from '@nestjs/serve-static';
+import { join } from 'path';
 
 @Module({
   imports: [ 
@@ -19,7 +21,10 @@ import { AtGuard } from './common/guards';
     PrismaModule, 
     ConfigModule.forRoot({ isGlobal: true }), 
     ScheduleModule.forRoot(), 
-    AuthModule 
+    AuthModule,
+    ServeStaticModule.forRoot({
+      rootPath: join(__dirname, '..', 'build')
+    })
   ],
   controllers: [],
   providers: [{
