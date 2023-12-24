@@ -69,7 +69,7 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "server": "nest start",
+    "server": "node dist/main.js",
     "start:dev": "nest start --watch",
     "build": "react-scripts build",
     "test": "react-scripts test",
