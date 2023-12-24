@@ -15,6 +15,6 @@ export declare class KryptoService {
     }>;
     getUserGameData(userId: any): Promise<{
         validSolutions: string[];
-        dailyStreak: number;
+        dailyStreak: any;
     }>;
 }
