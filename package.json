@@ -67,7 +67,7 @@
     "tsconfig-paths": "^4.2.0"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "start": "serve -s build",
     "server": "nest start",
     "start:dev": "nest start --watch",
     "build": "react-scripts build",
