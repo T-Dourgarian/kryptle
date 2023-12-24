@@ -136,6 +136,7 @@ function GameContainer(props) {
       );
       startConfettiTimer();
     } catch (error) {
+      console.log(error)
       return dispatch(validateSubmissionFailure({ error: error.message }));
     }
 

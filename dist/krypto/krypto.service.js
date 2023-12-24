@@ -84,7 +84,7 @@ let KryptoService = class KryptoService {
             const formattedSolutions = user.solutions.map((s) => s.solution_formatted);
             const userGameData = {
                 validSolutions: formattedSolutions,
-                dailyStreak: user.stats[0].daily_streak
+                dailyStreak: user.stats.daily_streak
             };
             return userGameData;
         }
