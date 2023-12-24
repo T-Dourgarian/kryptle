@@ -1,1 +1,1 @@
-web: node server/server.js
+web: nest start
