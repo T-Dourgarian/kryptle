@@ -1,6 +1,5 @@
 import { ForbiddenException, Injectable } from "@nestjs/common";
 // import { AuthDto } from './dto'
-import { daily_krypto } from "@prisma/client";
 import { PrismaService } from "..//prisma/prisma.service";
 import { PrismaClientKnownRequestError } from "@prisma/client/runtime/library";
 
