@@ -62,9 +62,23 @@ export class AuthController {
     @HttpCode(HttpStatus.OK)
     logout(
         @Body() dto: SignOutDto,
-        @GetCurrentUserId() userId: number
+        @GetCurrentUserId() userId: number,
+        @Response() res,    
     ) {
-        return this.authService.logout(userId, dto)
+
+        res.cookie('refresh_token', '', {
+            sameSite: 'strict',
+            httpOnly: true,
+        });
+
+        res.cookie('access_token', '', {
+            sameSite: 'strict',
+            httpOnly: true,
+        });
+
+        this.authService.logout(userId, dto);
+
+        return res.status(200);
     }
 
     @Public()

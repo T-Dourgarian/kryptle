@@ -17,9 +17,6 @@ export class KryptoController {
     @HttpCode(HttpStatus.OK)
     getUserGameData(@Req() req) {
         const { id: userId } = this.jwtService.decode(req.cookies.access_token);
-
-        console.log(userId);
-        
         return this.kryptoService.getUserGameData(userId);
     }
 
