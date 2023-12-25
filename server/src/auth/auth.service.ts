@@ -64,12 +64,6 @@ export class AuthService {
 
     async signinLocal(dto: SignInDto){
 
-        const DK = await this.prisma.daily_krypto.findFirst({
-            orderBy: {
-                created_at: 'desc'
-            }
-        })
-
         const user = await this.prisma.user.findUnique({
             where: {
                 username: dto.username
@@ -138,14 +132,14 @@ export class AuthService {
                 username,
             }, {
                 secret: this.config.get<string>('AT_SECRET'),
-                expiresIn:  60 * 15
+                expiresIn:  15
             }),
             this.jwtService.signAsync({
                 id: userId,
                 username,
             }, {
                 secret: this.config.get<string>('RT_SECRET'),
-                expiresIn:  60 * 60 * 24 * 7
+                expiresIn:  15
             })
         ])
         

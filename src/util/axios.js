@@ -15,6 +15,10 @@ axiosInstance.interceptors.response.use(async res => {
     return res
 }, async (error) => {
 
+    if (error?.response?.request?.responseURL?.includes('refresh')) {
+        return Promise.reject(error);
+    }
+
     if (error.response.data.statusCode === 401) {
         try {
             await axiosInstance.post('/auth/refresh');

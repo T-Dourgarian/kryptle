@@ -8,6 +8,6 @@ export declare class AuthController {
     constructor(authService: AuthService, jwtService: JwtService);
     signupLocal(dto: AuthDto, res: any): Promise<Tokens>;
     signinLocal(dto: SignInDto, res: any): Promise<any>;
-    logout(dto: SignOutDto, userId: number): Promise<void>;
+    logout(dto: SignOutDto, userId: number, res: any): any;
     refreshTokens(refreshToken: string, userId: number, res: any): Promise<any>;
 }

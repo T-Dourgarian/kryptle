@@ -8,8 +8,12 @@ async function bootstrap() {
     const app = await core_1.NestFactory.create(app_module_1.AppModule);
     app.use(cookieParser());
     app.enableCors({
-        credentials: true,
-        origin: true
+        origin: [
+            "http://localhost:3000",
+            "http://www.kryptle.com",
+            "https://kryptle-c85be340ad52.herokuapp.com/"
+        ],
+        credentials: true
     });
     app.useGlobalPipes(new common_1.ValidationPipe({
         whitelist: true

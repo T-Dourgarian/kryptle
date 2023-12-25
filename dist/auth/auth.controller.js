@@ -50,8 +50,17 @@ let AuthController = class AuthController {
         const { id, username } = this.jwtService.decode(data.tokens.access_token);
         return res.json({ id, username, ...data.userData });
     }
-    logout(dto, userId) {
-        return this.authService.logout(userId, dto);
+    logout(dto, userId, res) {
+        res.cookie('refresh_token', '', {
+            sameSite: 'strict',
+            httpOnly: true,
+        });
+        res.cookie('access_token', '', {
+            sameSite: 'strict',
+            httpOnly: true,
+        });
+        this.authService.logout(userId, dto);
+        return res.status(200);
     }
     async refreshTokens(refreshToken, userId, res) {
         const data = await this.authService.refreshTokens(userId, refreshToken);
@@ -91,8 +100,9 @@ __decorate([
     (0, common_1.HttpCode)(common_1.HttpStatus.OK),
     __param(0, (0, common_1.Body)()),
     __param(1, (0, decorators_1.GetCurrentUserId)()),
+    __param(2, (0, common_1.Response)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [dto_1.SignOutDto, Number]),
+    __metadata("design:paramtypes", [dto_1.SignOutDto, Number, Object]),
     __metadata("design:returntype", void 0)
 ], AuthController.prototype, "logout", null);
 __decorate([
