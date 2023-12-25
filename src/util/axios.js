@@ -15,7 +15,7 @@ axiosInstance.interceptors.response.use(async res => {
     return res
 }, async (error) => {
 
-    if (error?.response?.request?.responseURL?.includes('refresh')) {
+    if (error.response.request.responseURL.includes('refresh')) {
         return Promise.reject(error);
     }
 

@@ -78,7 +78,7 @@ export class AuthController {
 
         this.authService.logout(userId, dto);
 
-        return res.status(200);
+        return res.sendStatus(200);
     }
 
     @Public()

@@ -15,7 +15,7 @@ function DropDownMenu(props) {
 
     const handleLogOut = async () => {
         await logout(currentSeconds);
-        
+               
         dispatch(updateUserData({
             username: '',
             userId: ''

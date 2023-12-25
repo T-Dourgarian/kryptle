@@ -81,18 +81,23 @@ let AuthService = class AuthService {
         return { tokens, userData };
     }
     async logout(userId, dto) {
-        await this.prisma.user.update({
-            where: {
-                id: userId,
-                hashedRt: {
-                    not: null
+        try {
+            await this.prisma.user.update({
+                where: {
+                    id: userId,
+                    hashedRt: {
+                        not: null
+                    }
+                },
+                data: {
+                    solve_timer_seconds: dto.currentSeconds,
+                    hashedRt: null
                 }
-            },
-            data: {
-                solve_timer_seconds: dto.currentSeconds,
-                hashedRt: null
-            }
-        });
+            });
+        }
+        catch (error) {
+            console.log(error);
+        }
     }
     async refreshTokens(userId, rt) {
         const user = await this.prisma.user.findUnique({
