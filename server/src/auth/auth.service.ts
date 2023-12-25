@@ -132,14 +132,14 @@ export class AuthService {
                 username,
             }, {
                 secret: this.config.get<string>('AT_SECRET'),
-                expiresIn:  15
+                expiresIn:  60 * 15
             }),
             this.jwtService.signAsync({
                 id: userId,
                 username,
             }, {
                 secret: this.config.get<string>('RT_SECRET'),
-                expiresIn:  15
+                expiresIn:  60 * 60 * 24 * 7
             })
         ])
         
