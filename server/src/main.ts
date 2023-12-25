@@ -4,11 +4,15 @@ import { ValidationPipe } from '@nestjs/common';
 import * as cookieParser from 'cookie-parser';
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule, { cors: true });
+  const app = await NestFactory.create(AppModule);
   app.use(cookieParser());
   app.enableCors({
-    credentials: true,
-    origin: true
+    origin: [
+      "http://localhost:3000",
+      "http://www.kryptle.com",
+      "https://kryptle-c85be340ad52.herokuapp.com/"
+    ],
+    credentials: true
   });
   app.useGlobalPipes(new ValidationPipe({
     whitelist: true
