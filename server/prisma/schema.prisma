@@ -30,7 +30,7 @@ model user {
   created_at          DateTime?   @default(now()) @db.Timestamp(6)
   updated_at          DateTime?   @updatedAt
   username            String      @unique @db.VarChar(25)
-  email               String      @unique @db.VarChar(75)
+  email               String      @db.VarChar(75)
   hash                String
   hashedRt            String?
   solve_timer_seconds Int         @default(0)

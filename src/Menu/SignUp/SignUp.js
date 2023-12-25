@@ -74,7 +74,7 @@ function SignUp() {
         Create an Account
       </Typography>
 
-        <FormControl >
+        {/* <FormControl >
           <FormLabel
             sx={{
               color: '#f3f3f3',
@@ -88,7 +88,7 @@ function SignUp() {
             type='email'
             onChange={handleEmailInput}
           />
-        </FormControl>
+        </FormControl> */}
 
         <FormControl >
           <FormLabel

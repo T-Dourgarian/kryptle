@@ -60,7 +60,7 @@ const signUp = async (email, username, password) => {
   try {
 
     const response = await axios.post(`/auth/local/signup`,{
-      email,
+      email: 'asdf@gmail.com',
       username,
       password
     })

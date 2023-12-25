@@ -32,8 +32,6 @@ let AuthService = class AuthService {
         });
         if (user?.username === dto.username)
             throw new common_1.ForbiddenException('Username already taken');
-        if (user?.email === dto.email)
-            throw new common_1.ForbiddenException('Email already taken');
         const hash = await this.hashData(dto.password);
         const newUser = await this.prisma.user.create({
             data: {
