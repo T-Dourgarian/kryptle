@@ -60,7 +60,7 @@ let AuthController = class AuthController {
             httpOnly: true,
         });
         this.authService.logout(userId, dto);
-        return res.status(200);
+        return res.sendStatus(200);
     }
     async refreshTokens(refreshToken, userId, res) {
         const data = await this.authService.refreshTokens(userId, refreshToken);

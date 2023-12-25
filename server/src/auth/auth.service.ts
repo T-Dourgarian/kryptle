@@ -89,18 +89,22 @@ export class AuthService {
 
     async logout(userId: number, dto: SignOutDto) {
 
-        await this.prisma.user.update({
-            where: {
-                id: userId,
-                hashedRt: {
-                    not: null
+        try {
+            await this.prisma.user.update({
+                where: {
+                    id: userId,
+                    hashedRt: {
+                        not: null
+                    }
+                },
+                data: {
+                    solve_timer_seconds: dto.currentSeconds,
+                    hashedRt: null
                 }
-            },
-            data: {
-                solve_timer_seconds: dto.currentSeconds,
-                hashedRt: null
-            }
-        })
+            })
+        } catch(error) {
+            console.log(error)
+        }
     }
 
     async refreshTokens(userId: number, rt: string) {
