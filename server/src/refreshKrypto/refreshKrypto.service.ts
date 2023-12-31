@@ -22,6 +22,24 @@ export class RefreshKryptoService {
         const targetNumber = kryptoNumbers[5];
 
         try {
+            await this.prisma.stats.updateMany({
+                where : {
+                    daily_streak_increment_eligible: true
+                },
+                data: {
+                    daily_streak: 0
+                }
+            })
+
+            await this.prisma.stats.updateMany({
+                where : {
+                    daily_streak_increment_eligible: false
+                },
+                data: {
+                    daily_streak_increment_eligible: true
+                }
+            })
+
             await this.prisma.daily_krypto.create({
                 data: {
                     numbers: numbersToUse,
@@ -35,14 +53,6 @@ export class RefreshKryptoService {
                 }
             })
 
-            await this.prisma.stats.updateMany({
-                where : {
-                    daily_streak_increment_eligible: true
-                },
-                data: {
-                    daily_streak: 0
-                }
-            })
 
         } catch(error) {
             console.log(error);
