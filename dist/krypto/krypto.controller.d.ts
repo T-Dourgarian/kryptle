@@ -4,7 +4,7 @@ export declare class KryptoController {
     private kryptoService;
     private jwtService;
     constructor(kryptoService: KryptoService, jwtService: JwtService);
-    signup(dto: any): Promise<{
+    getDailyKrypto(): Promise<{
         id: number;
         numbersToUse: string[];
         targetNumber: number;

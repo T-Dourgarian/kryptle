@@ -8,9 +8,10 @@ import { JwtService } from "@nestjs/jwt";
 export class KryptoController {
     constructor(private kryptoService: KryptoService, private jwtService: JwtService ) {}
 
+    @Public()
     @Get('/game')
-    signup(@Body() dto) {
-        return this.kryptoService.getDailyKypto(dto);
+    getDailyKrypto() {
+        return this.kryptoService.getDailyKypto();
     }
 
     @Get('/user')

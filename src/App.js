@@ -10,6 +10,7 @@ import Sheet from '@mui/joy/Sheet';
 function App() {
 
   const userId = useSelector((state) => state.user.userId)
+  const playAsGuest = useSelector((state) => state.user.playAsGuest)
 
   return (
 
@@ -26,7 +27,7 @@ function App() {
     <div>
 
         {
-          userId ? 
+          userId || playAsGuest ? 
           <Navigation />:
           <MenuContainer />
         }

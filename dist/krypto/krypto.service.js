@@ -16,7 +16,7 @@ let KryptoService = class KryptoService {
     constructor(prisma) {
         this.prisma = prisma;
     }
-    async getDailyKypto(dto) {
+    async getDailyKypto() {
         try {
             const DK = await this.prisma.daily_krypto.findFirst({
                 orderBy: {

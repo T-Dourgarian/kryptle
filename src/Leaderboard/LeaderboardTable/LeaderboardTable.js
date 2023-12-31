@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import Stack from '@mui/joy/Stack';
 import { Table, Typography } from '@mui/joy';
 import { fetchLeaderboardData } from '../../util/ApiUtil';
@@ -10,7 +10,8 @@ import { Button } from '@mui/joy';
 
 function LeaderboardTable() {
 	const dispatch = useDispatch();
-    const [leaderboardData, setLeaderboardData] = useState(null)
+    const [leaderboardData, setLeaderboardData] = useState(null);
+    const userId = useSelector(state => state.user.userId)
 
     const getLeaderboardData = async(orderBy) => {
         const data = await fetchLeaderboardData(orderBy);

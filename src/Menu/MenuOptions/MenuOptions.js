@@ -3,6 +3,9 @@ import './MenuOptions.css';
 import {
 	updateMenuSelection
   } from '../../redux/MenuSlice';
+import {
+	updatePlayAsGuest
+} from '../../redux/UserSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import Stack from '@mui/joy/Stack';
 import Typography from '@mui/joy/Typography';
@@ -14,6 +17,10 @@ function MenuOptions() {
 	const handlePageSelect = (page) => {
 		dispatch(updateMenuSelection({ page }));
 	} 
+
+	const handlePlaySelect = () => {
+		dispatch(updatePlayAsGuest({ playAsGuest: true }))
+	}
 
 	const menuButtonStyleObj = {
 		color: '#f3f3f3',
@@ -47,10 +54,10 @@ function MenuOptions() {
 			spacing={3}
 		>
 			<Button
-			onClick={() => handlePageSelect('SignUp')}
-			variant='outlined'
-			sx={menuButtonStyleObj}
-			>Sign Up</Button>
+				onClick={() => handlePageSelect('HowToPlay')}
+				variant='outlined'
+				sx={menuButtonStyleObj}
+			>How To Play</Button>
 
 			<Button 
 				onClick={() => handlePageSelect('Login')}
@@ -58,12 +65,14 @@ function MenuOptions() {
 				sx={menuButtonStyleObj}
 			>Login</Button>
 
-
 			<Button
-				onClick={() => handlePageSelect('HowToPlay')}
+				onClick={handlePlaySelect}
 				variant='outlined'
 				sx={menuButtonStyleObj}
-			>How To Play</Button>
+			>Play</Button>
+
+
+
 		</Stack>
 
     </ Stack>
