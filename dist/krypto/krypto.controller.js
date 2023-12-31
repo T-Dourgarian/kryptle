@@ -15,14 +15,15 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.KryptoController = void 0;
 const common_1 = require("@nestjs/common");
 const krypto_service_1 = require("./krypto.service");
+const decorators_1 = require("../common/decorators");
 const jwt_1 = require("@nestjs/jwt");
 let KryptoController = class KryptoController {
     constructor(kryptoService, jwtService) {
         this.kryptoService = kryptoService;
         this.jwtService = jwtService;
     }
-    signup(dto) {
-        return this.kryptoService.getDailyKypto(dto);
+    getDailyKrypto() {
+        return this.kryptoService.getDailyKypto();
     }
     getUserGameData(req) {
         const { id: userId } = this.jwtService.decode(req.cookies.access_token);
@@ -30,12 +31,12 @@ let KryptoController = class KryptoController {
     }
 };
 __decorate([
+    (0, decorators_1.Public)(),
     (0, common_1.Get)('/game'),
-    __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object]),
+    __metadata("design:paramtypes", []),
     __metadata("design:returntype", void 0)
-], KryptoController.prototype, "signup", null);
+], KryptoController.prototype, "getDailyKrypto", null);
 __decorate([
     (0, common_1.Get)('/user'),
     (0, common_1.HttpCode)(common_1.HttpStatus.OK),
