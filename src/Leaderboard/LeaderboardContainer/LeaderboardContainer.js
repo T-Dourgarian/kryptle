@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import Stack from '@mui/joy/Stack';
 import { Typography } from '@mui/joy';
 import LeaderboardTable from '../LeaderboardTable/LeaderboardTable';
@@ -9,6 +9,7 @@ import LeaderboardTable from '../LeaderboardTable/LeaderboardTable';
 function LeaderboardContainer() {
 	const dispatch = useDispatch();
 
+	const userId = useSelector((state) => state.user.userId);
 
 
 
@@ -30,6 +31,18 @@ function LeaderboardContainer() {
 		</Typography>
 
 		<LeaderboardTable />
+
+		{
+			!userId && 
+			<Typography
+				fontSize={{xs:'22px', md: '40px'}}
+				textAlign={'center'}
+				mt={8}
+				color='#f3f3f3'
+			>
+				Sign Up to see the leaderboard and your standing!
+			</Typography>
+		}
 
     </ Stack>
   );

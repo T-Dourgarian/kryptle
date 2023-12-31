@@ -1,27 +1,40 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { updateUserData } from '../../redux/UserSlice';
+import { updateUserData, updateUserStatsData } from '../../redux/UserSlice';
 import { resetGameData } from '../../redux/GameSlice';
 import { logout } from '../../util/ApiUtil';
 import { Box, Button, Dropdown, Menu, MenuButton, MenuItem } from '@mui/joy';
 import { routeToNewPage } from '../../redux/NavigationSlice';
+import { updatePlayAsGuest } from '../../redux/UserSlice';
+import { updateMenuSelection } from '../../redux/MenuSlice';
 
 function DropDownMenu(props) {
-  const dispatch = useDispatch();
+    const dispatch = useDispatch();
 
-  const currentSeconds = useSelector((state) => state.game.currentSeconds)
-
-
+    const currentSeconds = useSelector((state) => state.game.currentSeconds)
+    const userId = useSelector((state) => state.user.userId)
 
     const handleLogOut = async () => {
         await logout(currentSeconds);
-               
+
         dispatch(updateUserData({
             username: '',
             userId: ''
-        }))
+        }));
+
+        dispatch(updateUserStatsData({
+            avg_solve_time: '',
+            total_solves: '',
+            total_solves_unique: '',
+            daily_streak: ''
+        }));
 
         dispatch(resetGameData());
+    }
+
+    const handleSignUp = () => {
+        dispatch(updateMenuSelection({ page: 'SignUp' }));
+        dispatch(updatePlayAsGuest({ playAsGuest: false }));
     }
 
     const handleNavigation = (page) => {
@@ -84,15 +97,27 @@ function DropDownMenu(props) {
                 >
                     Leaderboard
                 </MenuItem>
-                <MenuItem
-                    onClick={handleLogOut}
-                    sx={{
-                        backgroundColor: '#32363B',
-                        
-                    }}
-                >
-                    Log Out
-                </MenuItem>
+                {
+                    userId ?
+                    <MenuItem
+                        onClick={handleLogOut}
+                        sx={{
+                            backgroundColor: '#32363B',
+                            
+                        }}
+                    >
+                        Log Out
+                    </MenuItem>:
+                    <MenuItem
+                        onClick={handleSignUp}
+                        sx={{
+                            backgroundColor: '#32363B',
+                            
+                        }}
+                    >
+                        Sign Up
+                    </MenuItem>
+                }
             </Menu>
         </Dropdown>
     </Box>
