@@ -9,15 +9,18 @@ import { Box, Card, Stack, Typography } from '@mui/joy';
 function ProfileContainer() {
 	const dispatch = useDispatch();
 
-    const username = useSelector(state => state.user.username)
+    const username = useSelector(state => state.user.username);
+    const userId = useSelector((state) => state.user.userId);
 
-    const userStats = useSelector(state => state.user.stats)
+    const userStats = useSelector(state => state.user.stats);
 
 
 
     const getStatsData = async () => {
-      const userStatsData = await getUserStats();
-      dispatch(updateUserStatsData(userStatsData));
+      if (userId) {
+        const userStatsData = await getUserStats();
+        dispatch(updateUserStatsData(userStatsData));
+      }
     }
 
     useEffect(() => {
@@ -32,14 +35,25 @@ function ProfileContainer() {
         height: '100vh'
       }}
     >
-        <Typography
-          // width={'250px'}
-          mt={8}
-          color='#f3f3f3'
-          fontSize={'25px'}
-        >
-          Profile
-        </Typography>
+        {
+          userId ?
+          <Typography
+            // width={'250px'}
+            mt={8}
+            color='#f3f3f3'
+            fontSize={'25px'}
+          >
+            Profile
+          </Typography>:
+          <Typography
+            // width={'250px'}
+            mt={8}
+            color='#f3f3f3'
+            fontSize={'25px'}
+          >
+            Sign Up to track your stats!
+          </Typography>
+        }
 
         <Card
           sx={{

@@ -2,7 +2,7 @@ import { PrismaService } from "..//prisma/prisma.service";
 export declare class KryptoService {
     private prisma;
     constructor(prisma: PrismaService);
-    getDailyKypto(dto: any): Promise<{
+    getDailyKypto(): Promise<{
         id: number;
         numbersToUse: string[];
         targetNumber: number;

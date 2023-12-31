@@ -26,7 +26,7 @@ export class AuthService {
 
 
         if (user?.username === dto.username) throw new ForbiddenException('Username already taken');
-        if (user?.email === dto.email) throw new ForbiddenException('Email already taken');
+        // if (user?.email === dto.email) throw new ForbiddenException('Email already taken');
 
 
         const hash = await this.hashData(dto.password);

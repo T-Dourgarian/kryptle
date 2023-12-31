@@ -8,7 +8,7 @@ import { PrismaClientKnownRequestError } from "@prisma/client/runtime/library";
 export class KryptoService {
     constructor(private prisma:PrismaService) {}
 
-    async getDailyKypto(dto) {
+    async getDailyKypto() {
         try {
             const DK = await this.prisma.daily_krypto.findFirst({
                 orderBy: {

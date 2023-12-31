@@ -141,13 +141,15 @@ function GameContainer(props) {
     }
 
     try {
-      const postReturnData = await postSolution(
-        kryptoId,
-        equation,
-        currentSeconds,
-        formattedSolution,
-      );
-      dispatch(postSolutionSuccess(postReturnData));
+      if (userId) {
+        const postReturnData = await postSolution(
+          kryptoId,
+          equation,
+          currentSeconds,
+          formattedSolution,
+        );
+        dispatch(postSolutionSuccess(postReturnData));
+      }
     } catch (error) {
       console.log(error);
     }

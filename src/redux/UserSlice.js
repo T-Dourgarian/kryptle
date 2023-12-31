@@ -9,7 +9,8 @@ const defaultState = {
     total_solves: 0,
     total_solves_unique: 0,
     daily_streak: 0
-  }
+  },
+  playAsGuest: false
 };
 
 function loadInitialState() {
@@ -36,13 +37,17 @@ export const UserSlice = createSlice({
       state.stats.total_solves = action.payload.total_solves;
       state.stats.total_solves_unique = action.payload.total_solves_unique;
       state.stats.daily_streak = action.payload.daily_streak;
+    },
+    updatePlayAsGuest: (state, action) => {
+      state.playAsGuest = action.payload.playAsGuest;
     }
   },
 });
 
 export const {
   updateUserData,
-  updateUserStatsData
+  updateUserStatsData,
+  updatePlayAsGuest
 } = UserSlice.actions;
 
 export default UserSlice.reducer;
