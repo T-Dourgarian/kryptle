@@ -5,6 +5,7 @@ import ProfileContainer from '../Profile/ProfileContainer/ProfileContainer';
 import LeaderboardContainer from '../Leaderboard/LeaderboardContainer/LeaderboardContainer';
 import DropDownMenu from './DropDownMenu/DropDownMenu';
 import { Box } from '@mui/joy';
+import FriendsContainer from '../Friends/FriendsContainer';
 
 function Navigation() {
 	const dispatch = useDispatch();
@@ -31,6 +32,11 @@ function Navigation() {
           {
               navPage === 'Leaderboard' && 
               <LeaderboardContainer />
+          }
+
+{
+              navPage === 'Friends' && 
+              <FriendsContainer />
           }
 
     </>

@@ -108,6 +108,16 @@ const fetchLeaderboardData = async (orderBy) => {
   }
 }
 
+const getFriendsData = async () => {
+  try {
+    const response = await axios.get('/friends');
+    return response.data;
+  } catch(error) {
+    console.log(error)
+  }
+}
+
+
 export { 
   postSolution, 
   getDailyKrypto, 
@@ -116,5 +126,6 @@ export {
   signUp,
   getUserStats,
   getUserGameData,
-  fetchLeaderboardData
+  fetchLeaderboardData,
+  getFriendsData
 };

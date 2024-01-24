@@ -97,6 +97,16 @@ function DropDownMenu(props) {
                 >
                     Leaderboard
                 </MenuItem>
+                
+                <MenuItem
+                    onClick={() => handleNavigation('Friends')}
+                    sx={{
+                        backgroundColor: '#32363B',
+                    }}
+                >
+                    Friends
+                </MenuItem>
+
                 {
                     userId ?
                     <MenuItem

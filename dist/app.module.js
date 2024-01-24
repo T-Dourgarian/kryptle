@@ -15,6 +15,7 @@ const stats_module_1 = require("./stats/stats.module");
 const config_1 = require("@nestjs/config");
 const schedule_1 = require("@nestjs/schedule");
 const refreshKrypto_module_1 = require("./refreshKrypto/refreshKrypto.module");
+const friends_module_1 = require("./friends/friends.module");
 const auth_module_1 = require("./auth/auth.module");
 const core_1 = require("@nestjs/core");
 const guards_1 = require("./common/guards");
@@ -33,6 +34,7 @@ AppModule = __decorate([
             config_1.ConfigModule.forRoot({ isGlobal: true }),
             schedule_1.ScheduleModule.forRoot(),
             auth_module_1.AuthModule,
+            friends_module_1.FriendsModule,
             serve_static_1.ServeStaticModule.forRoot({
                 rootPath: (0, path_1.join)(__dirname, '..', 'build')
             })

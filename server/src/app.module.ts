@@ -6,6 +6,7 @@ import { StatsModule } from './stats/stats.module';
 import { ConfigModule } from '@nestjs/config';
 import { ScheduleModule } from '@nestjs/schedule';
 import { RefreshKryptoModule } from './refreshKrypto/refreshKrypto.module';
+import { FriendsModule } from './friends/friends.module'
 import { AuthModule } from './auth/auth.module';
 import { APP_GUARD } from '@nestjs/core';
 import { AtGuard } from './common/guards';
@@ -22,6 +23,7 @@ import { join } from 'path';
     ConfigModule.forRoot({ isGlobal: true }), 
     ScheduleModule.forRoot(), 
     AuthModule,
+    FriendsModule,
     ServeStaticModule.forRoot({
       rootPath: join(__dirname, '..', 'build')
     })
