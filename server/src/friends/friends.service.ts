@@ -73,19 +73,31 @@ export class FriendsService {
             const result = await this.prisma.$queryRaw
             `
                 SELECT 
-                    users.username,
-                    stats.avg_solve_time,
-                    stats.total_solves_unique,
-                    stats.daily_streak,
-                    solutions.solution_seconds AS today_solution_seconds,
-                    solutions.solution AS today_solution
-                FROM friends
-                JOIN users ON friends.friend_userid = users.id
-                JOIN stats ON friends.friend_userid = stats.userid
-                JOIN solutions ON friends.friend_userid = solutions."userId" AND solutions.daily_krypto_id = (SELECT id FROM daily_krypto ORDER BY id DESC LIMIT 1)
-                WHERE friends.userid = ${userId};           
+                    u.username,
+                    s.avg_solve_time,
+                    s.total_solves_unique,
+                    s.daily_streak,
+                    CASE 
+                        WHEN so.solution_seconds IS NOT NULL THEN so.solution_seconds
+                        ELSE NULL -- Or any default value you prefer
+                    END AS today_solution_seconds,
+                    CASE 
+                        WHEN so.solution IS NOT NULL THEN so.solution
+                        ELSE NULL -- Or any default value you prefer
+                    END AS today_solution
+                FROM friends f
+                JOIN users u ON f.friend_userid = u.id
+                JOIN stats s ON f.friend_userid = s.userid
+                LEFT JOIN solutions so ON f.friend_userid = so."userId" 
+                    AND so.daily_krypto_id = (
+                        SELECT MAX(id) 
+                        FROM daily_krypto
+                    )
+                WHERE f.userid = ${userId};
             `
 
+
+            console.log(result)
 
             return result
 

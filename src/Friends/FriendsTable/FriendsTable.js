@@ -59,7 +59,7 @@ function FriendsTable() {
                             { f.username }
                         </td>
                         <td style={dataCellStyle}>
-                            { f.avg_solve_time }
+                            { f.avg_solve_time ? Formatter.getFormattedTime(f.today_solution_seconds) : ' N/A'}
                         </td>
                         <td style={dataCellStyle}>
                             { f.total_solves_unique }
@@ -68,10 +68,10 @@ function FriendsTable() {
                             { f.daily_streak }
                         </td>
                         <td style={dataCellStyle}>
-                            { f.today_solution }
+                            { f.today_solution ? f.today_solution : 'N/A' }
                         </td>
                         <td style={dataCellStyle}>
-                            { Formatter.getFormattedTime(f.today_solution_seconds) }
+                            { f.today_solution_seconds ? Formatter.getFormattedTime(f.today_solution_seconds) : 'N/A'}
                         </td>
                     </tr>
                 )
