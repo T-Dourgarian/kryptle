@@ -77,12 +77,17 @@ export const GameSlice = createSlice({
     },
     getDailyKryptoSuccess: (state, action) => {
       state.avgTimeSeconds = action.payload.avgTimeSeconds ?? 0;
-      state.kryptoId = action.payload.id;
       state.numbersToUse = action.payload.numbersToUse;
       state.target = action.payload.targetNumber;
       state.numUsedObj = Formatter.formatNumUsedObj(
         action.payload.numbersToUse
       );
+      
+      if (state.kryptoId != action.payload.id) {
+        state.currentSeconds = 0;
+      }
+
+      state.kryptoId = action.payload.id;
     },
     getDailyKryptoFailure: (state, action) => {
       state.numbersToUse = FALLBACK_EQUATION.numbersToUse;
