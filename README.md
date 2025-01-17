@@ -31,15 +31,14 @@ prisma generate --schema server/prisma/schema.prisma
 
 ### 5. Set Up PostgreSQL Database
 - Host a local PostgreSQL database.
-- Copy the `database.sql` file into the database.
-
+- Copy and run SQL from `database.sql`
 - ### 6. Configure Environment Variables
 Create a `.env` file in the root directory and include the following variables:
 ```env
 DATABASE_URL=<locally-hosted-db-URI>
-AT_SECRET=<random-string>
 REACT_APP_API_URL="http://localhost:5000"
 RT_SECRET=<random-string>
+AT_SECRET=<random-string>
 ```
 
 ### 6. Start Server
